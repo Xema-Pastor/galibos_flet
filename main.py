@@ -72,7 +72,29 @@ def galibos(page: ft.Page):
         var.acarga = tf_tol_carga.value
         var.h0 = float(var.asusp) + float(var.acarga)
         var.estado_via = dd_EV.value
-        
+        if var.GPA in ["GEE10", "GED10", "PERSONALIZADO"]:
+            var.aosc_i_s0_04b = 0.20 if var.tipo_via == "Balasto" else 0.1
+            var.aosc_a_s0_04b = 1.00 if var.tipo_via == "Balasto" else 0.6
+            var.aosc_i_s0_03b = 0.20 if var.tipo_via == "Balasto" else 0.1
+            var.aosc_a_s0_03b = 1.00 if var.tipo_via == "Balasto" else 0.6
+        elif var.GPA in ["GHE16", "GEA16", "GEB16", "GEC16", "GA", "GB", "GC"]:
+            if var.tipo_via == "Via en placa":
+                var.aosc_i_s0_04b = 0.1
+                var.aosc_a_s0_04b = 0.6
+                var.aosc_i_s0_03b = 0.08
+                var.aosc_a_s0_03b = 0.45
+            elif var.tipo_via == "Balasto":
+                if var.estado_via == "Buen estado":
+                    var.aosc_i_s0_04b = 0.1
+                    var.aosc_a_s0_04b = 0.6
+                    var.aosc_i_s0_03b = 0.08
+                    var.aosc_a_s0_03b = 0.45
+                elif var.estado == "Mal estado":
+                    var.aosc_i_s0_04b = 0.2
+                    var.aosc_a_s0_04b = 1.0
+                    var.aosc_i_s0_03b = 0.15
+                    var.aosc_a_s0_03b = 0.75
+
 
         t_R.value = var.R
         t_LN.value = var.LN
