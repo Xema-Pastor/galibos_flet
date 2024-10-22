@@ -44,6 +44,7 @@ def galibos(page: ft.Page):
         es_recta_V = cb_RV.value
         var.R = 99999999999 if es_recta else tf_R.value
         var.Rv = 99999999999 if es_recta_V else tf_RV.value
+        print(type(var.R))
         tf_R.disabled = es_recta
         tf_RV.disabled = es_recta_V
         #PROGRAMAR LO DE QUE GIRE A DERECHA O A IZQUIERDA CON var.Inclinac
@@ -261,13 +262,13 @@ def galibos(page: ft.Page):
 
     tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_change=cambiar)
     cb_R = ft.Checkbox(value = False, on_change=cambiar)
-    tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", on_change=cambiar)
+    tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", value = 100, on_change=cambiar)
     cb_RV = ft.Checkbox(value = False, on_change=cambiar)
     tf_DL = ft.TextField(label="Sobreancho máximo (m)",value=0.03,read_only=True, on_change=cambiar)
     tf_D = ft.TextField(label="Peralte de la vía (m)", value = 0, on_change=cambiar)
     tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_change=cambiar)
     tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_change=cambiar)
-    tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=0, on_change=cambiar)
+    tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_change=cambiar)
 
     #COMPONENTES DE TABLAS
     tabla_00_Punto = ft.Column([],col=1)
@@ -542,5 +543,4 @@ def galibos(page: ft.Page):
         ])
     )
 
-ft.app(galibos,
-       name = "Aplicación de cálculo de gálibos")
+ft.app(galibos)
