@@ -98,7 +98,7 @@ def galibos(page: ft.Page):
                     var.aosc_i_s0_03b = 0.15
                     var.aosc_a_s0_03b = 0.75
         var.Rv = tf_RV.value
-        var.DhRV = 50/var.Rv
+        var.DhRV = 50/float(var.Rv)
         var.aosc_i_s0_04h = var.aosc_a_s0_04b
         var.aosc_a_s0_04h = var.aosc_i_s0_04b
         var.aosc_i_s0_03h = var.aosc_a_s0_03b
@@ -121,40 +121,40 @@ def galibos(page: ft.Page):
 
         #LIMPIEZA DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         tabla_00_Punto.controls.clear()
-        tabla_00_Punto.controls.append(ft.Text("Punto"))
+        tabla_00_Punto.controls.append(ft.Text("Punto",size=10))
         tabla_01_X.controls.clear()
-        tabla_01_X.controls.append(ft.Text("X(mm)"))
+        tabla_01_X.controls.append(ft.Text("X(mm)",size=10))
         tabla_02_Y.controls.clear()
-        tabla_02_Y.controls.append(ft.Text("Y(mm)"))
+        tabla_02_Y.controls.append(ft.Text("Y(mm)",size=10))
         tabla_03_esPT.controls.clear()
-        tabla_03_esPT.controls.append(ft.Text("esPT"))
+        tabla_03_esPT.controls.append(ft.Text("esPT",size=10))
         tabla_04_k.controls.clear()
-        tabla_04_k.controls.append(ft.Text("k"))
+        tabla_04_k.controls.append(ft.Text("k",size=10))
         tabla_05_s0.controls.clear()
-        tabla_05_s0.controls.append(ft.Text("s0"))
+        tabla_05_s0.controls.append(ft.Text("s0",size=10))
         tabla_06_Sa.controls.clear()
-        tabla_06_Sa.controls.append(ft.Text("Sa"))
+        tabla_06_Sa.controls.append(ft.Text("Sa",size=10))
         tabla_07_Si.controls.clear()
-        tabla_07_Si.controls.append(ft.Text("Sa"))
+        tabla_07_Si.controls.append(ft.Text("Sa",size=10))
         tabla_08_qsDai.controls.clear()
-        tabla_08_qsDai.controls.append(ft.Text("qsD,ai"))
+        tabla_08_qsDai.controls.append(ft.Text("qsD,ai",size=10))
         tabla_09_qsIai.controls.clear()
-        tabla_09_qsIai.controls.append(ft.Text("qsI,ai"))
+        tabla_09_qsIai.controls.append(ft.Text("qsI,ai",size=10))
         tabla_10_Tvia_ai.controls.clear()
-        tabla_10_Tvia_ai.controls.append(ft.Text("Tvia,ai"))
+        tabla_10_Tvia_ai.controls.append(ft.Text("Tvia,ai",size=10))
 
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
 
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         for nombre,punto in galiboPA.items():
-            tabla_00_Punto.controls.append(ft.Text(nombre))
+            tabla_00_Punto.controls.append(ft.Text(nombre,size=10))
             var.punto.X = punto['x']
-            tabla_01_X.controls.append(ft.Text(punto["x"]))
+            tabla_01_X.controls.append(ft.Text(punto["x"],size=10))
             var.punto.Y = punto['y']
-            tabla_02_Y.controls.append(ft.Text(punto["y"]))
+            tabla_02_Y.controls.append(ft.Text(punto["y"],size=10))
             var.punto.esPT = punto['y']
-            tabla_03_esPT.controls.append(ft.Text(punto["y"]))
+            tabla_03_esPT.controls.append(ft.Text(punto["y"],size=10))
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(var.punto.X, var.punto.Y))
 
@@ -252,7 +252,7 @@ def galibos(page: ft.Page):
     t_vmax = ft.Text(var.vmax)
     t_asusp = ft.Text(var.asusp)
     t_acarga = ft.Text(var.acarga)
-    t_h0 = ft.Text(var.h0)
+    t_eta0 = ft.Text(var.eta0)
     t_estado_via = ft.Text(var.estado_via)
     t_aosc_i_s0_04b = ft.Text(var.aosc_i_s0_04b)
     t_aosc_i_s0_03b = ft.Text(var.aosc_i_s0_03b)
@@ -405,7 +405,7 @@ def galibos(page: ft.Page):
             t_vmax,
             t_asusp,
             t_acarga,
-            t_h0,
+            t_eta0,
             t_estado_via,
             t_aosc_i_s0_04b,
             t_aosc_i_s0_03b,
@@ -442,8 +442,19 @@ def galibos(page: ft.Page):
         tabla_08_qsDai,
         tabla_09_qsIai,
         tabla_10_Tvia_ai,
+        tabla_11_Dbgai,
+        tabla_12_Dbcai,
+        tabla_13_Dbsuspai,
+        tabla_14_Dbcargaai,
+        tabla_15_Dbetaai,
+        tabla_16_aosca,
+        tabla_17_aosci,
+        tabla_18_Dbosca,
+        tabla_19_Dbosci,
+        tabla_20_M3h,
+
     ],
-    columns=18)
+    columns=30)
 
     page.add(
         

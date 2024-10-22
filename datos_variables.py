@@ -182,4 +182,4 @@ class Variables():
     K = 1.2             #Factor de seguridad, general
     Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
-    #punto = Punto()
+    punto = Punto()
