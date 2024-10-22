@@ -542,39 +542,5 @@ def galibos(page: ft.Page):
         ])
     )
 
-# def galibos(page: ft.Page):
-#     def funcion(e):
-#         print(crp.value)
-#         rp.disabled = crp.value
-#         rp.update()
-#     page.add(ft.Container(
-
-#     ))
-#     page.add(ft.Text("DATOS DE ENTRADA"),
-#              )
-#     page.add(selectores.selector_galibo_partes_altas())
-#     page.add(selectores.selector_galibo_partes_bajas())
-#     # page.add(ft.TextField(label="Radio de curvatura en planta (m)", on_change=funcion_de_cambios_por_definir))
-#     rp = ft.TextField(label="Radio de curvatura en planta (m)", on_change=funcion_de_cambios_por_definir)
-#     crp = ft.Checkbox(label="Alineación recta en planta", value = False, on_change=funcion)
-#     page.add(rp, crp)
-#     # page.add(ft.Checkbox(label="Alineación recta en planta", value = False, on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Radio del acuerdo vertical (m)",on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.Checkbox(label="Alineación recta en alzado", on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Sobreancho máximo (m)",read_only=True, on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Peralte de la vía (m)", on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Velocidad máxima de la vía (km/h)", on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", on_change=funcion_de_cambios_por_definir))
-#     page.add(ft.TextField(label="Reparto desigual de cargas (º)", on_change=funcion_de_cambios_por_definir))    
-
-#     page.add(ft.DataTable(
-#         columns=[
-#             ft.DataColumn(ft.Text("Punto")),
-#             ft.DataColumn(ft.Text("X (mm)"),numeric=True),
-#             ft.DataColumn(ft.Text("Y (mm)"),numeric=True),   
-#             ],
-#         rows=rellenar_tabla(datos)
-#     ))
-#     page.add(ft.SafeArea(ft.Text("Hello, Fletttttthhhtt!")))
-
-ft.app(galibos)
+ft.app(galibos,
+       name = "Aplicación de cálculo de gálibos")
