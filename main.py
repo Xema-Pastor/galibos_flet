@@ -7,6 +7,9 @@ def galibos(page: ft.Page):
 
     #FUNCIÓN
     def cambiar(e):
+
+        #CÁLCULO DE LAS VARIABLES GENERALES DEL PROGRAMA
+        #Los valores que no se definen aquí están definidos en la clase variables. No dependen de nada, son constantes
         var.GPA = dd_GPA.value
         var.GPB = dd_GPB.value
         galiboPA = datos_GPA[var.GPA]
@@ -27,11 +30,11 @@ def galibos(page: ft.Page):
             case "GB": var.difaux = 0.86
             case other: var.difaux = 0
         match var.GPA:
-            case "GEA16": var.difaux = 4.84
-            case "GEB16": var.difaux = 6.48
-            case "GA": var.difaux = 5.77
-            case "GB": var.difaux = 6.69
-            case other: var.difaux = 0
+            case "GEA16": var.otra = 4.84
+            case "GEB16": var.otra = 6.48
+            case "GA": var.otra = 5.77
+            case "GB": var.otra = 6.69
+            case other: var.otra = 0
         match var.GPA:
             case "GHE16" | "GEA16" | "GEB16" | "GEC16": var.LN = 1.668
             case "GA" | "GB" | "GC": var.LN = 1.435
@@ -43,6 +46,7 @@ def galibos(page: ft.Page):
         var.Rv = 99999999999 if es_recta_V else tf_RV.value
         tf_R.disabled = es_recta
         tf_RV.disabled = es_recta_V
+        #PROGRAMAR LO DE QUE GIRE A DERECHA O A IZQUIERDA CON var.Inclinac
         var.DL = tf_DL.value
         var.LND = var.LN + var.DL
         var.D = float(tf_D.value)
@@ -59,7 +63,6 @@ def galibos(page: ft.Page):
             case "GHE16" | "GEA16" | "GEB16" | "GEC16": var.L = 1.733
             case "GA" | "GB" | "GC": var.L = 1.5
             case "GEE10" | "GED10" | "PERSONALIZADO": var.L = 1.055
-        var.hco = 0.5
         var.tipo_via = dd_TV.value
         match var.tipo_via:
             case "Vía en placa":
@@ -70,7 +73,7 @@ def galibos(page: ft.Page):
                 var.TD = 0.02 if int(var.vmax) <=80 else 0.015
         var.asusp = tf_tol_sus.value
         var.acarga = tf_tol_carga.value
-        var.h0 = float(var.asusp) + float(var.acarga)
+        var.eta0 = float(var.asusp) + float(var.acarga)
         var.estado_via = dd_EV.value
         if var.GPA in ["GEE10", "GED10", "PERSONALIZADO"]:
             var.aosc_i_s0_04b = 0.20 if var.tipo_via == "Balasto" else 0.1
@@ -94,8 +97,15 @@ def galibos(page: ft.Page):
                     var.aosc_a_s0_04b = 1.0
                     var.aosc_i_s0_03b = 0.15
                     var.aosc_a_s0_03b = 0.75
+        var.Rv = tf_RV.value
+        var.DhRV = 50/var.Rv
+        var.aosc_i_s0_04h = var.aosc_a_s0_04b
+        var.aosc_a_s0_04h = var.aosc_i_s0_04b
+        var.aosc_i_s0_03h = var.aosc_a_s0_03b
+        var.aosc_a_s0_03h = var.aosc_i_s0_03b
 
 
+        #ACTUALIZACIÓN DE LOS ELEMENTOS DE FLET CON LOS VALORES CALCULADOS ANTERIORMENTE
         t_R.value = var.R
         t_LN.value = var.LN
         t_DL.value = var.DL
@@ -109,6 +119,7 @@ def galibos(page: ft.Page):
         t_L.value = var.L
         t_hco.value = var.hco
 
+        #LIMPIEZA DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         tabla_00_Punto.controls.clear()
         tabla_00_Punto.controls.append(ft.Text("Punto"))
         tabla_01_X.controls.clear()
@@ -135,6 +146,7 @@ def galibos(page: ft.Page):
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
 
+        #ACTUALIZACIÓN DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         for nombre,punto in galiboPA.items():
             tabla_00_Punto.controls.append(ft.Text(nombre))
             var.punto.X = punto['x']
@@ -146,11 +158,9 @@ def galibos(page: ft.Page):
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(var.punto.X, var.punto.Y))
 
-
-        print(var.LND, type(var.LND))
         page.update()
 
-        
+    
     datos_grafico_GPA = ft.LineChartData(
         data_points=[],
         stroke_width=3,

@@ -154,7 +154,7 @@ class Variables():
     vmax = 0            #Velocidad máxima de la vía
     asusp = 0           #Tolerancias en el reglaje de la suspensión
     acarga = 0          #Reparto desigual de cargas
-    h0 = 0              #Giro total
+    eta0 = 0              #Giro total
     estado_via = ""     #Estado de la vía (BUEN ESTADO|MAL ESTADO)
     aosc_i_s0_04b = 0    #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos HORIZONTALES
     aosc_i_s0_03b = 0
@@ -162,24 +162,24 @@ class Variables():
     aosc_a_s0_03b = 0
 
     #3.2.2.4
-    M3b = 0             #Márgenes horizontales
+    M3b = 0.2           #Márgenes horizontales
 
     #3.2.3.1
     Rv = 0              #Radio del acuerdo vertical
     DhRV = 0            #Desplazamiento por inscripción
     
     #3.2.3.3
-    TN = 0              #Desplazamiento vertical de la vía
-    aosc_i_s0_04h = 0    #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos VERTICALES
+    TN = 0.02           #Desplazamiento vertical de la vía
+    aosc_i_s0_04h = 0   #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos VERTICALES
     aosc_i_s0_03h = 0
     aosc_a_s0_04h = 0
     aosc_a_s0_03h = 0
 
     #3.2.3.4
-    M3h = 0             #Márgenes verticales   
+    M3h = 0.15          #Márgenes verticales   
 
     #3.3
-    K = 0               #Factor de seguridad, general
-    Kale_h_0_50 = 0     #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
+    K = 1.2             #Factor de seguridad, general
+    Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
-    punto = Punto()
+    #punto = Punto()
