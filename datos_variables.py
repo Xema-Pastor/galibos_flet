@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class Punto:
-    X: float = 0           # Valor de la coordenada X, (m)
-    Y: float = 0           # Valor de la coordenada Y, (m)
+    X: float = 0           # Valor de la coordenada X, (mm)
+    Y: float = 0           # Valor de la coordenada Y, (mm)
     esPT: bool = 0         #
     k: float = 0           #
     s0: float = 0          #
@@ -125,6 +125,7 @@ class Variables():
     #3.1
     GPA = "GA"          #galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
     GPB = "GEI2"        #galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
+    maxY = 0            # Valor de la máxima coordenada Y (mm)
     hquiebroaux = 0
     htopeaux = 0
     difaux = 0

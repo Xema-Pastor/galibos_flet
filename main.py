@@ -1,7 +1,8 @@
 import flet as ft
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import Variables as var
-from estilos.estilos import Tamanyos
+from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
+import calculos.calculos as calc
 
 def galibos(page: ft.Page):
 
@@ -14,36 +15,40 @@ def galibos(page: ft.Page):
         var.GPB = dd_GPB.value
         galiboPA = datos_GPA[var.GPA]
         galiboPB = datos_GPB[var.GPB]
+        var.maxY = 0
+        for nombre,punto in galiboPA.items():                                   #intentar hacer esto con la función max y una lambda
+            if punto["y"] > var.maxY:
+                var.maxY = punto["y"]
         match var.GPA:
-            case "GEA16" | "GEB16": var.hquiebroaux = 3.32
-            case "GA" | "GB": var.hquiebroaux = 3.35
+            case EGPA.GEA16.value | EGPA.GEB16.value: var.hquiebroaux = 3.32
+            case EGPA.GA.value | EGPA.GB.value: var.hquiebroaux = 3.35
             case other: var.hquiebroaux = 0
         match var.GPA:
-            case "GEA16": var.htopeaux = 3.7
-            case "GEB16" | "GB": var.htopeaux = 4.11
-            case "GA": var.htopeaux = 3.88
+            case EGPA.GEA16.value: var.htopeaux = 3.7
+            case EGPA.GEB16.value | EGPA.GB.value: var.htopeaux = 4.11
+            case EGPA.GA.value: var.htopeaux = 3.88
             case other: var.htopeaux = 0
         match var.GPA:
-            case "GEA16": var.difaux = 0.38
-            case "GEB16": var.difaux = 0.79
-            case "GA": var.difaux = 0.63
-            case "GB": var.difaux = 0.86
+            case EGPA.GEA16.value: var.difaux = 0.38
+            case EGPA.GEB16.value: var.difaux = 0.79
+            case EGPA.GA.value: var.difaux = 0.63
+            case EGPA.GB.value: var.difaux = 0.86
             case other: var.difaux = 0
         match var.GPA:
-            case "GEA16": var.otra = 4.84
-            case "GEB16": var.otra = 6.48
-            case "GA": var.otra = 5.77
-            case "GB": var.otra = 6.69
+            case EGPA.GEA16.value: var.otra = 4.84
+            case EGPA.GEB16.value: var.otra = 6.48
+            case EGPA.GA.value: var.otra = 5.77
+            case EGPA.GB.value: var.otra = 6.69
             case other: var.otra = 0
         match var.GPA:
-            case "GHE16" | "GEA16" | "GEB16" | "GEC16": var.LN = 1.668
-            case "GA" | "GB" | "GC": var.LN = 1.435
-            case "GEE10" | "GED10" | "PERSONALIZADO": var.LN = 1
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: var.LN = 1.668
+            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.LN = 1.435
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.LN = 1
         #CALCULAR hb_max, CELDA I9
         es_recta = cb_R.value
         es_recta_V = cb_RV.value
-        var.R = 99999999999 if es_recta else tf_R.value
-        var.Rv = 99999999999 if es_recta_V else tf_RV.value
+        var.R = 99999999999 if es_recta else int(tf_R.value)
+        var.Rv = 99999999999 if es_recta_V else int(tf_RV.value)
         print(type(var.R))
         tf_R.disabled = es_recta
         tf_RV.disabled = es_recta_V
@@ -52,48 +57,48 @@ def galibos(page: ft.Page):
         var.LND = var.LN + var.DL
         var.D = float(tf_D.value)
         match var.GPA:
-            case "GHE16" | "GEA16" | "GEB16" | "GEC16" | "GA" | "GB" | "GC": var.D0 = 0.05
-            case "GEE10" | "GED10" | "PERSONALIZADO": var.D0 = 0.07
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.D0 = 0.05
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.D0 = 0.07
         var.vmax = tf_vmax.value
         var.heq = (float(var.vmax) / 3.6)**2 * var.LN / (float(var.R) * 9.81)
         var.I = var.heq - var.D
         match var.GPA:
-            case "GHE16" | "GEA16" | "GEB16" | "GEC16" | "GA" | "GB" | "GC": var.I0 = 0.05
-            case "GEE10" | "GED10" | "PERSONALIZADO": var.I0 = 0.07
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.I0 = 0.05
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.I0 = 0.07
         match var.GPA:
-            case "GHE16" | "GEA16" | "GEB16" | "GEC16": var.L = 1.733
-            case "GA" | "GB" | "GC": var.L = 1.5
-            case "GEE10" | "GED10" | "PERSONALIZADO": var.L = 1.055
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: var.L = 1.733
+            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.L = 1.5
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.L = 1.055
         var.tipo_via = dd_TV.value
         match var.tipo_via:
-            case "Vía en placa":
+            case ETV.VIA_PLACA.value:
                 var.TVIA = 0.005
                 var.TD = 0.015
-            case "Balasto":
+            case ETV.BALASTO.value:
                 var.TVIA = 0.025
                 var.TD = 0.02 if int(var.vmax) <=80 else 0.015
         var.asusp = tf_tol_sus.value
         var.acarga = tf_tol_carga.value
         var.eta0 = float(var.asusp) + float(var.acarga)
         var.estado_via = dd_EV.value
-        if var.GPA in ["GEE10", "GED10", "PERSONALIZADO"]:
-            var.aosc_i_s0_04b = 0.20 if var.tipo_via == "Balasto" else 0.1
-            var.aosc_a_s0_04b = 1.00 if var.tipo_via == "Balasto" else 0.6
-            var.aosc_i_s0_03b = 0.20 if var.tipo_via == "Balasto" else 0.1
-            var.aosc_a_s0_03b = 1.00 if var.tipo_via == "Balasto" else 0.6
-        elif var.GPA in ["GHE16", "GEA16", "GEB16", "GEC16", "GA", "GB", "GC"]:
-            if var.tipo_via == "Via en placa":
+        if var.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            var.aosc_i_s0_04b = 0.20 if var.tipo_via == ETV.BALASTO.value else 0.1
+            var.aosc_a_s0_04b = 1.00 if var.tipo_via == ETV.BALASTO.value else 0.6
+            var.aosc_i_s0_03b = 0.20 if var.tipo_via == ETV.BALASTO.value else 0.1
+            var.aosc_a_s0_03b = 1.00 if var.tipo_via == ETV.BALASTO.value else 0.6
+        elif var.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if var.tipo_via == ETV.VIA_PLACA.value:
                 var.aosc_i_s0_04b = 0.1
                 var.aosc_a_s0_04b = 0.6
                 var.aosc_i_s0_03b = 0.08
                 var.aosc_a_s0_03b = 0.45
-            elif var.tipo_via == "Balasto":
-                if var.estado_via == "Buen estado":
+            elif var.tipo_via == ETV.BALASTO.value:
+                if var.estado_via == EEV.BUEN_ESTADO.value:
                     var.aosc_i_s0_04b = 0.1
                     var.aosc_a_s0_04b = 0.6
                     var.aosc_i_s0_03b = 0.08
                     var.aosc_a_s0_03b = 0.45
-                elif var.estado == "Mal estado":
+                elif var.estado_via == EEV.MAL_ESTADO.value:
                     var.aosc_i_s0_04b = 0.2
                     var.aosc_a_s0_04b = 1.0
                     var.aosc_i_s0_03b = 0.15
@@ -123,26 +128,37 @@ def galibos(page: ft.Page):
         #LIMPIEZA DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         tabla_00_Punto.controls.clear()
         tabla_00_Punto.controls.append(ft.Text("Punto",size=10))
+        tabla_00_Punto.controls.append(ft.Text("()",size=10))
         tabla_01_X.controls.clear()
-        tabla_01_X.controls.append(ft.Text("X(mm)",size=10))
+        tabla_01_X.controls.append(ft.Text("X",size=10))
+        tabla_01_X.controls.append(ft.Text("(mm)",size=10))
         tabla_02_Y.controls.clear()
-        tabla_02_Y.controls.append(ft.Text("Y(mm)",size=10))
+        tabla_02_Y.controls.append(ft.Text("Y",size=10))
+        tabla_02_Y.controls.append(ft.Text("(mm)",size=10))
         tabla_03_esPT.controls.clear()
         tabla_03_esPT.controls.append(ft.Text("esPT",size=10))
+        tabla_03_esPT.controls.append(ft.Text("S/N",size=10))
         tabla_04_k.controls.clear()
         tabla_04_k.controls.append(ft.Text("k",size=10))
+        tabla_04_k.controls.append(ft.Text("()",size=10))
         tabla_05_s0.controls.clear()
         tabla_05_s0.controls.append(ft.Text("s0",size=10))
+        tabla_05_s0.controls.append(ft.Text("()",size=10))
         tabla_06_Sa.controls.clear()
         tabla_06_Sa.controls.append(ft.Text("Sa",size=10))
+        tabla_06_Sa.controls.append(ft.Text("(mm)",size=10))
         tabla_07_Si.controls.clear()
-        tabla_07_Si.controls.append(ft.Text("Sa",size=10))
+        tabla_07_Si.controls.append(ft.Text("Si",size=10))
+        tabla_07_Si.controls.append(ft.Text("(mm)",size=10))
         tabla_08_qsDai.controls.clear()
         tabla_08_qsDai.controls.append(ft.Text("qsD,ai",size=10))
+        tabla_08_qsDai.controls.append(ft.Text("(mm)",size=10))
         tabla_09_qsIai.controls.clear()
         tabla_09_qsIai.controls.append(ft.Text("qsI,ai",size=10))
+        tabla_09_qsIai.controls.append(ft.Text("(mm)",size=10))
         tabla_10_Tvia_ai.controls.clear()
         tabla_10_Tvia_ai.controls.append(ft.Text("Tvia,ai",size=10))
+        tabla_10_Tvia_ai.controls.append(ft.Text("(mm)",size=10))
 
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
@@ -150,12 +166,130 @@ def galibos(page: ft.Page):
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         for nombre,punto in galiboPA.items():
             tabla_00_Punto.controls.append(ft.Text(nombre,size=10))
+            punto["punto"].X = punto["x"]
+            punto["punto"].Y = punto["y"]
+            punto["punto"].esPT = calc.calcular_esPT(punto["punto"].Y, var.maxY)
+            punto["punto"].k = calc.calcular_k(var.GPA, punto["punto"].Y/1000, var.hquiebroaux, var.htopeaux, var.difaux)
+            punto["punto"].s0 = calc.calcular_s0(var.GPA, punto["punto"].Y/1000, var.hquiebroaux, var.htopeaux, var.difaux, var.hotra)
+            punto["punto"].Sa = calc.calcular_Sa(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
+            punto["punto"].Si = calc.calcular_Si(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
+            punto["punto"].qsDai = calc.calcular_qsD_ai(punto["punto"].Y/1000, punto["punto"].s0, var.D, var.D0, var.L, var.hco)
+            punto["punto"].qsIai = calc.calcular_qsI_ai(punto["punto"].Y/1000, punto["punto"].s0, var.I, var.I0, var.L, var.hco)
+            #punto["punto"].Tvia_ai
+            #punto["punto"].Dbg_ai
+            #punto["punto"].Dbc_ai
+            #punto["punto"].Dbsusp_ai
+            #punto["punto"].Dbcarga_ai
+            #punto["punto"].Dbh0_ai
+            #punto["punto"].aosc_a
+            #punto["punto"].aosc_i
+            #punto["punto"].Dbosc_a
+            #punto["punto"].Dbosc_i
+            #punto["punto"].M3b
+            #punto["punto"].DhRv
+            #punto["punto"].DhPT_D_ai
+            #punto["punto"].DhPT_I_ai
+            #punto["punto"].TN
+            #punto["punto"].Dhg_a
+            #punto["punto"].Dhg_i
+            #punto["punto"].Dhc
+            #punto["punto"].Dhsusp_ai
+            #punto["punto"].Dhcarga_ai
+            #punto["punto"].Dhh0_ai
+            #punto["punto"].Dhosc_a
+            #punto["punto"].Dhosc_i
+            #punto["punto"].M3h
+            #punto["punto"].Kale
+            #punto["punto"].Kgeneral
+            #punto["punto"].lim_Sja1
+            #punto["punto"].lim_Sji1
+            #punto["punto"].lim_Sja2
+            #punto["punto"].lim_Sji2
+            #punto["punto"].lim_Sja1_ast
+            #punto["punto"].lim_Sji1_ast
+            #punto["punto"].lim_Sja2_ast
+            #punto["punto"].lim_Sji2_ast
+            #punto["punto"].lim_SVa1
+            #punto["punto"].lim_SVi1
+            #punto["punto"].lim_SVa2
+            #punto["punto"].lim_SVi2
+            #punto["punto"].lim_SVa1_ast
+            #punto["punto"].lim_SVi1_ast
+            #punto["punto"].lim_SVa2_ast
+            #punto["punto"].lim_SVi2_ast
+            #punto["punto"].lim_bobst_max_i
+            #punto["punto"].lim_hobst_conc_i
+            #punto["punto"].lim_bobst_max_a
+            #punto["punto"].lim_hobst_conc_a
+            #punto["punto"].lim_bconc_max_i
+            #punto["punto"].lim_hmax_conc_i
+            #punto["punto"].lim_bconc_max_a
+            #punto["punto"].lim_hmax_conc_a
+            #punto["punto"].lim_bobst_max_i
+            #punto["punto"].lim_hobst_conc_
+            #punto["punto"].lim_bobst_max_a
+            #punto["punto"].lim_hobst_conc_
+            #punto["punto"].lim_bconc_max_i
+            #punto["punto"].lim_hmax_conc_i
+            #punto["punto"].lim_bconc_max_a
+            #punto["punto"].lim_hmax_conc_a
+            #punto["punto"].lim_ba
+            #punto["punto"].lim_ha
+            #punto["punto"].lim_bi
+            #punto["punto"].lim_hi
+            #punto["punto"].nom_Sja1
+            #punto["punto"].nom_Sji1
+            #punto["punto"].nom_Sja2
+            #punto["punto"].nom_Sji2
+            #punto["punto"].nom_Sja1_ast
+            #punto["punto"].nom_Sji1_ast
+            #punto["punto"].nom_Sja2_ast
+            #punto["punto"].nom_Sji2_ast
+            #punto["punto"].nom_SVa1
+            #punto["punto"].nom_SVi1
+            #punto["punto"].nom_SVa2
+            #punto["punto"].nom_SVi2
+            #punto["punto"].nom_SVa1_ast
+            #punto["punto"].nom_SVi1_ast
+            #punto["punto"].nom_SVa2_ast
+            #punto["punto"].nom_SVi2_ast
+            #punto["punto"].nom_bobst_max_i
+            #punto["punto"].nom_hobst_conc_i
+            #punto["punto"].nom_bobst_max_a
+            #punto["punto"].nom_hobst_conc_a
+            #punto["punto"].nom_bconc_max_i
+            #punto["punto"].nom_hmax_conc_i
+            #punto["punto"].nom_bconc_max_a
+            #punto["punto"].nom_hmax_conc_a
+            #punto["punto"].nom_bobst_max_i
+            #punto["punto"].nom_hobst_conc_
+            #punto["punto"].nom_bobst_max_a
+            #punto["punto"].nom_hobst_conc_
+            #punto["punto"].nom_bconc_max_i
+            #punto["punto"].nom_hmax_conc_i
+            #punto["punto"].nom_bconc_max_a
+            #punto["punto"].nom_hmax_conc_a
+            #punto["punto"].nom_ba
+            #punto["punto"].nom_ha
+            #punto["punto"].nom_bi
+            #punto["punto"].nom_hi
+            #punto["punto"].
+
+
+            punto["punto"].M3h = var.M3h
+
+
             var.punto.X = punto['x']
             tabla_01_X.controls.append(ft.Text(punto["x"],size=10))
             var.punto.Y = punto['y']
             tabla_02_Y.controls.append(ft.Text(punto["y"],size=10))
-            var.punto.esPT = punto['y']
-            tabla_03_esPT.controls.append(ft.Text(punto["y"],size=10))
+            tabla_03_esPT.controls.append(ft.Text(punto["punto"].esPT,size=10))
+            tabla_04_k.controls.append(ft.Text(punto["punto"].k,size=10))
+            tabla_05_s0.controls.append(ft.Text(punto["punto"].s0,size=10))
+            tabla_06_Sa.controls.append(ft.Text(punto["punto"].Sa,size=10))
+            tabla_07_Si.controls.append(ft.Text(punto["punto"].Si,size=10))
+            tabla_08_qsDai.controls.append(ft.Text(punto["punto"].qsDai,size=10))
+            tabla_09_qsIai.controls.append(ft.Text(punto["punto"].qsIai,size=10))
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(var.punto.X, var.punto.Y))
 
@@ -186,16 +320,16 @@ def galibos(page: ft.Page):
         label = "Gálibo de partes altas",
         hint_text = "Introduce el gálibo de las partes altas",
         options = [
-            ft.dropdown.Option("GHE16"),
-            ft.dropdown.Option("GEA16"),
-            ft.dropdown.Option("GEB16"),
-            ft.dropdown.Option("GEC16"),
-            ft.dropdown.Option("GA"),
-            ft.dropdown.Option("GB"),
-            ft.dropdown.Option("GC"),
-            ft.dropdown.Option("GEE10"),
-            ft.dropdown.Option("GED10"),
-            ft.dropdown.Option("PERSONALIZADO"),
+            ft.dropdown.Option(EGPA.GHE16.value),
+            ft.dropdown.Option(EGPA.GEA16.value),
+            ft.dropdown.Option(EGPA.GEB16.value),
+            ft.dropdown.Option(EGPA.GEC16.value),
+            ft.dropdown.Option(EGPA.GA.value),
+            ft.dropdown.Option(EGPA.GB.value),
+            ft.dropdown.Option(EGPA.GC.value),
+            ft.dropdown.Option(EGPA.GEE10.value),
+            ft.dropdown.Option(EGPA.GED10.value),
+            ft.dropdown.Option(EGPA.PERSONALIZADO.value),
         ],
         on_change=cambiar
     )
@@ -204,12 +338,12 @@ def galibos(page: ft.Page):
         label = "Gálibo de partes bajas",
         hint_text = "Introduce el gálibo de las partes bajas",
         options = [
-            ft.dropdown.Option("GEI1"),
-            ft.dropdown.Option("GEI2"),
-            ft.dropdown.Option("GEI3"),
-            ft.dropdown.Option("GI1"),
-            ft.dropdown.Option("GI2"),
-            ft.dropdown.Option("GI3"),
+            ft.dropdown.Option(EGPB.GEI1.value),
+            ft.dropdown.Option(EGPB.GEI2.value),
+            ft.dropdown.Option(EGPB.GEI3.value),
+            ft.dropdown.Option(EGPB.GI1.value),
+            ft.dropdown.Option(EGPB.GI2.value),
+            ft.dropdown.Option(EGPB.GI3.value),
         ],
         on_change=cambiar,
     )
@@ -218,8 +352,8 @@ def galibos(page: ft.Page):
         label = "Tipo de Vía",
         hint_text = "Balasto / Vía en placa",
         options = [
-            ft.dropdown.Option("Balasto"),
-            ft.dropdown.Option("Vía en placa"),
+            ft.dropdown.Option(ETV.BALASTO.value),
+            ft.dropdown.Option(ETV.VIA_PLACA.value),
         ],
         on_change=cambiar
     )
@@ -228,8 +362,8 @@ def galibos(page: ft.Page):
         label = "Estado de la Vía",
         hint_text = "Buen / Mal estado",
         options = [
-            ft.dropdown.Option("Buen estado"),
-            ft.dropdown.Option("Mal estado"),
+            ft.dropdown.Option(EEV.BUEN_ESTADO.value),
+            ft.dropdown.Option(EEV.MAL_ESTADO.value),
         ],
         on_change=cambiar,
     )
