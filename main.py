@@ -126,39 +126,48 @@ def galibos(page: ft.Page):
         t_hco.value = var.hco
 
         #LIMPIEZA DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
-        tabla_00_Punto.controls.clear()
-        tabla_00_Punto.controls.append(ft.Text("Punto",size=10))
-        tabla_00_Punto.controls.append(ft.Text("()",size=10))
-        tabla_01_X.controls.clear()
-        tabla_01_X.controls.append(ft.Text("X",size=10))
-        tabla_01_X.controls.append(ft.Text("(mm)",size=10))
-        tabla_02_Y.controls.clear()
-        tabla_02_Y.controls.append(ft.Text("Y",size=10))
-        tabla_02_Y.controls.append(ft.Text("(mm)",size=10))
-        tabla_03_esPT.controls.clear()
-        tabla_03_esPT.controls.append(ft.Text("esPT",size=10))
-        tabla_03_esPT.controls.append(ft.Text("S/N",size=10))
-        tabla_04_k.controls.clear()
-        tabla_04_k.controls.append(ft.Text("k",size=10))
-        tabla_04_k.controls.append(ft.Text("()",size=10))
-        tabla_05_s0.controls.clear()
-        tabla_05_s0.controls.append(ft.Text("s0",size=10))
-        tabla_05_s0.controls.append(ft.Text("()",size=10))
-        tabla_06_Sa.controls.clear()
-        tabla_06_Sa.controls.append(ft.Text("Sa",size=10))
-        tabla_06_Sa.controls.append(ft.Text("(mm)",size=10))
-        tabla_07_Si.controls.clear()
-        tabla_07_Si.controls.append(ft.Text("Si",size=10))
-        tabla_07_Si.controls.append(ft.Text("(mm)",size=10))
-        tabla_08_qsDai.controls.clear()
-        tabla_08_qsDai.controls.append(ft.Text("qsD,ai",size=10))
-        tabla_08_qsDai.controls.append(ft.Text("(mm)",size=10))
-        tabla_09_qsIai.controls.clear()
-        tabla_09_qsIai.controls.append(ft.Text("qsI,ai",size=10))
-        tabla_09_qsIai.controls.append(ft.Text("(mm)",size=10))
-        tabla_10_Tvia_ai.controls.clear()
-        tabla_10_Tvia_ai.controls.append(ft.Text("Tvia,ai",size=10))
-        tabla_10_Tvia_ai.controls.append(ft.Text("(mm)",size=10))
+        def limpiar_tabla(elemento: ft.Column, texto: str, unidades: str):
+            elemento.controls.clear()
+            elemento.controls.append(ft.Text(texto,size=10))
+            elemento.controls.append(ft.Text(unidades,size=10))
+        limpiar_tabla(tabla_00_Punto, "Punto", "()")
+        limpiar_tabla(tabla_01_X, "X", "(mm)")
+        limpiar_tabla(tabla_02_Y, "Y", "(mm)")
+        limpiar_tabla(tabla_03_esPT, "esPT", "(S/N)")
+        limpiar_tabla(tabla_04_k, "k", "()")
+        limpiar_tabla(tabla_05_s0, "s0", "()")
+        limpiar_tabla(tabla_06_Sa, "Sa", "(mm)")
+        limpiar_tabla(tabla_07_Si, "Si", "(mm)")
+        limpiar_tabla(tabla_08_qsDai, "qsD,ai", "(mm)")
+        limpiar_tabla(tabla_09_qsIai, "qsI,ai", "(mm)")
+        limpiar_tabla(tabla_10_Tvia_ai, "Tvia,ai", "(mm)")
+        limpiar_tabla(tabla_11_Dbgai, "Dbgai", "(mm)")
+        limpiar_tabla(tabla_12_Dbcai, "Dbcai", "(mm)")
+        limpiar_tabla(tabla_13_Dbsuspai, "Dbsuspai", "(mm)")
+        limpiar_tabla(tabla_14_Dbcargaai, "Dbcargai", "(mm)")
+        limpiar_tabla(tabla_15_Dbetaai, "Dbetaai", "(mm)")
+        limpiar_tabla(tabla_16_aosca, "aosca", "(º)")
+        limpiar_tabla(tabla_17_aosci, "aosci", "(º)")
+        limpiar_tabla(tabla_18_Dbosca, "Dbosca", "(mm)")
+        limpiar_tabla(tabla_19_Dbosci, "Dbosci", "(mm)")
+        limpiar_tabla(tabla_20_M3h, "M3h", "(mm)")
+        limpiar_tabla(tabla_21_DhRv, "DhRv", "(mm)")
+        limpiar_tabla(tabla_22_DhPTDai, "DhPTDai", "(mm)")
+        limpiar_tabla(tabla_23_DhPTIai, "DhPTIai", "(mm)")
+        limpiar_tabla(tabla_24_TN, "TN", "(mm)")
+        limpiar_tabla(tabla_25_Dhga, "Dhga", "(mm)")
+        limpiar_tabla(tabla_26_Dhgi, "Dhgi", "(mm)")
+        limpiar_tabla(tabla_27_Dhc, "Dhc", "(mm)")
+        limpiar_tabla(tabla_28_Dhgca, "Dhgca", "(mm)")
+        limpiar_tabla(tabla_29_Dhgci, "Dhgci", "(mm)")
+        limpiar_tabla(tabla_30_Dhsuspai, "Dhsuspai", "(mm)")
+        limpiar_tabla(tabla_31_Dhcargai, "Dhcargai", "(mm)")
+        limpiar_tabla(tabla_32_Dhetaai, "Dhetaai", "(mm)")
+        limpiar_tabla(tabla_33_Dhosca, "Dhosca", "(mm)")
+        limpiar_tabla(tabla_34_Dhosci, "Dhosci", "(mm)")
+        limpiar_tabla(tabla_35_M3h, "M3h", "(mm)")
+        #limpiar_tabla(tabla_36, "", "()")
+
 
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
@@ -173,27 +182,27 @@ def galibos(page: ft.Page):
             punto["punto"].s0 = calc.calcular_s0(var.GPA, punto["punto"].Y/1000, var.hquiebroaux, var.htopeaux, var.difaux, var.hotra)
             punto["punto"].Sa = calc.calcular_Sa(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
             punto["punto"].Si = calc.calcular_Si(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
-            punto["punto"].qsDai = calc.calcular_qsD_ai(punto["punto"].Y/1000, punto["punto"].s0, var.D, var.D0, var.L, var.hco)
-            punto["punto"].qsIai = calc.calcular_qsI_ai(punto["punto"].Y/1000, punto["punto"].s0, var.I, var.I0, var.L, var.hco)
-            #punto["punto"].Tvia_ai
-            #punto["punto"].Dbg_ai
-            #punto["punto"].Dbc_ai
-            #punto["punto"].Dbsusp_ai
-            #punto["punto"].Dbcarga_ai
-            #punto["punto"].Dbh0_ai
-            #punto["punto"].aosc_a
-            #punto["punto"].aosc_i
-            #punto["punto"].Dbosc_a
-            #punto["punto"].Dbosc_i
-            #punto["punto"].M3b
-            #punto["punto"].DhRv
-            #punto["punto"].DhPT_D_ai
-            #punto["punto"].DhPT_I_ai
-            #punto["punto"].TN
-            #punto["punto"].Dhg_a
-            #punto["punto"].Dhg_i
-            #punto["punto"].Dhc
-            #punto["punto"].Dhsusp_ai
+            punto["punto"].qsD_ai = calc.calcular_qsD_ai(punto["punto"].Y/1000, punto["punto"].s0, var.D, var.D0, var.L, var.hco)
+            punto["punto"].qsI_ai = calc.calcular_qsI_ai(punto["punto"].Y/1000, punto["punto"].s0, var.I, var.I0, var.L, var.hco)
+            punto["punto"].Tvia_ai = var.TVIA * 1000
+            punto["punto"].Dbg_ai = calc.calcular_Dbg_ai(punto["punto"].Y/1000, var.L, var.TD)
+            punto["punto"].Dbc_ai = calc.calcular_Dbc_ai(punto["punto"].Y/1000, var.L, var.TD, var.hco, punto["punto"].s0)
+            punto["punto"].Dbsusp_ai = calc.calcular_Dbsusp_ai(var.asusp, punto["punto"].Y, var.hco)
+            punto["punto"].Dbcarg_ai = calc.calcular_Dbcarg_ai(var.acarga, punto["punto"].Y, var.hco)
+            punto["punto"].Dbeta0_ai = calc.calcular_Dbeta0_ai(var.eta0, punto["punto"].Y, var.hco)
+            punto["punto"].aosc_a = calc.calcular_aosc(punto["punto"].s0, var.aosc_a_s0_03b, var.aosc_a_s0_04b)
+            punto["punto"].aosc_i = calc.calcular_aosc(punto["punto"].s0, var.aosc_i_s0_03b, var.aosc_i_s0_04b)
+            punto["punto"].Dbosc_a = calc.calcular_Dbosc(punto["punto"].aosc_a, punto["punto"].Y/1000, var.hco)
+            punto["punto"].Dbosc_i = calc.calcular_Dbosc(punto["punto"].aosc_i, punto["punto"].Y/1000, var.hco)
+            punto["punto"].M3b = var.M3h * 1000
+            punto["punto"].DhRv = var.DhRV * 1000
+            punto["punto"].DhPT_D_ai = calc.calcular_DhPT_D_ai(punto["punto"].X/1000, punto["punto"].s0, var.D, var.D0, var.L)
+            punto["punto"].DhPT_I_ai = calc.calcular_DhPT_I_ai(punto["punto"].X/1000, punto["punto"].s0, var.I, var.I0, var.L)
+            punto["punto"].TN = var.TN * 1000
+            punto["punto"].Dhg_a = calc.calcular_Dhg_a(punto["punto"].X/1000, var.L, var.TD)
+            punto["punto"].Dhg_i = calc.calcular_Dhg_i(punto["punto"].X/1000, var.L, var.TD)
+            punto["punto"].Dhc = calc.calcular_Dhc(punto["punto"].X/1000, punto["punto"].s0, var.L, var.TD)
+            punto["punto"].Dhsusp_ai
             #punto["punto"].Dhcarga_ai
             #punto["punto"].Dhh0_ai
             #punto["punto"].Dhosc_a
@@ -276,20 +285,36 @@ def galibos(page: ft.Page):
             #punto["punto"].
 
 
-            punto["punto"].M3h = var.M3h
-
-
-            var.punto.X = punto['x']
+            #var.punto.X = punto['x']
             tabla_01_X.controls.append(ft.Text(punto["x"],size=10))
-            var.punto.Y = punto['y']
+            #var.punto.Y = punto['y']
             tabla_02_Y.controls.append(ft.Text(punto["y"],size=10))
             tabla_03_esPT.controls.append(ft.Text(punto["punto"].esPT,size=10))
             tabla_04_k.controls.append(ft.Text(punto["punto"].k,size=10))
             tabla_05_s0.controls.append(ft.Text(punto["punto"].s0,size=10))
             tabla_06_Sa.controls.append(ft.Text(punto["punto"].Sa,size=10))
             tabla_07_Si.controls.append(ft.Text(punto["punto"].Si,size=10))
-            tabla_08_qsDai.controls.append(ft.Text(punto["punto"].qsDai,size=10))
-            tabla_09_qsIai.controls.append(ft.Text(punto["punto"].qsIai,size=10))
+            tabla_08_qsDai.controls.append(ft.Text(punto["punto"].qsD_ai,size=10))
+            tabla_09_qsIai.controls.append(ft.Text(punto["punto"].qsI_ai,size=10))
+            tabla_10_Tvia_ai.controls.append(ft.Text(punto["punto"].Tvia_ai,size=10))
+            tabla_11_Dbgai.controls.append(ft.Text(punto["punto"].Dbg_ai,size=10))
+            tabla_12_Dbcai.controls.append(ft.Text(punto["punto"].Dbc_ai,size=10))
+            tabla_13_Dbsuspai.controls.append(ft.Text(punto["punto"].Dbsusp_ai,size=10))
+            tabla_14_Dbcargaai.controls.append(ft.Text(punto["punto"].Dbcarg_ai,size=10))
+            tabla_15_Dbetaai.controls.append(ft.Text(punto["punto"].Dbeta0_ai,size=10))
+            tabla_16_aosca.controls.append(ft.Text(punto["punto"].aosc_a,size=10))
+            tabla_17_aosci.controls.append(ft.Text(punto["punto"].aosc_i,size=10))
+            tabla_18_Dbosca.controls.append(ft.Text(punto["punto"].Dbosc_a,size=10))
+            tabla_19_Dbosci.controls.append(ft.Text(punto["punto"].Dbosc_i,size=10))
+            tabla_20_M3h.controls.append(ft.Text(punto["punto"].M3b,size=10))
+            tabla_21_DhRv.controls.append(ft.Text(punto["punto"].DhRv,size=10))
+            tabla_22_DhPTDai.controls.append(ft.Text(punto["punto"].DhPT_D_ai,size=10))
+            tabla_23_DhPTIai.controls.append(ft.Text(punto["punto"].DhPT_I_ai,size=10))
+            tabla_24_TN.controls.append(ft.Text(punto["punto"].TN,size=10))
+            tabla_25_Dhga.controls.append(ft.Text(punto["punto"].Dhg_a,size=10))
+            tabla_26_Dhgi.controls.append(ft.Text(punto["punto"].Dhg_i,size=10))
+            tabla_27_Dhc.controls.append(ft.Text(punto["punto"].Dhc,size=10))
+
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(var.punto.X, var.punto.Y))
 
@@ -426,7 +451,22 @@ def galibos(page: ft.Page):
     tabla_18_Dbosca = ft.Column([],col=1)
     tabla_19_Dbosci = ft.Column([],col=1)
     tabla_20_M3h = ft.Column([],col=1)
-
+    tabla_21_DhRv = ft.Column([],col=1)
+    tabla_22_DhPTDai = ft.Column([],col=1)
+    tabla_23_DhPTIai = ft.Column([],col=1)
+    tabla_24_TN = ft.Column([],col=1)
+    tabla_25_Dhga = ft.Column([],col=1)
+    tabla_26_Dhgi = ft.Column([],col=1)
+    tabla_27_Dhc = ft.Column([],col=1)
+    tabla_28_Dhgca = ft.Column([],col=1)
+    tabla_29_Dhgci = ft.Column([],col=1)
+    tabla_30_Dhsuspai = ft.Column([],col=1)
+    tabla_31_Dhcargai = ft.Column([],col=1)
+    tabla_32_Dhetaai = ft.Column([],col=1)
+    tabla_33_Dhosca = ft.Column([],col=1)
+    tabla_34_Dhosci = ft.Column([],col=1)
+    tabla_35_M3h = ft.Column([],col=1)
+    #tabla_36_ = ft.Column([],col=1)
 
     t_3221 = ft.ResponsiveRow([
         ft.Column([
@@ -587,6 +627,21 @@ def galibos(page: ft.Page):
         tabla_18_Dbosca,
         tabla_19_Dbosci,
         tabla_20_M3h,
+        tabla_21_DhRv,
+        tabla_22_DhPTDai,
+        tabla_23_DhPTIai,
+        tabla_24_TN,
+        tabla_25_Dhga,
+        tabla_26_Dhgi,
+        tabla_27_Dhc,
+        tabla_28_Dhgca,
+        tabla_29_Dhgci,
+        tabla_30_Dhsuspai,
+        tabla_31_Dhcargai,
+        tabla_32_Dhetaai,
+        tabla_33_Dhosca,
+        tabla_34_Dhosci,
+        tabla_35_M3h
 
     ],
     columns=30)
@@ -651,7 +706,7 @@ def galibos(page: ft.Page):
                     ]),
                     tf_vmax,
                     ft.Tabs(
-                        selected_index=0,
+                        selected_index=3,
                         animation_duration=50,
                         tabs=[
                             ft.Tab(

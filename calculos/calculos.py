@@ -1,3 +1,4 @@
+from math import tan, radians
 from estilos.estilos import EGPA
 
 def calcular_esPT(Y: float, maximo: float) -> bool:
@@ -79,11 +80,46 @@ def calcular_Si(galibo: str, R: float, LN: float, L: float, hquiebroaux: float, 
     
     aux += (L - LN) / 2
 
-
     return round(aux*1000,2)         #para pasar a milímetros
 
 def calcular_qsD_ai(Y: float, s0: float, D: float, D0: float, L: float, hco: float) -> float:
-    return s0 / L * max(0, D - D0 ) * max(0, Y - hco)
+    return round(s0 / L * max(0, D - D0 ) * max(0, Y - hco), 2)
 
 def calcular_qsI_ai(Y: float, s0: float, I: float, I0: float, L: float, hco: float) -> float:
-    return s0 / L * max(0, I - I0 ) * max(0, Y - hco)
+    return round(s0 / L * max(0, I - I0 ) * max(0, Y - hco), 2)
+
+def calcular_Dbg_ai(Y: float, L: float, TD: float) -> float:
+    return round(Y * 1000 * TD / L, 1)
+
+def calcular_Dbc_ai(Y: float, L: float, TD: float, hco: float, s0: float) -> float:
+    return round(s0 * TD * max(0, Y - hco) / L * 1000, 1)
+
+def calcular_Dbsusp_ai(ang_susp: float, Y: float, hco: float) -> float:
+    return round(tan(radians(ang_susp)) * max(0, Y - hco), 1)
+
+def calcular_Dbcarg_ai(ang_carga: float, Y: float, hco: float) -> float:
+    return round(tan(radians(ang_carga)) * max(0, Y - hco), 1)
+
+def calcular_Dbeta0_ai(ang_eta0: float, Y: float, hco: float) -> float:
+    return round(tan(radians(ang_eta0)) * max(0, Y - hco), 1)
+
+def calcular_aosc(s0: float, ang03: float, ang04: float) -> float:
+    return round(10 * (s0 - 0.3) * ang04 - 10*(s0 - 0.4) * ang03, 2)
+
+def calcular_Dbosc(ang: float, Y: float, hco: float) -> float:
+    return round(tan(ang) * max(0, Y - hco), 2)
+
+def calcular_DhPT_D_ai(X: float, s0: float,D: float, D0: float, L: float) -> float:
+    return round(abs(X) * s0 * max(0, D - D0) / L, 1)
+
+def calcular_DhPT_I_ai(X: float, s0: float,I: float, I0: float, L: float) -> float:
+    return round(abs(X) * s0 * max(0, I - I0) / L, 1)
+
+def calcular_Dhg_a(X: float, L: float, TD: float) -> float:
+    return round((abs(X) / L + 0.5) * TD, 1)
+
+def calcular_Dhg_i(X: float, L: float, TD: float) -> float:
+    return round((abs(X) / L - 0.5) * TD, 1)
+
+def calcular_Dhc(X: float, s0: float, L: float, TD: float) -> float:
+    return round(s0 * abs(X) * TD / L, 1)
