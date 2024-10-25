@@ -17,8 +17,8 @@ def galibos(page: ft.Page):
         galiboPB = datos_GPB[var.GPB]
         var.maxY = 0
         for nombre,punto in galiboPA.items():                                   #intentar hacer esto con la función max y una lambda
-            if punto["y"] > var.maxY:
-                var.maxY = punto["y"]
+            if punto.Y > var.maxY:
+                var.maxY = punto.Y
         match var.GPA:
             case EGPA.GEA16.value | EGPA.GEB16.value: var.hquiebroaux = 3.32
             case EGPA.GA.value | EGPA.GB.value: var.hquiebroaux = 3.35
@@ -174,149 +174,144 @@ def galibos(page: ft.Page):
 
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         for nombre,punto in galiboPA.items():
+            print(punto.X, punto.Y)
+            punto.esPT = calc.calcular_esPT(punto.Y, var.maxY)
+            punto.k = calc.calcular_k(var.GPA, punto.Y/1000, var.hquiebroaux, var.htopeaux, var.difaux)
+            punto.s0 = calc.calcular_s0(var.GPA, punto.Y/1000, var.hquiebroaux, var.htopeaux, var.difaux, var.hotra)
+            punto.Sa = calc.calcular_Sa(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto.Y/1000, punto.k)
+            punto.Si = calc.calcular_Si(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto.Y/1000, punto.k)
+            punto.qsD_ai = calc.calcular_qsD_ai(punto.Y/1000, punto.s0, var.D, var.D0, var.L, var.hco)
+            punto.qsI_ai = calc.calcular_qsI_ai(punto.Y/1000, punto.s0, var.I, var.I0, var.L, var.hco)
+            punto.Tvia_ai = var.TVIA * 1000
+            punto.Dbg_ai = calc.calcular_Dbg_ai(punto.Y/1000, var.L, var.TD)
+            punto.Dbc_ai = calc.calcular_Dbc_ai(punto.Y/1000, var.L, var.TD, var.hco, punto.s0)
+            punto.Dbsusp_ai = calc.calcular_Dbsusp_ai(var.asusp, punto.Y, var.hco)
+            punto.Dbcarg_ai = calc.calcular_Dbcarg_ai(var.acarga, punto.Y, var.hco)
+            punto.Dbeta0_ai = calc.calcular_Dbeta0_ai(var.eta0, punto.Y, var.hco)
+            punto.aosc_a = calc.calcular_aosc(punto.s0, var.aosc_a_s0_03b, var.aosc_a_s0_04b)
+            punto.aosc_i = calc.calcular_aosc(punto.s0, var.aosc_i_s0_03b, var.aosc_i_s0_04b)
+            punto.Dbosc_a = calc.calcular_Dbosc(punto.aosc_a, punto.Y/1000, var.hco)
+            punto.Dbosc_i = calc.calcular_Dbosc(punto.aosc_i, punto.Y/1000, var.hco)
+            punto.M3b = var.M3h * 1000
+            punto.DhRv = var.DhRV * 1000
+            punto.DhPT_D_ai = calc.calcular_DhPT_D_ai(punto.X/1000, punto.s0, var.D, var.D0, var.L)
+            punto.DhPT_I_ai = calc.calcular_DhPT_I_ai(punto.X/1000, punto.s0, var.I, var.I0, var.L)
+            punto.TN = var.TN * 1000
+            punto.Dhg_a = calc.calcular_Dhg_a(punto.X/1000, var.L, var.TD)
+            punto.Dhg_i = calc.calcular_Dhg_i(punto.X/1000, var.L, var.TD)
+            punto.Dhc = calc.calcular_Dhc(punto.X/1000, punto.s0, var.L, var.TD)
+            #punto.Dhsusp_ai
+            #punto.Dhcarga_ai
+            #punto.Dhh0_ai
+            #punto.Dhosc_a
+            #punto.Dhosc_i
+            #punto.M3h
+            #punto.Kale
+            #punto.Kgeneral
+            #punto.lim_Sja1
+            #punto.lim_Sji1
+            #punto.lim_Sja2
+            #punto.lim_Sji2
+            #punto.lim_Sja1_ast
+            #punto.lim_Sji1_ast
+            #punto.lim_Sja2_ast
+            #punto.lim_Sji2_ast
+            #punto.lim_SVa1
+            #punto.lim_SVi1
+            #punto.lim_SVa2
+            #punto.lim_SVi2
+            #punto.lim_SVa1_ast
+            #punto.lim_SVi1_ast
+            #punto.lim_SVa2_ast
+            #punto.lim_SVi2_ast
+            #punto.lim_bobst_max_i
+            #punto.lim_hobst_conc_i
+            #punto.lim_bobst_max_a
+            #punto.lim_hobst_conc_a
+            #punto.lim_bconc_max_i
+            #punto.lim_hmax_conc_i
+            #punto.lim_bconc_max_a
+            #punto.lim_hmax_conc_a
+            #punto.lim_bobst_max_i
+            #punto.lim_hobst_conc_
+            #punto.lim_bobst_max_a
+            #punto.lim_hobst_conc_
+            #punto.lim_bconc_max_i
+            #punto.lim_hmax_conc_i
+            #punto.lim_bconc_max_a
+            #punto.lim_hmax_conc_a
+            #punto.lim_ba
+            #punto.lim_ha
+            #punto.lim_bi
+            #punto.lim_hi
+            #punto.nom_Sja1
+            #punto.nom_Sji1
+            #punto.nom_Sja2
+            #punto.nom_Sji2
+            #punto.nom_Sja1_ast
+            #punto.nom_Sji1_ast
+            #punto.nom_Sja2_ast
+            #punto.nom_Sji2_ast
+            #punto.nom_SVa1
+            #punto.nom_SVi1
+            #punto.nom_SVa2
+            #punto.nom_SVi2
+            #punto.nom_SVa1_ast
+            #punto.nom_SVi1_ast
+            #punto.nom_SVa2_ast
+            #punto.nom_SVi2_ast
+            #punto.nom_bobst_max_i
+            #punto.nom_hobst_conc_i
+            #punto.nom_bobst_max_a
+            #punto.nom_hobst_conc_a
+            #punto.nom_bconc_max_i
+            #punto.nom_hmax_conc_i
+            #punto.nom_bconc_max_a
+            #punto.nom_hmax_conc_a
+            #punto.nom_bobst_max_i
+            #punto.nom_hobst_conc_
+            #punto.nom_bobst_max_a
+            #punto.nom_hobst_conc_
+            #punto.nom_bconc_max_i
+            #punto.nom_hmax_conc_i
+            #punto.nom_bconc_max_a
+            #punto.nom_hmax_conc_a
+            #punto.nom_ba
+            #punto.nom_ha
+            #punto.nom_bi
+            #punto.nom_hi
+            #punto.
+
             tabla_00_Punto.controls.append(ft.Text(nombre,size=10))
-            punto["punto"].X = punto["x"]
-            punto["punto"].Y = punto["y"]
-            punto["punto"].esPT = calc.calcular_esPT(punto["punto"].Y, var.maxY)
-            punto["punto"].k = calc.calcular_k(var.GPA, punto["punto"].Y/1000, var.hquiebroaux, var.htopeaux, var.difaux)
-            punto["punto"].s0 = calc.calcular_s0(var.GPA, punto["punto"].Y/1000, var.hquiebroaux, var.htopeaux, var.difaux, var.hotra)
-            punto["punto"].Sa = calc.calcular_Sa(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
-            punto["punto"].Si = calc.calcular_Si(var.GPA, var.R, var.LN, var.LND, var.hquiebroaux, punto["punto"].Y/1000, punto["punto"].k)
-            punto["punto"].qsD_ai = calc.calcular_qsD_ai(punto["punto"].Y/1000, punto["punto"].s0, var.D, var.D0, var.L, var.hco)
-            punto["punto"].qsI_ai = calc.calcular_qsI_ai(punto["punto"].Y/1000, punto["punto"].s0, var.I, var.I0, var.L, var.hco)
-            punto["punto"].Tvia_ai = var.TVIA * 1000
-            punto["punto"].Dbg_ai = calc.calcular_Dbg_ai(punto["punto"].Y/1000, var.L, var.TD)
-            punto["punto"].Dbc_ai = calc.calcular_Dbc_ai(punto["punto"].Y/1000, var.L, var.TD, var.hco, punto["punto"].s0)
-            punto["punto"].Dbsusp_ai = calc.calcular_Dbsusp_ai(var.asusp, punto["punto"].Y, var.hco)
-            punto["punto"].Dbcarg_ai = calc.calcular_Dbcarg_ai(var.acarga, punto["punto"].Y, var.hco)
-            punto["punto"].Dbeta0_ai = calc.calcular_Dbeta0_ai(var.eta0, punto["punto"].Y, var.hco)
-            punto["punto"].aosc_a = calc.calcular_aosc(punto["punto"].s0, var.aosc_a_s0_03b, var.aosc_a_s0_04b)
-            punto["punto"].aosc_i = calc.calcular_aosc(punto["punto"].s0, var.aosc_i_s0_03b, var.aosc_i_s0_04b)
-            punto["punto"].Dbosc_a = calc.calcular_Dbosc(punto["punto"].aosc_a, punto["punto"].Y/1000, var.hco)
-            punto["punto"].Dbosc_i = calc.calcular_Dbosc(punto["punto"].aosc_i, punto["punto"].Y/1000, var.hco)
-            punto["punto"].M3b = var.M3h * 1000
-            punto["punto"].DhRv = var.DhRV * 1000
-            punto["punto"].DhPT_D_ai = calc.calcular_DhPT_D_ai(punto["punto"].X/1000, punto["punto"].s0, var.D, var.D0, var.L)
-            punto["punto"].DhPT_I_ai = calc.calcular_DhPT_I_ai(punto["punto"].X/1000, punto["punto"].s0, var.I, var.I0, var.L)
-            punto["punto"].TN = var.TN * 1000
-            punto["punto"].Dhg_a = calc.calcular_Dhg_a(punto["punto"].X/1000, var.L, var.TD)
-            punto["punto"].Dhg_i = calc.calcular_Dhg_i(punto["punto"].X/1000, var.L, var.TD)
-            punto["punto"].Dhc = calc.calcular_Dhc(punto["punto"].X/1000, punto["punto"].s0, var.L, var.TD)
-            punto["punto"].Dhsusp_ai
-            #punto["punto"].Dhcarga_ai
-            #punto["punto"].Dhh0_ai
-            #punto["punto"].Dhosc_a
-            #punto["punto"].Dhosc_i
-            #punto["punto"].M3h
-            #punto["punto"].Kale
-            #punto["punto"].Kgeneral
-            #punto["punto"].lim_Sja1
-            #punto["punto"].lim_Sji1
-            #punto["punto"].lim_Sja2
-            #punto["punto"].lim_Sji2
-            #punto["punto"].lim_Sja1_ast
-            #punto["punto"].lim_Sji1_ast
-            #punto["punto"].lim_Sja2_ast
-            #punto["punto"].lim_Sji2_ast
-            #punto["punto"].lim_SVa1
-            #punto["punto"].lim_SVi1
-            #punto["punto"].lim_SVa2
-            #punto["punto"].lim_SVi2
-            #punto["punto"].lim_SVa1_ast
-            #punto["punto"].lim_SVi1_ast
-            #punto["punto"].lim_SVa2_ast
-            #punto["punto"].lim_SVi2_ast
-            #punto["punto"].lim_bobst_max_i
-            #punto["punto"].lim_hobst_conc_i
-            #punto["punto"].lim_bobst_max_a
-            #punto["punto"].lim_hobst_conc_a
-            #punto["punto"].lim_bconc_max_i
-            #punto["punto"].lim_hmax_conc_i
-            #punto["punto"].lim_bconc_max_a
-            #punto["punto"].lim_hmax_conc_a
-            #punto["punto"].lim_bobst_max_i
-            #punto["punto"].lim_hobst_conc_
-            #punto["punto"].lim_bobst_max_a
-            #punto["punto"].lim_hobst_conc_
-            #punto["punto"].lim_bconc_max_i
-            #punto["punto"].lim_hmax_conc_i
-            #punto["punto"].lim_bconc_max_a
-            #punto["punto"].lim_hmax_conc_a
-            #punto["punto"].lim_ba
-            #punto["punto"].lim_ha
-            #punto["punto"].lim_bi
-            #punto["punto"].lim_hi
-            #punto["punto"].nom_Sja1
-            #punto["punto"].nom_Sji1
-            #punto["punto"].nom_Sja2
-            #punto["punto"].nom_Sji2
-            #punto["punto"].nom_Sja1_ast
-            #punto["punto"].nom_Sji1_ast
-            #punto["punto"].nom_Sja2_ast
-            #punto["punto"].nom_Sji2_ast
-            #punto["punto"].nom_SVa1
-            #punto["punto"].nom_SVi1
-            #punto["punto"].nom_SVa2
-            #punto["punto"].nom_SVi2
-            #punto["punto"].nom_SVa1_ast
-            #punto["punto"].nom_SVi1_ast
-            #punto["punto"].nom_SVa2_ast
-            #punto["punto"].nom_SVi2_ast
-            #punto["punto"].nom_bobst_max_i
-            #punto["punto"].nom_hobst_conc_i
-            #punto["punto"].nom_bobst_max_a
-            #punto["punto"].nom_hobst_conc_a
-            #punto["punto"].nom_bconc_max_i
-            #punto["punto"].nom_hmax_conc_i
-            #punto["punto"].nom_bconc_max_a
-            #punto["punto"].nom_hmax_conc_a
-            #punto["punto"].nom_bobst_max_i
-            #punto["punto"].nom_hobst_conc_
-            #punto["punto"].nom_bobst_max_a
-            #punto["punto"].nom_hobst_conc_
-            #punto["punto"].nom_bconc_max_i
-            #punto["punto"].nom_hmax_conc_i
-            #punto["punto"].nom_bconc_max_a
-            #punto["punto"].nom_hmax_conc_a
-            #punto["punto"].nom_ba
-            #punto["punto"].nom_ha
-            #punto["punto"].nom_bi
-            #punto["punto"].nom_hi
-            #punto["punto"].
+            tabla_01_X.controls.append(ft.Text(punto.X,size=10))
+            tabla_02_Y.controls.append(ft.Text(punto.Y,size=10))
+            tabla_03_esPT.controls.append(ft.Text(punto.esPT,size=10))
+            tabla_04_k.controls.append(ft.Text(punto.k,size=10))
+            tabla_05_s0.controls.append(ft.Text(punto.s0,size=10))
+            tabla_06_Sa.controls.append(ft.Text(punto.Sa,size=10))
+            tabla_07_Si.controls.append(ft.Text(punto.Si,size=10))
+            tabla_08_qsDai.controls.append(ft.Text(punto.qsD_ai,size=10))
+            tabla_09_qsIai.controls.append(ft.Text(punto.qsI_ai,size=10))
+            tabla_10_Tvia_ai.controls.append(ft.Text(punto.Tvia_ai,size=10))
+            tabla_11_Dbgai.controls.append(ft.Text(punto.Dbg_ai,size=10))
+            tabla_12_Dbcai.controls.append(ft.Text(punto.Dbc_ai,size=10))
+            tabla_13_Dbsuspai.controls.append(ft.Text(punto.Dbsusp_ai,size=10))
+            tabla_14_Dbcargaai.controls.append(ft.Text(punto.Dbcarg_ai,size=10))
+            tabla_15_Dbetaai.controls.append(ft.Text(punto.Dbeta0_ai,size=10))
+            tabla_16_aosca.controls.append(ft.Text(punto.aosc_a,size=10))
+            tabla_17_aosci.controls.append(ft.Text(punto.aosc_i,size=10))
+            tabla_18_Dbosca.controls.append(ft.Text(punto.Dbosc_a,size=10))
+            tabla_19_Dbosci.controls.append(ft.Text(punto.Dbosc_i,size=10))
+            tabla_20_M3h.controls.append(ft.Text(punto.M3b,size=10))
+            tabla_21_DhRv.controls.append(ft.Text(punto.DhRv,size=10))
+            tabla_22_DhPTDai.controls.append(ft.Text(punto.DhPT_D_ai,size=10))
+            tabla_23_DhPTIai.controls.append(ft.Text(punto.DhPT_I_ai,size=10))
+            tabla_24_TN.controls.append(ft.Text(punto.TN,size=10))
+            tabla_25_Dhga.controls.append(ft.Text(punto.Dhg_a,size=10))
+            tabla_26_Dhgi.controls.append(ft.Text(punto.Dhg_i,size=10))
+            tabla_27_Dhc.controls.append(ft.Text(punto.Dhc,size=10))
 
-
-            #var.punto.X = punto['x']
-            tabla_01_X.controls.append(ft.Text(punto["x"],size=10))
-            #var.punto.Y = punto['y']
-            tabla_02_Y.controls.append(ft.Text(punto["y"],size=10))
-            tabla_03_esPT.controls.append(ft.Text(punto["punto"].esPT,size=10))
-            tabla_04_k.controls.append(ft.Text(punto["punto"].k,size=10))
-            tabla_05_s0.controls.append(ft.Text(punto["punto"].s0,size=10))
-            tabla_06_Sa.controls.append(ft.Text(punto["punto"].Sa,size=10))
-            tabla_07_Si.controls.append(ft.Text(punto["punto"].Si,size=10))
-            tabla_08_qsDai.controls.append(ft.Text(punto["punto"].qsD_ai,size=10))
-            tabla_09_qsIai.controls.append(ft.Text(punto["punto"].qsI_ai,size=10))
-            tabla_10_Tvia_ai.controls.append(ft.Text(punto["punto"].Tvia_ai,size=10))
-            tabla_11_Dbgai.controls.append(ft.Text(punto["punto"].Dbg_ai,size=10))
-            tabla_12_Dbcai.controls.append(ft.Text(punto["punto"].Dbc_ai,size=10))
-            tabla_13_Dbsuspai.controls.append(ft.Text(punto["punto"].Dbsusp_ai,size=10))
-            tabla_14_Dbcargaai.controls.append(ft.Text(punto["punto"].Dbcarg_ai,size=10))
-            tabla_15_Dbetaai.controls.append(ft.Text(punto["punto"].Dbeta0_ai,size=10))
-            tabla_16_aosca.controls.append(ft.Text(punto["punto"].aosc_a,size=10))
-            tabla_17_aosci.controls.append(ft.Text(punto["punto"].aosc_i,size=10))
-            tabla_18_Dbosca.controls.append(ft.Text(punto["punto"].Dbosc_a,size=10))
-            tabla_19_Dbosci.controls.append(ft.Text(punto["punto"].Dbosc_i,size=10))
-            tabla_20_M3h.controls.append(ft.Text(punto["punto"].M3b,size=10))
-            tabla_21_DhRv.controls.append(ft.Text(punto["punto"].DhRv,size=10))
-            tabla_22_DhPTDai.controls.append(ft.Text(punto["punto"].DhPT_D_ai,size=10))
-            tabla_23_DhPTIai.controls.append(ft.Text(punto["punto"].DhPT_I_ai,size=10))
-            tabla_24_TN.controls.append(ft.Text(punto["punto"].TN,size=10))
-            tabla_25_Dhga.controls.append(ft.Text(punto["punto"].Dhg_a,size=10))
-            tabla_26_Dhgi.controls.append(ft.Text(punto["punto"].Dhg_i,size=10))
-            tabla_27_Dhc.controls.append(ft.Text(punto["punto"].Dhc,size=10))
-
-
-            datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(var.punto.X, var.punto.Y))
+            datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(punto.X, punto.Y))
 
         page.update()
 
