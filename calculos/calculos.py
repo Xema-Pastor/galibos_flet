@@ -6,15 +6,15 @@ def calcular_esPT(Y: float, maximo: float) -> bool:
 
 def calcular_k(galibo: str, Y: float, hquierbroaux: float, htopeaux: float, difaux: float) -> float:
     if galibo in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,]:
-        return 0
+        return 0.0
     elif galibo in [EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GA.value, EGPA.GB.value,]:
         if Y < hquierbroaux:
-            return 0
+            return 0.0
         else:
             if Y >= htopeaux:
-                return 1
+                return 1.0
             else:
-                return (Y - hquierbroaux) / difaux
+                return round((Y - hquierbroaux) / difaux, 2)
     elif galibo in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
         return None
 
@@ -28,7 +28,7 @@ def calcular_s0(galibo: str, Y: float, hquierbroaux: float, htopeaux: float, dif
             if Y >= htopeaux:
                 return 0.3
             else:
-                return (hotra - Y) / (10 * difaux)
+                return round((hotra - Y) / (10 * difaux),2)
     elif galibo in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
         return 0.4
 
@@ -123,3 +123,52 @@ def calcular_Dhg_i(X: float, L: float, TD: float) -> float:
 
 def calcular_Dhc(X: float, s0: float, L: float, TD: float) -> float:
     return round(s0 * abs(X) * TD / L, 1)
+
+def calcular_Dhsusp_ai(X: float, ang: float) -> float:
+    return round(abs(X * 1000) * tan(radians(ang)), 1)
+
+def calcular_Dhcarg_ai(X: float, ang: float) -> float:
+    return round(abs(X * 1000) * tan(radians(ang)), 1)
+
+def calcular_Dheta0_ai(X: float, ang: float) -> float:
+    return round(abs(X * 1000) * tan(radians(ang)), 1)
+
+def calcular_Dhosc(X: float, ang: float) -> float:
+    return round(abs(X * 1000) * tan(radians(ang)), 1)
+
+def calcular_lim_Sj1(Y: float, hco: float, k: float, kale: float, Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, dbcarg: float, dbosc: float) -> float:
+    keff = kale if Y < hco else k
+    res = keff * (Tvia**2 + (Dbgai + dbcarg)**2 + (Dbsusp**2 + dbcarg**2 + dbosc**2))**0.5
+    return round(res,1)
+
+def calcular_lim_Sj2(Y: float, hco: float, k: float, kale: float, Tvia: float, Dbgai: float) -> float:
+    keff = kale if Y < hco else k
+    res = keff * (Tvia**2 + Dbgai**2)**0.5
+    return round(res,1)
+
+def calcular_lim_Sj_ast(Y: float, hco: float, k: float, kale: float, radic: float) -> float:
+    keff = kale if Y < hco else k
+    signo = 1 if radic > 0 else -1
+    res = keff * signo * abs(radic)
+    return round(res, 1)
+
+def calcular_lim_rad_SVi1(TN: float, Dhgi: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosci: float) -> float:
+    res = TN**2 + (max(0, -Dhgi - Dhc))**2 - (Dhsusp**2 + Dhcarg**2 + Dhosci**2)
+    return round(res, 1)
+
+def calcular_lim_rad_SVa1(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosci: float) -> float:
+    res = TN**2 - (-Dhga + Dhc)**2 - (Dhsusp**2 + Dhcarg**2 + Dhosci**2)
+    return round(res, 1)
+
+def calcular_lim_SV1(k: float, radic: float) -> float:
+    signo = 1 if radic > 0 else -1
+    res = k * signo * abs(radic)
+    return round(res, 1)
+
+def calcular_SVa1_ast(k: float, TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosci: float) -> float:
+    res = k * (TN**2 + (Dhga + Dhc)**2 + (Dhsusp**2 + Dhcarg**2 + Dhosci**2))**0.5
+    return round(res, 1)
+
+def calcular_SVi1_ast(k: float, TN: float, Dhgi: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosci: float) -> float:
+    res = k * (TN**2 + (max(0, Dhgi + Dhc))**2 + (Dhsusp**2 + Dhcarg**2 + Dhosci**2))**0.5
+    return round(res, 1)

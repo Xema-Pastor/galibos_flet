@@ -2,6 +2,7 @@ import flet as ft
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import Variables as var
 from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
+from componentes.tablas_datos import *
 import calculos.calculos as calc
 
 def galibos(page: ft.Page):
@@ -166,15 +167,29 @@ def galibos(page: ft.Page):
         limpiar_tabla(tabla_33_Dhosca, "Dhosca", "(mm)")
         limpiar_tabla(tabla_34_Dhosci, "Dhosci", "(mm)")
         limpiar_tabla(tabla_35_M3h, "M3h", "(mm)")
-        #limpiar_tabla(tabla_36, "", "()")
-
+        limpiar_tabla(tabla_36_lim_Sja1, "Sja1", "(mm)")
+        limpiar_tabla(tabla_37_lim_Sji1, "Sji1", "(mm)")
+        limpiar_tabla(tabla_38_lim_Sja2, "Sja2", "(mm)")
+        limpiar_tabla(tabla_39_lim_Sji2, "Sji2", "mm")
+        limpiar_tabla(tabla_40_lim_Sja1_ast, "Sja1*", "(mm)")
+        limpiar_tabla(tabla_41_lim_Sji1_ast, "Sji1*", "(mm)")
+        limpiar_tabla(tabla_42_lim_Sja2_ast, "Sja2*", "(mm)")
+        limpiar_tabla(tabla_43_lim_Sji2_ast, "Sji2*", "(mm)")
+        limpiar_tabla(tabla_44_lim_SVa1, "SVa1", "(mm)")
+        limpiar_tabla(tabla_45_lim_SVi1, "SVi1", "(mm)")
+        limpiar_tabla(tabla_46_lim_SVa2, "SVa2", "(mm)")
+        limpiar_tabla(tabla_47_lim_SVi2, "SVi2", "(mm)")
+        limpiar_tabla(tabla_48_lim_SVa1_ast, "SVa1*", "(mm)")
+        limpiar_tabla(tabla_49_lim_SVa2_ast, "SVa2*", "(mm)")
+        limpiar_tabla(tabla_50_lim_SVi2_ast, "SVi2*", "(mm)")
+        limpiar_tabla(tabla_51_lim_SVi2_ast, "SVi2*", "(mm)")
+        #limpiar_tabla(tabla_44, "", "()")
 
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
 
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
         for nombre,punto in galiboPA.items():
-            print(punto.X, punto.Y)
             punto.esPT = calc.calcular_esPT(punto.Y, var.maxY)
             punto.k = calc.calcular_k(var.GPA, punto.Y/1000, var.hquiebroaux, var.htopeaux, var.difaux)
             punto.s0 = calc.calcular_s0(var.GPA, punto.Y/1000, var.hquiebroaux, var.htopeaux, var.difaux, var.hotra)
@@ -200,30 +215,35 @@ def galibos(page: ft.Page):
             punto.Dhg_a = calc.calcular_Dhg_a(punto.X/1000, var.L, var.TD)
             punto.Dhg_i = calc.calcular_Dhg_i(punto.X/1000, var.L, var.TD)
             punto.Dhc = calc.calcular_Dhc(punto.X/1000, punto.s0, var.L, var.TD)
-            #punto.Dhsusp_ai
-            #punto.Dhcarga_ai
-            #punto.Dhh0_ai
-            #punto.Dhosc_a
-            #punto.Dhosc_i
-            #punto.M3h
-            #punto.Kale
-            #punto.Kgeneral
-            #punto.lim_Sja1
-            #punto.lim_Sji1
-            #punto.lim_Sja2
-            #punto.lim_Sji2
-            #punto.lim_Sja1_ast
-            #punto.lim_Sji1_ast
-            #punto.lim_Sja2_ast
-            #punto.lim_Sji2_ast
-            #punto.lim_SVa1
-            #punto.lim_SVi1
-            #punto.lim_SVa2
-            #punto.lim_SVi2
-            #punto.lim_SVa1_ast
-            #punto.lim_SVi1_ast
-            #punto.lim_SVa2_ast
-            #punto.lim_SVi2_ast
+            punto.Dhgca = punto.Dhg_a + punto.Dhc
+            punto.Dhgci = punto.Dhg_i + punto.Dhc
+            punto.Dhsusp_ai = calc.calcular_Dhsusp_ai(punto.X / 1000, var.asusp)
+            punto.Dhcarg_ai = calc.calcular_Dhcarg_ai(punto.X / 1000, var.acarga)
+            punto.Dheta0_ai = calc.calcular_Dhcarg_ai(punto.X / 1000, var.eta0)
+            punto.Dhosc_a = calc.calcular_Dhosc(punto.X, punto.aosc_i)                           #Sí, los ángulos están cambiados
+            punto.Dhosc_i = calc.calcular_Dhosc(punto.X, punto.aosc_a)                           #Sí, los ángulos están cambiados
+            punto.M3h = var.M3h
+            punto.lim_Sja1 = calc.calcular_lim_Sj1(punto.Y/1000, var.hco, var.K, var.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
+            punto.lim_Sji1 = calc.calcular_lim_Sj1(punto.Y/1000, var.hco, var.K, var.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
+            punto.lim_Sja2 = calc.calcular_lim_Sj2(punto.Y/1000, var.hco, var.K, var.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai)
+            punto.lim_Sji2 = punto.lim_Sja2
+            punto.lim_rad_Sja1_ast = punto.Tvia_ai**2 - (punto.Dbg_ai + punto.Dbc_ai)**2 - (punto.Dbsusp_ai**2 + punto.Dbcarg_ai**2 + punto.Dbosc_a**2)
+            punto.lim_rad_Sji1_ast = punto.Tvia_ai**2 - (punto.Dbg_ai + punto.Dbc_ai)**2 - (punto.Dbsusp_ai**2 + punto.Dbcarg_ai**2 + punto.Dbosc_i**2)
+            punto.lim_rad_Sjai2_ast = punto.Tvia_ai**2 - punto.Dbg_ai**2
+            punto.lim_Sja1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, var.hco, var.K, var.Kale_h_0_50, punto.lim_rad_Sja1_ast)
+            punto.lim_Sji1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, var.hco, var.K, var.Kale_h_0_50, punto.lim_rad_Sji1_ast)
+            punto.lim_Sja2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, var.hco, var.K, var.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
+            punto.lim_Sji2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, var.hco, var.K, var.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
+            punto.lim_rad_SVi1 = calc.calcular_lim_rad_SVi1(punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
+            punto.lim_rad_SVa1 = calc.calcular_lim_rad_SVa1(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
+            punto.lim_SVa1 = calc.calcular_lim_SV1(var.K, punto.lim_rad_SVa1)
+            punto.lim_SVi1 = calc.calcular_lim_SV1(var.K, punto.lim_rad_SVi1)
+            punto.lim_SVa2 = punto.TN
+            punto.lim_SVi2 = punto.TN
+            punto.lim_SVa1_ast = calc.calcular_SVa1_ast(var.K, punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
+            punto.lim_SVi1_ast = calc.calcular_SVi1_ast(var.K, punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
+            punto.lim_SVa2_ast = punto.TN
+            punto.lim_SVi2_ast = punto.TN
             #punto.lim_bobst_max_i
             #punto.lim_hobst_conc_i
             #punto.lim_bobst_max_a
@@ -310,6 +330,31 @@ def galibos(page: ft.Page):
             tabla_25_Dhga.controls.append(ft.Text(punto.Dhg_a,size=10))
             tabla_26_Dhgi.controls.append(ft.Text(punto.Dhg_i,size=10))
             tabla_27_Dhc.controls.append(ft.Text(punto.Dhc,size=10))
+            tabla_28_Dhgca.controls.append(ft.Text(punto.Dhg_a,size=10))
+            tabla_29_Dhgci.controls.append(ft.Text(punto.Dhg_i,size=10))
+            tabla_30_Dhsuspai.controls.append(ft.Text(punto.Dhc,size=10))
+            tabla_31_Dhcargai.controls.append(ft.Text(punto.Dhsusp_ai,size=10))
+            tabla_32_Dhetaai.controls.append(ft.Text(punto.Dhcarg_ai,size=10))
+            tabla_33_Dhosca.controls.append(ft.Text(punto.Dhosc_a,size=10))
+            tabla_34_Dhosci.controls.append(ft.Text(punto.Dhosc_i,size=10))
+            tabla_35_M3h.controls.append(ft.Text(punto.M3h,size=10))
+            tabla_36_lim_Sja1.controls.append(ft.Text(punto.lim_Sja1,size=10))
+            tabla_37_lim_Sji1.controls.append(ft.Text(punto.lim_Sji1,size=10))
+            tabla_38_lim_Sja2.controls.append(ft.Text(punto.lim_Sja2,size=10))
+            tabla_39_lim_Sji2.controls.append(ft.Text(punto.lim_Sji2,size=10))
+            tabla_40_lim_Sja1_ast.controls.append(ft.Text(punto.lim_Sja1_ast,size=10))
+            tabla_41_lim_Sji1_ast.controls.append(ft.Text(punto.lim_Sji1_ast,size=10))
+            tabla_42_lim_Sja2_ast.controls.append(ft.Text(punto.lim_Sja2_ast,size=10))
+            tabla_43_lim_Sji2_ast.controls.append(ft.Text(punto.lim_Sji2_ast,size=10))
+            tabla_44_lim_SVa1.controls.append(ft.Text(punto.lim_SVa1,size=10))
+            tabla_45_lim_SVi1.controls.append(ft.Text(punto.lim_SVi1,size=10))
+            tabla_46_lim_SVa2.controls.append(ft.Text(punto.lim_SVa2,size=10))
+            tabla_47_lim_SVi2.controls.append(ft.Text(punto.lim_SVi2,size=10))
+            tabla_48_lim_SVa1_ast.controls.append(ft.Text(punto.lim_SVa1_ast,size=10))
+            tabla_49_lim_SVa2_ast.controls.append(ft.Text(punto.lim_SVa2_ast,size=10))
+            tabla_50_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
+            tabla_51_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
+
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(punto.X, punto.Y))
 
@@ -423,45 +468,6 @@ def galibos(page: ft.Page):
     tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_change=cambiar)
     tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_change=cambiar)
     tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_change=cambiar)
-
-    #COMPONENTES DE TABLAS
-    tabla_00_Punto = ft.Column([],col=1)
-    tabla_01_X = ft.Column([],col=1)
-    tabla_02_Y = ft.Column([],col=1)
-    tabla_03_esPT = ft.Column([],col=1)
-    tabla_04_k = ft.Column([],col=1)
-    tabla_05_s0 = ft.Column([],col=1)
-    tabla_06_Sa = ft.Column([],col=1)
-    tabla_07_Si = ft.Column([],col=1)
-    tabla_08_qsDai = ft.Column([],col=1)
-    tabla_09_qsIai = ft.Column([],col=1)
-    tabla_10_Tvia_ai = ft.Column([],col=1)
-    tabla_11_Dbgai = ft.Column([],col=1)
-    tabla_12_Dbcai = ft.Column([],col=1)
-    tabla_13_Dbsuspai = ft.Column([],col=1)
-    tabla_14_Dbcargaai = ft.Column([],col=1)
-    tabla_15_Dbetaai = ft.Column([],col=1)
-    tabla_16_aosca = ft.Column([],col=1)
-    tabla_17_aosci = ft.Column([],col=1)
-    tabla_18_Dbosca = ft.Column([],col=1)
-    tabla_19_Dbosci = ft.Column([],col=1)
-    tabla_20_M3h = ft.Column([],col=1)
-    tabla_21_DhRv = ft.Column([],col=1)
-    tabla_22_DhPTDai = ft.Column([],col=1)
-    tabla_23_DhPTIai = ft.Column([],col=1)
-    tabla_24_TN = ft.Column([],col=1)
-    tabla_25_Dhga = ft.Column([],col=1)
-    tabla_26_Dhgi = ft.Column([],col=1)
-    tabla_27_Dhc = ft.Column([],col=1)
-    tabla_28_Dhgca = ft.Column([],col=1)
-    tabla_29_Dhgci = ft.Column([],col=1)
-    tabla_30_Dhsuspai = ft.Column([],col=1)
-    tabla_31_Dhcargai = ft.Column([],col=1)
-    tabla_32_Dhetaai = ft.Column([],col=1)
-    tabla_33_Dhosca = ft.Column([],col=1)
-    tabla_34_Dhosci = ft.Column([],col=1)
-    tabla_35_M3h = ft.Column([],col=1)
-    #tabla_36_ = ft.Column([],col=1)
 
     t_3221 = ft.ResponsiveRow([
         ft.Column([
@@ -600,46 +606,6 @@ def galibos(page: ft.Page):
             col=2,),
             ],
             columns=12)
-    tabla = ft.ResponsiveRow([
-        tabla_00_Punto,
-        tabla_01_X,
-        tabla_02_Y,
-        tabla_03_esPT,
-        tabla_04_k,
-        tabla_05_s0,
-        tabla_06_Sa,
-        tabla_07_Si,
-        tabla_08_qsDai,
-        tabla_09_qsIai,
-        tabla_10_Tvia_ai,
-        tabla_11_Dbgai,
-        tabla_12_Dbcai,
-        tabla_13_Dbsuspai,
-        tabla_14_Dbcargaai,
-        tabla_15_Dbetaai,
-        tabla_16_aosca,
-        tabla_17_aosci,
-        tabla_18_Dbosca,
-        tabla_19_Dbosci,
-        tabla_20_M3h,
-        tabla_21_DhRv,
-        tabla_22_DhPTDai,
-        tabla_23_DhPTIai,
-        tabla_24_TN,
-        tabla_25_Dhga,
-        tabla_26_Dhgi,
-        tabla_27_Dhc,
-        tabla_28_Dhgca,
-        tabla_29_Dhgci,
-        tabla_30_Dhsuspai,
-        tabla_31_Dhcargai,
-        tabla_32_Dhetaai,
-        tabla_33_Dhosca,
-        tabla_34_Dhosci,
-        tabla_35_M3h
-
-    ],
-    columns=30)
 
     page.add(
         

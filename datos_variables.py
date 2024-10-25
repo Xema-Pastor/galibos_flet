@@ -29,24 +29,28 @@ class Punto:
     Dhg_a: float = 0       #
     Dhg_i: float = 0       #
     Dhc: float = 0         #
+    Dhgca: float = 0         #
+    Dhgci: float = 0         #
     Dhsusp_ai: float = 0   #
-    Dhcarga_ai: float = 0  #
-    Dhh0_ai: float = 0     #
+    Dhcarg_ai: float = 0   #
+    Dheta0_ai: float = 0   #
     Dhosc_a: float = 0     #
     Dhosc_i: float = 0     #
     M3h: float = 0         # Márgenes horizontales
-
-    Kale: float = 0        #
-    Kgeneral: float = 0    #
 
     lim_Sja1: float = 0        # Suma de desplazamientos aleatorios laterales para gálibos límite
     lim_Sji1: float = 0        # idem
     lim_Sja2: float = 0        # idem
     lim_Sji2: float = 0        # idem
+    lim_rad_Sja1_ast: float = 0
+    lim_rad_Sji1_ast: float = 0
+    lim_rad_Sjai2_ast: float = 0
     lim_Sja1_ast: float = 0    # idem
     lim_Sji1_ast: float = 0    # idem
     lim_Sja2_ast: float = 0    # idem
     lim_Sji2_ast: float = 0    # idem
+    lim_rad_SVa1: float = 0
+    lim_rad_SVi1: float = 0
     lim_SVa1: float = 0        # Suma de desplazamientos aleatorios verticales para gálibos límite
     lim_SVi1: float = 0        # idem
     lim_SVa2: float = 0        # idem
