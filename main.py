@@ -9,7 +9,10 @@ def galibos(page: ft.Page):
 
     #FUNCIÓN
     def cambiar(e):
-
+        
+        def signo(num):
+            return 1 if num > 0 else -1
+        
         #CÁLCULO DE LAS VARIABLES GENERALES DEL PROGRAMA
         #Los valores que no se definen aquí están definidos en la clase variables. No dependen de nada, son constantes
         var.GPA = dd_GPA.value
@@ -20,6 +23,9 @@ def galibos(page: ft.Page):
         for nombre,punto in galiboPA.items():                                   #intentar hacer esto con la función max y una lambda
             if punto.Y > var.maxY:
                 var.maxY = punto.Y
+            if punto.X > var.maxX:
+                var.maxX = punto.X
+                var.hb_max = punto.Y / 1000
         match var.GPA:
             case EGPA.GEA16.value | EGPA.GEB16.value: var.hquiebroaux = 3.32
             case EGPA.GA.value | EGPA.GB.value: var.hquiebroaux = 3.35
@@ -45,7 +51,7 @@ def galibos(page: ft.Page):
             case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: var.LN = 1.668
             case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.LN = 1.435
             case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.LN = 1
-        #CALCULAR hb_max, CELDA I9
+
         es_recta = cb_R.value
         es_recta_V = cb_RV.value
         var.R = 99999999999 if es_recta else int(tf_R.value)
@@ -142,48 +148,66 @@ def galibos(page: ft.Page):
         limpiar_tabla(tabla_08_qsDai, "qsD,ai", "(mm)")
         limpiar_tabla(tabla_09_qsIai, "qsI,ai", "(mm)")
         limpiar_tabla(tabla_10_Tvia_ai, "Tvia,ai", "(mm)")
-        limpiar_tabla(tabla_11_Dbgai, "Dbgai", "(mm)")
-        limpiar_tabla(tabla_12_Dbcai, "Dbcai", "(mm)")
-        limpiar_tabla(tabla_13_Dbsuspai, "Dbsuspai", "(mm)")
-        limpiar_tabla(tabla_14_Dbcargaai, "Dbcargai", "(mm)")
-        limpiar_tabla(tabla_15_Dbetaai, "Dbetaai", "(mm)")
+        limpiar_tabla(tabla_11_Dbgai, "Δbgai", "(mm)")
+        limpiar_tabla(tabla_12_Dbcai, "Δbcai", "(mm)")
+        limpiar_tabla(tabla_13_Dbsuspai, "Δbsuspai", "(mm)")
+        limpiar_tabla(tabla_14_Dbcargaai, "Δbcargai", "(mm)")
+        limpiar_tabla(tabla_15_Dbetaai, "Δbetaai", "(mm)")
         limpiar_tabla(tabla_16_aosca, "aosca", "(º)")
         limpiar_tabla(tabla_17_aosci, "aosci", "(º)")
-        limpiar_tabla(tabla_18_Dbosca, "Dbosca", "(mm)")
-        limpiar_tabla(tabla_19_Dbosci, "Dbosci", "(mm)")
+        limpiar_tabla(tabla_18_Dbosca, "Δbosca", "(mm)")
+        limpiar_tabla(tabla_19_Dbosci, "Δbosci", "(mm)")
         limpiar_tabla(tabla_20_M3h, "M3h", "(mm)")
-        limpiar_tabla(tabla_21_DhRv, "DhRv", "(mm)")
-        limpiar_tabla(tabla_22_DhPTDai, "DhPTDai", "(mm)")
-        limpiar_tabla(tabla_23_DhPTIai, "DhPTIai", "(mm)")
+        limpiar_tabla(tabla_21_DhRv, "ΔhRv", "(mm)")
+        limpiar_tabla(tabla_22_DhPTDai, "ΔhPTDai", "(mm)")
+        limpiar_tabla(tabla_23_DhPTIai, "ΔhPTIai", "(mm)")
         limpiar_tabla(tabla_24_TN, "TN", "(mm)")
-        limpiar_tabla(tabla_25_Dhga, "Dhga", "(mm)")
-        limpiar_tabla(tabla_26_Dhgi, "Dhgi", "(mm)")
-        limpiar_tabla(tabla_27_Dhc, "Dhc", "(mm)")
-        limpiar_tabla(tabla_28_Dhgca, "Dhgca", "(mm)")
-        limpiar_tabla(tabla_29_Dhgci, "Dhgci", "(mm)")
-        limpiar_tabla(tabla_30_Dhsuspai, "Dhsuspai", "(mm)")
-        limpiar_tabla(tabla_31_Dhcargai, "Dhcargai", "(mm)")
-        limpiar_tabla(tabla_32_Dhetaai, "Dhetaai", "(mm)")
-        limpiar_tabla(tabla_33_Dhosca, "Dhosca", "(mm)")
-        limpiar_tabla(tabla_34_Dhosci, "Dhosci", "(mm)")
+        limpiar_tabla(tabla_25_Dhga, "Δhga", "(mm)")
+        limpiar_tabla(tabla_26_Dhgi, "Δhgi", "(mm)")
+        limpiar_tabla(tabla_27_Dhc, "Δhc", "(mm)")
+        limpiar_tabla(tabla_28_Dhgca, "Δhgca", "(mm)")
+        limpiar_tabla(tabla_29_Dhgci, "Δhgci", "(mm)")
+        limpiar_tabla(tabla_30_Dhsuspai, "Δhsuspai", "(mm)")
+        limpiar_tabla(tabla_31_Dhcargai, "Δhcargai", "(mm)")
+        limpiar_tabla(tabla_32_Dhetaai, "Δhetaai", "(mm)")
+        limpiar_tabla(tabla_33_Dhosca, "Δhosca", "(mm)")
+        limpiar_tabla(tabla_34_Dhosci, "Δhosci", "(mm)")
         limpiar_tabla(tabla_35_M3h, "M3h", "(mm)")
-        limpiar_tabla(tabla_36_lim_Sja1, "Sja1", "(mm)")
-        limpiar_tabla(tabla_37_lim_Sji1, "Sji1", "(mm)")
-        limpiar_tabla(tabla_38_lim_Sja2, "Sja2", "(mm)")
-        limpiar_tabla(tabla_39_lim_Sji2, "Sji2", "mm")
-        limpiar_tabla(tabla_40_lim_Sja1_ast, "Sja1*", "(mm)")
-        limpiar_tabla(tabla_41_lim_Sji1_ast, "Sji1*", "(mm)")
-        limpiar_tabla(tabla_42_lim_Sja2_ast, "Sja2*", "(mm)")
-        limpiar_tabla(tabla_43_lim_Sji2_ast, "Sji2*", "(mm)")
-        limpiar_tabla(tabla_44_lim_SVa1, "SVa1", "(mm)")
-        limpiar_tabla(tabla_45_lim_SVi1, "SVi1", "(mm)")
-        limpiar_tabla(tabla_46_lim_SVa2, "SVa2", "(mm)")
-        limpiar_tabla(tabla_47_lim_SVi2, "SVi2", "(mm)")
-        limpiar_tabla(tabla_48_lim_SVa1_ast, "SVa1*", "(mm)")
-        limpiar_tabla(tabla_49_lim_SVa2_ast, "SVa2*", "(mm)")
-        limpiar_tabla(tabla_50_lim_SVi2_ast, "SVi2*", "(mm)")
-        limpiar_tabla(tabla_51_lim_SVi2_ast, "SVi2*", "(mm)")
-        #limpiar_tabla(tabla_44, "", "()")
+        limpiar_tabla(tabla_36_lim_Sja1, "lΣja1", "(mm)")
+        limpiar_tabla(tabla_37_lim_Sji1, "lΣji1", "(mm)")
+        limpiar_tabla(tabla_38_lim_Sja2, "lΣja2", "(mm)")
+        limpiar_tabla(tabla_39_lim_Sji2, "lΣji2", "mm")
+        limpiar_tabla(tabla_40_lim_Sja1_ast, "lΣja1*", "(mm)")
+        limpiar_tabla(tabla_41_lim_Sji1_ast, "lΣji1*", "(mm)")
+        limpiar_tabla(tabla_42_lim_Sja2_ast, "lΣja2*", "(mm)")
+        limpiar_tabla(tabla_43_lim_Sji2_ast, "lΣji2*", "(mm)")
+        limpiar_tabla(tabla_44_lim_SVa1, "lΣVa1", "(mm)")
+        limpiar_tabla(tabla_45_lim_SVi1, "lΣVi1", "(mm)")
+        limpiar_tabla(tabla_46_lim_SVa2, "lΣVa2", "(mm)")
+        limpiar_tabla(tabla_47_lim_SVi2, "lΣVi2", "(mm)")
+        limpiar_tabla(tabla_48_lim_SVa1_ast, "lΣVa1*", "(mm)")
+        limpiar_tabla(tabla_49_lim_SVa2_ast, "lΣVa2*", "(mm)")
+        limpiar_tabla(tabla_50_lim_SVi2_ast, "lΣVi2*", "(mm)")
+        limpiar_tabla(tabla_51_lim_SVi2_ast, "lΣVi2*", "(mm)")
+        limpiar_tabla(tabla_52_nom_Sja3, "nΣja3", "()")
+        limpiar_tabla(tabla_53_nom_Sji3, "nΣji3", "()")
+        limpiar_tabla(tabla_54_nom_Sja4, "nΣja4", "()")
+        limpiar_tabla(tabla_55_nom_Sji4, "nΣji4", "()")
+        limpiar_tabla(tabla_56_nom_Sja3_ast, "nΣja3*", "()")
+        limpiar_tabla(tabla_57_nom_Sji3_ast, "nΣji3*", "()")
+        limpiar_tabla(tabla_58_nom_Sja4_ast, "nΣja4*", "()")
+        limpiar_tabla(tabla_59_nom_Sji4_ast, "nΣji4*", "()")
+        limpiar_tabla(tabla_60_nom_SVa3, "nΣVa3", "()")
+        limpiar_tabla(tabla_61_nom_SVi3, "nΣVi3", "()")
+        limpiar_tabla(tabla_62_nom_SVa4, "nΣVa4", "()")
+        limpiar_tabla(tabla_63_nom_SVi4, "nΣVi4", "()")
+        limpiar_tabla(tabla_64_nom_SVa3_ast, "nΣVa3*", "()")
+        limpiar_tabla(tabla_65_nom_SVi3_ast, "nΣVi3*", "()")
+        limpiar_tabla(tabla_66_nom_SVa4_ast, "nΣVa4*", "()")
+        limpiar_tabla(tabla_67_nom_SVi4_ast, "nΣVi4*", "()")
+        #limpiar_tabla(tabla_6, "", "()")
+        #limpiar_tabla(tabla_6, "", "()")
+        #limpiar_tabla(tabla_7, "", "()")
 
         datos_grafico_GPA.data_points.clear()
         datos_grafico_GPB.data_points.clear()
@@ -244,42 +268,43 @@ def galibos(page: ft.Page):
             punto.lim_SVi1_ast = calc.calcular_SVi1_ast(var.K, punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
             punto.lim_SVa2_ast = punto.TN
             punto.lim_SVi2_ast = punto.TN
-            #punto.lim_bobst_max_i
-            #punto.lim_hobst_conc_i
-            #punto.lim_bobst_max_a
-            #punto.lim_hobst_conc_a
-            #punto.lim_bconc_max_i
-            #punto.lim_hmax_conc_i
-            #punto.lim_bconc_max_a
-            #punto.lim_hmax_conc_a
-            #punto.lim_bobst_max_i
-            #punto.lim_hobst_conc_
-            #punto.lim_bobst_max_a
-            #punto.lim_hobst_conc_
-            #punto.lim_bconc_max_i
-            #punto.lim_hmax_conc_i
-            #punto.lim_bconc_max_a
-            #punto.lim_hmax_conc_a
-            #punto.lim_ba
-            #punto.lim_ha
-            #punto.lim_bi
-            #punto.lim_hi
-            #punto.nom_Sja1
-            #punto.nom_Sji1
-            #punto.nom_Sja2
-            #punto.nom_Sji2
-            #punto.nom_Sja1_ast
-            #punto.nom_Sji1_ast
-            #punto.nom_Sja2_ast
-            #punto.nom_Sji2_ast
-            #punto.nom_SVa1
-            #punto.nom_SVi1
-            #punto.nom_SVa2
-            #punto.nom_SVi2
-            #punto.nom_SVa1_ast
-            #punto.nom_SVi1_ast
-            #punto.nom_SVa2_ast
-            #punto.nom_SVi2_ast
+            #punto.lim_bobstVM_max_i: float =
+            #punto.lim_hobstVM_con_i: float = 
+            #punto.lim_bobstVM_max_a: float = 
+            #punto.lim_hobstVM_con_a: float = 
+            #punto.lim_bobstVM_con_i: float = 
+            #punto.lim_hobstVM_max_i: float = 
+            #punto.lim_bobstVM_con_a: float = 
+            #punto.lim_hobstVM_max_a: float = 
+            #punto.lim_bobstV0_max_i: float = 
+            #punto.lim_hobstV0_con_i: float = 
+            #punto.lim_bobstV0_max_a: float = 
+            #punto.lim_hobstV0_con_a: float = 
+            #punto.lim_bobstV0_con_i: float = 
+            #punto.lim_hobstV0_max_i: float = 
+            #punto.lim_bobstV0_con_a: float = 
+            #punto.lim_hobstV0_max_a: float =     
+            punto.lim_ba = signo(punto.X) * max(abs(punto.lim_bobstVM_max_a), abs(punto.lim_bobstVM_con_a), abs(punto.lim_bobstV0_max_a), abs(punto.lim_bobstV0_con_a))
+            punto.lim_ha = calc.calcular_h(punto.Y/1000, var.hbmax, punto.lim_hobstVM_con_a, punto.lim_hobstVM_max_a, punto.lim_hobstV0_con_a, punto.lim_hobstV0_max_a)
+            punto.lim_bi = signo(punto.X) * max(abs(punto.lim_bobstVM_max_i), abs(punto.lim_bobstVM_con_i), abs(punto.lim_bobstV0_max_i), abs(punto.lim_bobstV0_con_i))
+            punto.lim_hi = calc.calcular_h(punto.Y/1000, var.hbmax, punto.lim_hobstVM_con_i, punto.lim_hobstVM_max_i, punto.lim_hobstV0_con_i, punto.lim_hobstV0_max_i)
+
+            punto.nom_Sja3 = calc.calcular_nom_Sj3(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
+            punto.nom_Sji3 = calc.calcular_nom_Sj3(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
+            punto.nom_Sja4 = calc.calcular_nom_Sj4(punto.Tvia_ai, punto.Dbg_ai)
+            punto.nom_Sji4 = calc.calcular_nom_Sj4(punto.Tvia_ai, punto.Dbg_ai)
+            punto.nom_Sja3_ast = calc.calcular_nom_Sj3_ast(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
+            punto.nom_Sji3_ast = calc.calcular_nom_Sj3_ast(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
+            punto.nom_Sja4_ast = calc.calcular_nom_Sj4_ast(punto.Tvia_ai, punto.Dbg_ai)
+            punto.nom_Sji4_ast = calc.calcular_nom_Sj4_ast(punto.Tvia_ai, punto.Dbg_ai)
+            punto.nom_SVa3 = calc.calcular_nom_SV3a(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
+            punto.nom_SVi3 = calc.calcular_nom_SV3i(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
+            punto.nom_SVa4 = punto.TN
+            punto.nom_SVi4 = punto.TN
+            punto.nom_SVa3_ast = calc.calcular_nom_SV3a_ast(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
+            punto.nom_SVi3_ast = calc.calcular_nom_SV3i_ast(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
+            punto.nom_SVa4_ast = punto.TN
+            punto.nom_SVi4_ast = punto.TN
             #punto.nom_bobst_max_i
             #punto.nom_hobst_conc_i
             #punto.nom_bobst_max_a
@@ -296,10 +321,10 @@ def galibos(page: ft.Page):
             #punto.nom_hmax_conc_i
             #punto.nom_bconc_max_a
             #punto.nom_hmax_conc_a
-            #punto.nom_ba
-            #punto.nom_ha
-            #punto.nom_bi
-            #punto.nom_hi
+            punto.nom_ba = signo(punto.X) * max(abs(punto.nom_bobstVM_max_a), abs(punto.nom_bobstVM_con_a), abs(punto.nom_bobstV0_max_a), abs(punto.nom_bobstV0_con_a))
+            punto.nom_ha = calc.calcular_h(punto.Y/1000, var.hbmax, punto.nom_hobstVM_con_a, punto.nom_hobstVM_max_a, punto.nom_hobstV0_con_a, punto.nom_hobstV0_max_a)
+            punto.nom_bi = signo(punto.X) * max(abs(punto.nom_bobstVM_max_i), abs(punto.nom_bobstVM_con_i), abs(punto.nom_bobstV0_max_i), abs(punto.nom_bobstV0_con_i))
+            punto.nom_hi = calc.calcular_h(punto.Y/1000, var.hbmax, punto.nom_hobstVM_con_i, punto.nom_hobstVM_max_i, punto.nom_hobstV0_con_i, punto.nom_hobstV0_max_i)
             #punto.
 
             tabla_00_Punto.controls.append(ft.Text(nombre,size=10))
@@ -354,6 +379,25 @@ def galibos(page: ft.Page):
             tabla_49_lim_SVa2_ast.controls.append(ft.Text(punto.lim_SVa2_ast,size=10))
             tabla_50_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
             tabla_51_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
+            tabla_52_nom_Sja3.controls.append(ft.Text(punto.nom_Sja3,size=10))
+            tabla_53_nom_Sji3.controls.append(ft.Text(punto.nom_Sji3,size=10))
+            tabla_54_nom_Sja4.controls.append(ft.Text(punto.nom_Sja4,size=10))
+            tabla_55_nom_Sji4.controls.append(ft.Text(punto.nom_Sji4,size=10))
+            tabla_56_nom_Sja3_ast.controls.append(ft.Text(punto.nom_Sja3_ast,size=10))
+            tabla_57_nom_Sji3_ast.controls.append(ft.Text(punto.nom_Sji3_ast,size=10))
+            tabla_58_nom_Sja4_ast.controls.append(ft.Text(punto.nom_Sja4_ast,size=10))
+            tabla_59_nom_Sji4_ast.controls.append(ft.Text(punto.nom_Sji4_ast,size=10))
+            tabla_60_nom_SVa3.controls.append(ft.Text(punto.nom_SVa3,size=10))
+            tabla_61_nom_SVi3.controls.append(ft.Text(punto.nom_SVi3,size=10))
+            tabla_62_nom_SVa4.controls.append(ft.Text(punto.nom_SVa4,size=10))
+            tabla_63_nom_SVi4.controls.append(ft.Text(punto.nom_SVi4,size=10))
+            tabla_64_nom_SVa3_ast.controls.append(ft.Text(punto.nom_SVa3_ast,size=10))
+            tabla_65_nom_SVi3_ast.controls.append(ft.Text(punto.nom_SVi3_ast,size=10))
+            tabla_66_nom_SVa4_ast.controls.append(ft.Text(punto.nom_SVa4_ast,size=10))
+            tabla_67_nom_SVi4_ast.controls.append(ft.Text(punto.nom_SVi4_ast,size=10))
+            #tabla_6.controls.append(ft.Text(punto.,size=10))
+            #tabla_6.controls.append(ft.Text(punto.,size=10))
+            #tabla_7.controls.append(ft.Text(punto.,size=10))
 
 
             datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(punto.X, punto.Y))

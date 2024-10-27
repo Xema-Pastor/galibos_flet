@@ -53,6 +53,26 @@ tabla_48_lim_SVa1_ast = ft.Column([],col=1)
 tabla_49_lim_SVa2_ast = ft.Column([],col=1)
 tabla_50_lim_SVi2_ast = ft.Column([],col=1)
 tabla_51_lim_SVi2_ast = ft.Column([],col=1)
+tabla_52_nom_Sja3 = ft.Column([],col=1)
+tabla_53_nom_Sji3 = ft.Column([],col=1)
+tabla_54_nom_Sja4 = ft.Column([],col=1)
+tabla_55_nom_Sji4 = ft.Column([],col=1)
+tabla_56_nom_Sja3_ast = ft.Column([],col=1)
+tabla_57_nom_Sji3_ast = ft.Column([],col=1)
+tabla_58_nom_Sja4_ast = ft.Column([],col=1)
+tabla_59_nom_Sji4_ast = ft.Column([],col=1)
+tabla_60_nom_SVa3 = ft.Column([],col=1)
+tabla_61_nom_SVi3 = ft.Column([],col=1)
+tabla_62_nom_SVa4 = ft.Column([],col=1)
+tabla_63_nom_SVi4 = ft.Column([],col=1)
+tabla_64_nom_SVa3_ast = ft.Column([],col=1)
+tabla_65_nom_SVi3_ast = ft.Column([],col=1)
+tabla_66_nom_SVa4_ast = ft.Column([],col=1)
+tabla_67_nom_SVi4_ast = ft.Column([],col=1)
+#tabla_6 = 
+#tabla_6 = 
+#tabla_7 = 
+
 #tabla_44_ = ft.Column([],col=1)
 
 tabla = ft.ResponsiveRow([
@@ -108,5 +128,24 @@ tabla = ft.ResponsiveRow([
     tabla_49_lim_SVa2_ast,
     tabla_50_lim_SVi2_ast,
     tabla_51_lim_SVi2_ast,
+    tabla_52_nom_Sja3,
+    tabla_53_nom_Sji3,
+    tabla_54_nom_Sja4,
+    tabla_55_nom_Sji4,
+    tabla_56_nom_Sja3_ast,
+    tabla_57_nom_Sji3_ast,
+    tabla_58_nom_Sja4_ast,
+    tabla_59_nom_Sji4_ast,
+    tabla_60_nom_SVa3,
+    tabla_61_nom_SVi3,
+    tabla_62_nom_SVa4,
+    tabla_63_nom_SVi4,
+    tabla_64_nom_SVa3_ast,
+    tabla_65_nom_SVi3_ast,
+    tabla_66_nom_SVa4_ast,
+    tabla_67_nom_SVi4_ast,
+    #tabla_6,
+    #tabla_6,
+    #tabla_7,
 ],
 columns=30)

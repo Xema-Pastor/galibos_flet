@@ -59,59 +59,61 @@ class Punto:
     lim_SVi1_ast: float = 0    # idem
     lim_SVa2_ast: float = 0    # idem
     lim_SVi2_ast: float = 0    # idem
-    lim_bobst_max_i: float = 0 # Cálculo de glalibos límite
-    lim_hobst_conc_i: float = 0# idem
-    lim_bobst_max_a: float = 0 # idem
-    lim_hobst_conc_a: float = 0# idem
-    lim_bconc_max_i: float = 0 # idem
-    lim_hmax_conc_i: float = 0 # idem
-    lim_bconc_max_a: float = 0 # idem
-    lim_hmax_conc_a: float = 0 # idem
-    lim_bobst_max_i: float = 0 # idem
-    lim_hobst_conc_: float = 0 # idem
-    lim_bobst_max_a: float = 0 # idem
-    lim_hobst_conc_: float = 0 # idem
-    lim_bconc_max_i: float = 0 # idem
-    lim_hmax_conc_i: float = 0 # idem
-    lim_bconc_max_a: float = 0 # idem
-    lim_hmax_conc_a: float = 0 # idem    
+
+    lim_bobstVM_max_i: float = 0 # Cálculo de glalibos límite
+    lim_hobstVM_con_i: float = 0 # idem
+    lim_bobstVM_max_a: float = 0 # idem
+    lim_hobstVM_con_a: float = 0 # idem
+    lim_bobstVM_con_i: float = 0 # idem
+    lim_hobstVM_max_i: float = 0 # idem
+    lim_bobstVM_con_a: float = 0 # idem
+    lim_hobstVM_max_a: float = 0 # idem
+    lim_bobstV0_max_i: float = 0 # idem
+    lim_hobstV0_con_i: float = 0 # idem
+    lim_bobstV0_max_a: float = 0 # idem
+    lim_hobstV0_con_a: float = 0 # idem
+    lim_bobstV0_con_i: float = 0 # idem
+    lim_hobstV0_max_i: float = 0 # idem
+    lim_bobstV0_con_a: float = 0 # idem
+    lim_hobstV0_max_a: float = 0 # idem
     lim_ba: float = 0          # Envolvente de gálibo límite, exterior
     lim_ha: float = 0          # Envolvente de gálibo límite, exterior
     lim_bi: float = 0          # Envolvente de gálibo límite, interior
     lim_hi: float = 0          # Envolvente de gálibo límite, interior
 
-    nom_Sja1: float = 0        # Suma de desplazamientos aleatorios laterales para gálibos límite
-    nom_Sji1: float = 0        # idem
-    nom_Sja2: float = 0        # idem
-    nom_Sji2: float = 0        # idem
-    nom_Sja1_ast: float = 0    # idem
-    nom_Sji1_ast: float = 0    # idem
-    nom_Sja2_ast: float = 0    # idem
-    nom_Sji2_ast: float = 0    # idem
-    nom_SVa1: float = 0        # Suma de desplazamientos aleatorios verticales para gálibos límite
-    nom_SVi1: float = 0        # idem
-    nom_SVa2: float = 0        # idem
-    nom_SVi2: float = 0        # idem
-    nom_SVa1_ast: float = 0    # idem
-    nom_SVi1_ast: float = 0    # idem
-    nom_SVa2_ast: float = 0    # idem
-    nom_SVi2_ast: float = 0    # idem
-    nom_bobst_max_i: float = 0 # Cálculo de glalibos límite
-    nom_hobst_conc_i: float = 0# idem
-    nom_bobst_max_a: float = 0 # idem
-    nom_hobst_conc_a: float = 0# idem
-    nom_bconc_max_i: float = 0 # idem
-    nom_hmax_conc_i: float = 0 # idem
-    nom_bconc_max_a: float = 0 # idem
-    nom_hmax_conc_a: float = 0 # idem
-    nom_bobst_max_i: float = 0 # idem
-    nom_hobst_conc_: float = 0 # idem
-    nom_bobst_max_a: float = 0 # idem
-    nom_hobst_conc_: float = 0 # idem
-    nom_bconc_max_i: float = 0 # idem
-    nom_hmax_conc_i: float = 0 # idem
-    nom_bconc_max_a: float = 0 # idem
-    nom_hmax_conc_a: float = 0 # idem    
+    nom_Sja3: float = 0        # Suma de desplazamientos aleatorios laterales para gálibos límite
+    nom_Sji3: float = 0        # idem
+    nom_Sja4: float = 0        # idem
+    nom_Sji4: float = 0        # idem
+    nom_Sja3_ast: float = 0    # idem
+    nom_Sji3_ast: float = 0    # idem
+    nom_Sja4_ast: float = 0    # idem
+    nom_Sji4_ast: float = 0    # idem
+    nom_SVa3: float = 0        # Suma de desplazamientos aleatorios verticales para gálibos límite
+    nom_SVi3: float = 0        # idem
+    nom_SVa4: float = 0        # idem
+    nom_SVi4: float = 0        # idem
+    nom_SVa3_ast: float = 0    # idem
+    nom_SVi3_ast: float = 0    # idem
+    nom_SVa4_ast: float = 0    # idem
+    nom_SVi4_ast: float = 0    # idem
+
+    nom_bobstVM_max_i: float = 0 # Cálculo de glalibos límite
+    nom_hobstVM_con_i: float = 0 # idem
+    nom_bobstVM_max_a: float = 0 # idem
+    nom_hobstVM_con_a: float = 0 # idem
+    nom_bobstVM_con_i: float = 0 # idem
+    nom_hobstVM_max_i: float = 0 # idem
+    nom_bobstVM_con_a: float = 0 # idem
+    nom_hobstVM_max_a: float = 0 # idem
+    nom_bobstV0_max_i: float = 0 # idem
+    nom_hobstV0_con_i: float = 0 # idem
+    nom_bobstV0_max_a: float = 0 # idem
+    nom_hobstV0_con_a: float = 0 # idem
+    nom_bobstV0_con_i: float = 0 # idem
+    nom_hobstV0_max_i: float = 0 # idem
+    nom_bobstV0_con_a: float = 0 # idem
+    nom_hobstV0_max_a: float = 0 # idem
     nom_ba: float = 0          # Envolvente de gálibo límite, exterior
     nom_ha: float = 0          # Envolvente de gálibo límite, exterior
     nom_bi: float = 0          # Envolvente de gálibo límite, interior
@@ -123,13 +125,19 @@ class Punto:
     grafico_galibo_limite_Y: float = 0
     grafico_galibo_nominal_X: float = 0
     grafico_galibo_nominal_Y: float = 0
-    
+
+@dataclass
+class PuntoI:
+    X: float = 0           # Valor de la coordenada X, (mm)
+    Y: float = 0           # Valor de la coordenada Y, (mm)
+
 class Variables():
 
     #3.1
-    GPA = "GA"          #galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
-    GPB = "GEI2"        #galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
+    GPA = "GA"          # galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
+    GPB = "GEI2"        # galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
     maxY = 0            # Valor de la máxima coordenada Y (mm)
+    maxX = 0            # valor de la máxima coordenada X (mm)
     hquiebroaux = 0
     htopeaux = 0
     difaux = 0

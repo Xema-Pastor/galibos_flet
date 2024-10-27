@@ -172,3 +172,34 @@ def calcular_SVa1_ast(k: float, TN: float, Dhga: float, Dhc: float, Dhsusp: floa
 def calcular_SVi1_ast(k: float, TN: float, Dhgi: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosci: float) -> float:
     res = k * (TN**2 + (max(0, Dhgi + Dhc))**2 + (Dhsusp**2 + Dhcarg**2 + Dhosci**2))**0.5
     return round(res, 1)
+
+def calcular_nom_Sj3(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
+    return Tvia + Dbgai + Dbcai + Dbsusp + Dbcarg + Dbosc
+
+def calcular_nom_Sj4(Tvia: float, Dbgai: float) -> float:
+    return Tvia + Dbgai
+
+def calcular_nom_Sj3_ast(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
+    return Tvia - Dbgai - Dbcai - Dbsusp - Dbcarg - Dbosc
+
+def calcular_nom_Sj4_ast(Tvia: float, Dbgai: float) -> float:
+    return Tvia - Dbgai
+
+def calcular_nom_SV3a(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
+    return TN - Dhga - Dhc - Dhsusp - Dhcarg - Dhosc
+
+def calcular_nom_SV3i(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
+    return TN - max(0, Dhga + Dhc) - Dhsusp - Dhcarg - Dhosc
+
+def calcular_nom_SV3a_ast(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
+    return TN + Dhga + Dhc + Dhsusp + Dhcarg + Dhosc
+
+def calcular_nom_SV3i_ast(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
+    return TN + max(0, Dhga + Dhc) + Dhsusp + Dhcarg + Dhosc
+
+def calcular_h(Y: float, hbmax: float, lim_hobstVM_con: float, lim_hobstVM_max: float, lim_hobstV0_con: float, lim_hobstV0_max: float) -> float:
+    if Y > hbmax:
+        return max(abs(lim_hobstVM_con), abs(lim_hobstVM_max), abs(lim_hobstV0_con), abs(lim_hobstV0_max))
+    else:
+        return min(abs(lim_hobstVM_con), abs(lim_hobstVM_max), abs(lim_hobstV0_con), abs(lim_hobstV0_max))
+
