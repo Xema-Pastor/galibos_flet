@@ -83,10 +83,10 @@ def calcular_Si(galibo: str, R: float, LN: float, L: float, hquiebroaux: float, 
     return round(aux*1000,2)         #para pasar a milímetros
 
 def calcular_qsD_ai(Y: float, s0: float, D: float, D0: float, L: float, hco: float) -> float:
-    return round(s0 / L * max(0, D - D0 ) * max(0, Y - hco), 2)
+    return round(s0 / L * max(0, D - D0 ) * max(0, Y - hco), 1)
 
 def calcular_qsI_ai(Y: float, s0: float, I: float, I0: float, L: float, hco: float) -> float:
-    return round(s0 / L * max(0, I - I0 ) * max(0, Y - hco), 2)
+    return round(s0 / L * max(0, I - I0 ) * max(0, Y - hco), 1)
 
 def calcular_Dbg_ai(Y: float, L: float, TD: float) -> float:
     return round(Y * 1000 * TD / L, 1)
@@ -107,7 +107,7 @@ def calcular_aosc(s0: float, ang03: float, ang04: float) -> float:
     return round(10 * (s0 - 0.3) * ang04 - 10*(s0 - 0.4) * ang03, 2)
 
 def calcular_Dbosc(ang: float, Y: float, hco: float) -> float:
-    return round(tan(ang) * max(0, Y - hco), 2)
+    return round(tan(ang) * max(0, Y - hco), 1)
 
 def calcular_DhPT_D_ai(X: float, s0: float,D: float, D0: float, L: float) -> float:
     return round(abs(X) * s0 * max(0, D - D0) / L, 1)
@@ -174,28 +174,35 @@ def calcular_SVi1_ast(k: float, TN: float, Dhgi: float, Dhc: float, Dhsusp: floa
     return round(res, 1)
 
 def calcular_nom_Sj3(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
-    return Tvia + Dbgai + Dbcai + Dbsusp + Dbcarg + Dbosc
+    res = Tvia + Dbgai + Dbcai + Dbsusp + Dbcarg + Dbosc
+    return round(res,1)
 
 def calcular_nom_Sj4(Tvia: float, Dbgai: float) -> float:
-    return Tvia + Dbgai
+    return round(Tvia + Dbgai, 1)
 
 def calcular_nom_Sj3_ast(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
-    return Tvia - Dbgai - Dbcai - Dbsusp - Dbcarg - Dbosc
+    res = Tvia - Dbgai - Dbcai - Dbsusp - Dbcarg - Dbosc
+    return round(res, 1)
 
 def calcular_nom_Sj4_ast(Tvia: float, Dbgai: float) -> float:
-    return Tvia - Dbgai
+    res = Tvia - Dbgai
+    return round(res,1)
 
 def calcular_nom_SV3a(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
-    return TN - Dhga - Dhc - Dhsusp - Dhcarg - Dhosc
+    res = TN - Dhga - Dhc - Dhsusp - Dhcarg - Dhosc
+    return round(res, 1)
 
 def calcular_nom_SV3i(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
-    return TN - max(0, Dhga + Dhc) - Dhsusp - Dhcarg - Dhosc
+    res = TN - max(0, Dhga + Dhc) - Dhsusp - Dhcarg - Dhosc
+    return round(res,1)
 
 def calcular_nom_SV3a_ast(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
-    return TN + Dhga + Dhc + Dhsusp + Dhcarg + Dhosc
+    res = TN + Dhga + Dhc + Dhsusp + Dhcarg + Dhosc
+    return round(res, 1)
 
 def calcular_nom_SV3i_ast(TN: float, Dhga: float, Dhc: float, Dhsusp: float, Dhcarg: float, Dhosc: float) -> float:
-    return TN + max(0, Dhga + Dhc) + Dhsusp + Dhcarg + Dhosc
+    res = TN + max(0, Dhga + Dhc) + Dhsusp + Dhcarg + Dhosc
+    return round(res, 1)
 
 def calcular_h(Y: float, hbmax: float, lim_hobstVM_con: float, lim_hobstVM_max: float, lim_hobstV0_con: float, lim_hobstV0_max: float) -> float:
     if Y > hbmax:
@@ -209,7 +216,8 @@ def calcular_lim_bobst(X: float, Y: float, hb_max: float, S: float, qS: float, j
     
     j = j1 if Y > hb_max else j2
 
-    return X + signo(X) * S + qS + j
+    res = X + signo(X) * S + qS + j
+    return round(res, 1)
 
 def calcular_nom_bobst(X: float, Y: float, hb_max: float, S: float, qS: float, j1: float, j2: float, M3b: float) -> float:
     def signo(valor: float) -> int:
@@ -217,7 +225,8 @@ def calcular_nom_bobst(X: float, Y: float, hb_max: float, S: float, qS: float, j
     
     j = j1 if Y > hb_max else j2
 
-    return X + signo(X) * S + qS + j + M3b
+    res = X + signo(X) * S + qS + j + M3b
+    return round(res, 1)
 
 def calcular_lim_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: float, SV1: float, SV2: float) -> float:
     def signo(valor: float) -> int:
@@ -226,7 +235,8 @@ def calcular_lim_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: f
     cond1 = 1 if esPT else 0
     cond2 = 1 if not esPT else 0
 
-    return Y + DhRV * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
+    res = Y + DhRV * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
+    return round(res, 1)
 
 def calcular_nom_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: float, SV1: float, SV2: float, M3h: float) -> float:
     def signo(valor: float) -> int:
@@ -235,4 +245,5 @@ def calcular_nom_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: f
     cond1 = 1 if esPT else 0
     cond2 = 1 if not esPT else 0
 
-    return Y + (DhRV + M3h) * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
+    res = Y + (DhRV + M3h) * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
+    return round(res , 1)

@@ -1,8 +1,10 @@
 import flet as ft
+import configuracion as conf
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import Variables as var
 from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
 from componentes.tablas_datos import *
+from componentes.mis_componentes import *
 import calculos.calculos as calc
 
 def galibos(page: ft.Page):
@@ -132,116 +134,121 @@ def galibos(page: ft.Page):
         t_hco.value = var.hco
 
         #LIMPIEZA DE LAS TABLAS DE DATOS Y GRÁFICOS DE FLET
-        def limpiar_tabla(elemento: ft.Column, texto: str, unidades: str):
+        # def limpiar_tabla(elemento: ft.Column, texto: str, unidades: str):
+        #     elemento.controls.clear()
+        #     elemento.controls.append(ft.Text(texto,size=Tamanyos.TABLA_NORMAL.value, height=30,))
+        #     elemento.controls.append(ft.Text(unidades,size=Tamanyos.TABLA_NORMAL.value))
+        def limpiar_tabla(elemento: ft.Column, text1: str, text2: str, unidades: str):
             elemento.controls.clear()
-            elemento.controls.append(ft.Text(texto,size=10))
-            elemento.controls.append(ft.Text(unidades,size=10))
-        limpiar_tabla(tabla_00_Punto_des, "Punto", "()")
-        limpiar_tabla(tabla_00_Punto_lim, "Punto", "()")
-        limpiar_tabla(tabla_00_Punto_des, "Punto", "()")
-        limpiar_tabla(tabla_01_X_des, "X", "(mm)")
-        limpiar_tabla(tabla_01_X_lim, "X", "(mm)")
-        limpiar_tabla(tabla_01_X_nom, "X", "(mm)")
-        limpiar_tabla(tabla_02_Y_des, "Y", "(mm)")
-        limpiar_tabla(tabla_02_Y_lim, "Y", "(mm)")
-        limpiar_tabla(tabla_02_Y_nom, "Y", "(mm)")
-        limpiar_tabla(tabla_03_esPT, "esPT", "(S/N)")
-        limpiar_tabla(tabla_04_k, "k", "()")
-        limpiar_tabla(tabla_05_s0, "s0", "()")
-        limpiar_tabla(tabla_06_Sa, "Sa", "(mm)")
-        limpiar_tabla(tabla_07_Si, "Si", "(mm)")
-        limpiar_tabla(tabla_08_qsDai, "qsD,ai", "(mm)")
-        limpiar_tabla(tabla_09_qsIai, "qsI,ai", "(mm)")
-        limpiar_tabla(tabla_10_Tvia_ai, "Tvia,ai", "(mm)")
-        limpiar_tabla(tabla_11_Dbgai, "Δbgai", "(mm)")
-        limpiar_tabla(tabla_12_Dbcai, "Δbcai", "(mm)")
-        limpiar_tabla(tabla_13_Dbsuspai, "Δbsuspai", "(mm)")
-        limpiar_tabla(tabla_14_Dbcargaai, "Δbcargai", "(mm)")
-        limpiar_tabla(tabla_15_Dbetaai, "Δbetaai", "(mm)")
-        limpiar_tabla(tabla_16_aosca, "aosca", "(º)")
-        limpiar_tabla(tabla_17_aosci, "aosci", "(º)")
-        limpiar_tabla(tabla_18_Dbosca, "Δbosca", "(mm)")
-        limpiar_tabla(tabla_19_Dbosci, "Δbosci", "(mm)")
-        limpiar_tabla(tabla_20_M3h, "M3h", "(mm)")
-        limpiar_tabla(tabla_21_DhRv, "ΔhRv", "(mm)")
-        limpiar_tabla(tabla_22_DhPTDai, "ΔhPTDai", "(mm)")
-        limpiar_tabla(tabla_23_DhPTIai, "ΔhPTIai", "(mm)")
-        limpiar_tabla(tabla_24_TN, "TN", "(mm)")
-        limpiar_tabla(tabla_25_Dhga, "Δhga", "(mm)")
-        limpiar_tabla(tabla_26_Dhgi, "Δhgi", "(mm)")
-        limpiar_tabla(tabla_27_Dhc, "Δhc", "(mm)")
-        limpiar_tabla(tabla_28_Dhgca, "Δhgca", "(mm)")
-        limpiar_tabla(tabla_29_Dhgci, "Δhgci", "(mm)")
-        limpiar_tabla(tabla_30_Dhsuspai, "Δhsuspai", "(mm)")
-        limpiar_tabla(tabla_31_Dhcargai, "Δhcargai", "(mm)")
-        limpiar_tabla(tabla_32_Dhetaai, "Δhetaai", "(mm)")
-        limpiar_tabla(tabla_33_Dhosca, "Δhosca", "(mm)")
-        limpiar_tabla(tabla_34_Dhosci, "Δhosci", "(mm)")
-        limpiar_tabla(tabla_35_M3h, "M3h", "(mm)")
-        limpiar_tabla(tabla_36_lim_Sja1, "lΣja1", "(mm)")
-        limpiar_tabla(tabla_37_lim_Sji1, "lΣji1", "(mm)")
-        limpiar_tabla(tabla_38_lim_Sja2, "lΣja2", "(mm)")
-        limpiar_tabla(tabla_39_lim_Sji2, "lΣji2", "mm")
-        limpiar_tabla(tabla_40_lim_Sja1_ast, "lΣja1*", "(mm)")
-        limpiar_tabla(tabla_41_lim_Sji1_ast, "lΣji1*", "(mm)")
-        limpiar_tabla(tabla_42_lim_Sja2_ast, "lΣja2*", "(mm)")
-        limpiar_tabla(tabla_43_lim_Sji2_ast, "lΣji2*", "(mm)")
-        limpiar_tabla(tabla_44_lim_SVa1, "lΣVa1", "(mm)")
-        limpiar_tabla(tabla_45_lim_SVi1, "lΣVi1", "(mm)")
-        limpiar_tabla(tabla_46_lim_SVa2, "lΣVa2", "(mm)")
-        limpiar_tabla(tabla_47_lim_SVi2, "lΣVi2", "(mm)")
-        limpiar_tabla(tabla_48_lim_SVa1_ast, "lΣVa1*", "(mm)")
-        limpiar_tabla(tabla_49_lim_SVa2_ast, "lΣVa2*", "(mm)")
-        limpiar_tabla(tabla_50_lim_SVi2_ast, "lΣVi2*", "(mm)")
-        limpiar_tabla(tabla_51_lim_SVi2_ast, "lΣVi2*", "(mm)")
-        limpiar_tabla(tabla_52_nom_Sja3, "nΣja3", "(mm)")
-        limpiar_tabla(tabla_53_nom_Sji3, "nΣji3", "(mm)")
-        limpiar_tabla(tabla_54_nom_Sja4, "nΣja4", "(mm)")
-        limpiar_tabla(tabla_55_nom_Sji4, "nΣji4", "(mm)")
-        limpiar_tabla(tabla_56_nom_Sja3_ast, "nΣja3*", "(mm)")
-        limpiar_tabla(tabla_57_nom_Sji3_ast, "nΣji3*", "(mm)")
-        limpiar_tabla(tabla_58_nom_Sja4_ast, "nΣja4*", "(mm)")
-        limpiar_tabla(tabla_59_nom_Sji4_ast, "nΣji4*", "(mm)")
-        limpiar_tabla(tabla_60_nom_SVa3, "nΣVa3", "(mm)")
-        limpiar_tabla(tabla_61_nom_SVi3, "nΣVi3", "(mm)")
-        limpiar_tabla(tabla_62_nom_SVa4, "nΣVa4", "(mm)")
-        limpiar_tabla(tabla_63_nom_SVi4, "nΣVi4", "(mm)")
-        limpiar_tabla(tabla_64_nom_SVa3_ast, "nΣVa3*", "(mm)")
-        limpiar_tabla(tabla_65_nom_SVi3_ast, "nΣVi3*", "(mm)")
-        limpiar_tabla(tabla_66_nom_SVa4_ast, "nΣVa4*", "(mm)")
-        limpiar_tabla(tabla_67_nom_SVi4_ast, "nΣVi4*", "(mm)")
-        limpiar_tabla(tabla_68_lim_bobstVM_max_i, "lim_bobstVM_max_i", "(mm)")
-        limpiar_tabla(tabla_69_lim_hobstVM_con_i, "lim_hobstVM_con_i", "(mm)")
-        limpiar_tabla(tabla_70_lim_bobstVM_max_a, "lim_bobstVM_max_a", "(mm)")
-        limpiar_tabla(tabla_71_lim_hobstVM_con_a, "lim_hobstVM_con_a", "(mm)")
-        limpiar_tabla(tabla_72_lim_bobstVM_con_i, "lim_bobstVM_con_i", "(mm)")
-        limpiar_tabla(tabla_73_lim_hobstVM_max_i, "lim_hobstVM_max_i", "(mm)")
-        limpiar_tabla(tabla_74_lim_bobstVM_con_a, "lim_bobstVM_con_a", "(mm)")
-        limpiar_tabla(tabla_75_lim_hobstVM_max_a, "lim_hobstVM_max_a", "(mm)")
-        limpiar_tabla(tabla_76_lim_bobstV0_max_i, "lim_bobstV0_max_i", "(mm)")
-        limpiar_tabla(tabla_77_lim_hobstV0_con_i, "lim_hobstV0_con_i", "(mm)")
-        limpiar_tabla(tabla_78_lim_bobstV0_max_a, "lim_bobstV0_max_a", "(mm)")
-        limpiar_tabla(tabla_79_lim_hobstV0_con_a, "lim_hobstV0_con_a", "(mm)")
-        limpiar_tabla(tabla_80_lim_bobstV0_con_i, "lim_bobstV0_con_i", "(mm)")
-        limpiar_tabla(tabla_81_lim_hobstV0_max_i, "lim_hobstV0_max_i", "(mm)")
-        limpiar_tabla(tabla_82_lim_bobstV0_con_a, "lim_bobstV0_con_a", "(mm)")
-        limpiar_tabla(tabla_83_lim_hobstV0_max_a, "lim_hobstV0_max_a", "(mm)")
-        limpiar_tabla(tabla_84_nom_bobstVM_max_i, "nom_bobstVM_max_i", "(mm)")
-        limpiar_tabla(tabla_85_nom_hobstVM_con_i, "nom_hobstVM_con_i", "(mm)")
-        limpiar_tabla(tabla_86_nom_bobstVM_max_a, "nom_bobstVM_max_a", "(mm)")
-        limpiar_tabla(tabla_87_nom_hobstVM_con_a, "nom_hobstVM_con_a", "(mm)")
-        limpiar_tabla(tabla_88_nom_bobstVM_con_i, "nom_bobstVM_con_i", "(mm)")
-        limpiar_tabla(tabla_89_nom_hobstVM_max_i, "nom_hobstVM_max_i", "(mm)")
-        limpiar_tabla(tabla_90_nom_bobstVM_con_a, "nom_bobstVM_con_a", "(mm)")
-        limpiar_tabla(tabla_91_nom_hobstVM_max_a, "nom_hobstVM_max_a", "(mm)")
-        limpiar_tabla(tabla_92_nom_bobstV0_max_i, "nom_bobstV0_max_i", "(mm)")
-        limpiar_tabla(tabla_93_nom_hobstV0_con_i, "nom_hobstV0_con_i", "(mm)")
-        limpiar_tabla(tabla_94_nom_bobstV0_max_a, "nom_bobstV0_max_a", "(mm)")
-        limpiar_tabla(tabla_95_nom_hobstV0_con_a, "nom_hobstV0_con_a", "(mm)")
-        limpiar_tabla(tabla_96_nom_bobstV0_con_i, "nom_bobstV0_con_i", "(mm)")
-        limpiar_tabla(tabla_97_nom_hobstV0_max_i, "nom_hobstV0_max_i", "(mm)")
-        limpiar_tabla(tabla_98_nom_bobstV0_con_a, "nom_bobstV0_con_a", "(mm)")
-        limpiar_tabla(tabla_99_nom_hobstV0_max_a, "nom_hobstV0_max_a", "(mm)")
+            elemento.controls.append(MiText(text1, text2))
+            elemento.controls.append(ft.Text(unidades,size=Tamanyos.TABLA_NORMAL.value))
+
+        limpiar_tabla(tabla_00_Punto_des, "Punto", "", "()")
+        limpiar_tabla(tabla_00_Punto_lim, "Punto", "", "()")
+        limpiar_tabla(tabla_00_Punto_nom, "Punto", "", "()")
+        limpiar_tabla(tabla_01_X_des, "X", "", "(mm)")
+        limpiar_tabla(tabla_01_X_lim, "X", "", "(mm)")
+        limpiar_tabla(tabla_01_X_nom, "X", "", "(mm)")
+        limpiar_tabla(tabla_02_Y_des, "Y", "", "(mm)")
+        limpiar_tabla(tabla_02_Y_lim, "Y", "", "(mm)")
+        limpiar_tabla(tabla_02_Y_nom, "Y", "", "(mm)")
+        limpiar_tabla(tabla_03_esPT, "esPT", "", "(S/N)")
+        limpiar_tabla(tabla_04_k, "k", "", "()")
+        limpiar_tabla(tabla_05_s0, "s", "0", "()")
+        limpiar_tabla(tabla_06_Sa, "S", "a", "(mm)")
+        limpiar_tabla(tabla_07_Si, "S", "i", "(mm)")
+        limpiar_tabla(tabla_08_qsDai, "qs", "D,ai", "(mm)")
+        limpiar_tabla(tabla_09_qsIai, "qs", "I,ai", "(mm)")
+        limpiar_tabla(tabla_10_Tvia_ai, "T",  "via,ai", "(mm)")
+        limpiar_tabla(tabla_11_Dbgai, "Δb", "g,ai", "(mm)")
+        limpiar_tabla(tabla_12_Dbcai, "Δb", "c,ai", "(mm)")
+        limpiar_tabla(tabla_13_Dbsuspai, "Δb", "susp,ai", "(mm)")
+        limpiar_tabla(tabla_14_Dbcargaai, "Δb", "carg,ai", "(mm)")
+        limpiar_tabla(tabla_15_Dbetaai, "Δb", "η,ai", "(mm)")
+        limpiar_tabla(tabla_16_aosca, "α", "osc,a", "(º)")
+        limpiar_tabla(tabla_17_aosci, "α", "osc,i", "(º)")
+        limpiar_tabla(tabla_18_Dbosca, "Δb", "osc,a", "(mm)")
+        limpiar_tabla(tabla_19_Dbosci, "Δb", "osc,i", "(mm)")
+        limpiar_tabla(tabla_20_M3h, "M", "3h", "(mm)")
+        limpiar_tabla(tabla_21_DhRv, "Δh", "Rv", "(mm)")
+        limpiar_tabla(tabla_22_DhPTDai, "Δh", "PT,D,ai", "(mm)")
+        limpiar_tabla(tabla_23_DhPTIai, "Δh", "PT,I,ai", "(mm)")
+        limpiar_tabla(tabla_24_TN, "T", "N", "(mm)")
+        limpiar_tabla(tabla_25_Dhga, "Δh", "g,a", "(mm)")
+        limpiar_tabla(tabla_26_Dhgi, "Δh", "g,i", "(mm)")
+        limpiar_tabla(tabla_27_Dhc, "Δh", "c", "(mm)")
+        limpiar_tabla(tabla_28_Dhgca, "Δh", "g,ca", "(mm)")
+        limpiar_tabla(tabla_29_Dhgci, "Δh", "g,ci", "(mm)")
+        limpiar_tabla(tabla_30_Dhsuspai, "Δh", "suspai", "(mm)")
+        limpiar_tabla(tabla_31_Dhcargai, "Δh", "carg,ai", "(mm)")
+        limpiar_tabla(tabla_32_Dhetaai, "Δh", "η,ai", "(mm)")
+        limpiar_tabla(tabla_33_Dhosca, "Δh", "osc,a", "(mm)")
+        limpiar_tabla(tabla_34_Dhosci, "Δh", "osc,i", "(mm)")
+        limpiar_tabla(tabla_35_M3h, "M", "3h", "(mm)")
+        limpiar_tabla(tabla_36_lim_Sja1, "Σj", "a1", "(mm)")
+        limpiar_tabla(tabla_37_lim_Sji1, "Σj", "i1", "(mm)")
+        limpiar_tabla(tabla_38_lim_Sja2, "Σj", "a2", "(mm)")
+        limpiar_tabla(tabla_39_lim_Sji2, "Σj", "i2", "mm")
+        limpiar_tabla(tabla_40_lim_Sja1_ast, "Σj", "a1*", "(mm)")
+        limpiar_tabla(tabla_41_lim_Sji1_ast, "Σj", "i1*", "(mm)")
+        limpiar_tabla(tabla_42_lim_Sja2_ast, "Σj", "a2*", "(mm)")
+        limpiar_tabla(tabla_43_lim_Sji2_ast, "Σj", "i2*", "(mm)")
+        limpiar_tabla(tabla_44_lim_SVa1, "ΣV", "a1", "(mm)")
+        limpiar_tabla(tabla_45_lim_SVi1, "ΣV", "i1", "(mm)")
+        limpiar_tabla(tabla_46_lim_SVa2, "ΣV", "a2", "(mm)")
+        limpiar_tabla(tabla_47_lim_SVi2, "ΣV", "i2", "(mm)")
+        limpiar_tabla(tabla_48_lim_SVa1_ast, "ΣV", "a1*", "(mm)")
+        limpiar_tabla(tabla_49_lim_SVa2_ast, "ΣV", "a2*", "(mm)")
+        limpiar_tabla(tabla_50_lim_SVi2_ast, "ΣV", "i2*", "(mm)")
+        limpiar_tabla(tabla_51_lim_SVi2_ast, "ΣV", "i2*", "(mm)")
+        limpiar_tabla(tabla_52_nom_Sja3, "Σj", "a3", "(mm)")
+        limpiar_tabla(tabla_53_nom_Sji3, "Σj", "i3", "(mm)")
+        limpiar_tabla(tabla_54_nom_Sja4, "Σj", "a4", "(mm)")
+        limpiar_tabla(tabla_55_nom_Sji4, "Σj", "i4", "(mm)")
+        limpiar_tabla(tabla_56_nom_Sja3_ast, "Σj", "a3*", "(mm)")
+        limpiar_tabla(tabla_57_nom_Sji3_ast, "Σj", "i3*", "(mm)")
+        limpiar_tabla(tabla_58_nom_Sja4_ast, "Σj", "a4*", "(mm)")
+        limpiar_tabla(tabla_59_nom_Sji4_ast, "Σj", "i4*", "(mm)")
+        limpiar_tabla(tabla_60_nom_SVa3, "ΣV", "a3", "(mm)")
+        limpiar_tabla(tabla_61_nom_SVi3, "ΣV", "i3", "(mm)")
+        limpiar_tabla(tabla_62_nom_SVa4, "ΣV", "a4", "(mm)")
+        limpiar_tabla(tabla_63_nom_SVi4, "ΣV", "i4", "(mm)")
+        limpiar_tabla(tabla_64_nom_SVa3_ast, "ΣV", "a3*", "(mm)")
+        limpiar_tabla(tabla_65_nom_SVi3_ast, "ΣV", "i3*", "(mm)")
+        limpiar_tabla(tabla_66_nom_SVa4_ast, "ΣV", "a4*", "(mm)")
+        limpiar_tabla(tabla_67_nom_SVi4_ast, "ΣV", "i4*", "(mm)")
+        limpiar_tabla(tabla_68_lim_bobstVM_max_i, "b", "VM,max,i", "(mm)")
+        limpiar_tabla(tabla_69_lim_hobstVM_con_i, "h", "VM,con,i", "(mm)")
+        limpiar_tabla(tabla_70_lim_bobstVM_max_a, "b", "VM,max,a", "(mm)")
+        limpiar_tabla(tabla_71_lim_hobstVM_con_a, "h", "VM,con,a", "(mm)")
+        limpiar_tabla(tabla_72_lim_bobstVM_con_i, "b", "VM,con,i", "(mm)")
+        limpiar_tabla(tabla_73_lim_hobstVM_max_i, "h", "VM,max,i", "(mm)")
+        limpiar_tabla(tabla_74_lim_bobstVM_con_a, "b", "VM,con,a", "(mm)")
+        limpiar_tabla(tabla_75_lim_hobstVM_max_a, "h", "VM,max,a", "(mm)")
+        limpiar_tabla(tabla_76_lim_bobstV0_max_i, "b", "V0,max,i", "(mm)")
+        limpiar_tabla(tabla_77_lim_hobstV0_con_i, "h", "V0,con,i", "(mm)")
+        limpiar_tabla(tabla_78_lim_bobstV0_max_a, "b", "V0,max,a", "(mm)")
+        limpiar_tabla(tabla_79_lim_hobstV0_con_a, "h", "V0,con,a", "(mm)")
+        limpiar_tabla(tabla_80_lim_bobstV0_con_i, "b", "V0,con,i", "(mm)")
+        limpiar_tabla(tabla_81_lim_hobstV0_max_i, "h", "V0,max,i", "(mm)")
+        limpiar_tabla(tabla_82_lim_bobstV0_con_a, "b", "V0,con,a", "(mm)")
+        limpiar_tabla(tabla_83_lim_hobstV0_max_a, "h", "V0,max,a", "(mm)")
+        limpiar_tabla(tabla_84_nom_bobstVM_max_i, "b", "VM,max,i", "(mm)")
+        limpiar_tabla(tabla_85_nom_hobstVM_con_i, "h", "VM,con,i", "(mm)")
+        limpiar_tabla(tabla_86_nom_bobstVM_max_a, "b", "VM,max,a", "(mm)")
+        limpiar_tabla(tabla_87_nom_hobstVM_con_a, "h", "VM,con,a", "(mm)")
+        limpiar_tabla(tabla_88_nom_bobstVM_con_i, "b", "VM,con,i", "(mm)")
+        limpiar_tabla(tabla_89_nom_hobstVM_max_i, "h", "VM,max,i", "(mm)")
+        limpiar_tabla(tabla_90_nom_bobstVM_con_a, "b", "VM,con,a", "(mm)")
+        limpiar_tabla(tabla_91_nom_hobstVM_max_a, "h", "VM,max,a", "(mm)")
+        limpiar_tabla(tabla_92_nom_bobstV0_max_i, "b", "V0,max,i", "(mm)")
+        limpiar_tabla(tabla_93_nom_hobstV0_con_i, "h", "V0,con,i", "(mm)")
+        limpiar_tabla(tabla_94_nom_bobstV0_max_a, "b", "V0,max,a", "(mm)")
+        limpiar_tabla(tabla_95_nom_hobstV0_con_a, "h", "V0,con,a", "(mm)")
+        limpiar_tabla(tabla_96_nom_bobstV0_con_i, "b", "V0,con,i", "(mm)")
+        limpiar_tabla(tabla_97_nom_hobstV0_max_i, "h", "V0,max,i", "(mm)")
+        limpiar_tabla(tabla_98_nom_bobstV0_con_a, "b", "V0,con,a", "(mm)")
+        limpiar_tabla(tabla_99_nom_hobstV0_max_a, "h", "V0,max,a", "(mm)")
 
 
         datos_grafico_GPA.data_points.clear()
@@ -364,121 +371,125 @@ def galibos(page: ft.Page):
             punto.nom_bi = signo(punto.X) * max(abs(punto.nom_bobstVM_max_i), abs(punto.nom_bobstVM_con_i), abs(punto.nom_bobstV0_max_i), abs(punto.nom_bobstV0_con_i))
             punto.nom_hi = calc.calcular_h(punto.Y/1000, var.hb_max, punto.nom_hobstVM_con_i, punto.nom_hobstVM_max_i, punto.nom_hobstV0_con_i, punto.nom_hobstV0_max_i)
 
-            tabla_00_Punto_des.controls.append(ft.Text(nombre,size=10))
-            tabla_00_Punto_lim.controls.append(ft.Text(nombre,size=10))
-            tabla_00_Punto_nom.controls.append(ft.Text(nombre,size=10))
-            tabla_01_X_des.controls.append(ft.Text(punto.X,size=10))
-            tabla_01_X_lim.controls.append(ft.Text(punto.X,size=10))
-            tabla_01_X_nom.controls.append(ft.Text(punto.X,size=10))
-            tabla_02_Y_des.controls.append(ft.Text(punto.Y,size=10))
-            tabla_02_Y_lim.controls.append(ft.Text(punto.Y,size=10))
-            tabla_02_Y_nom.controls.append(ft.Text(punto.Y,size=10))
-            tabla_03_esPT.controls.append(ft.Text(punto.esPT,size=10))
-            tabla_04_k.controls.append(ft.Text(punto.k,size=10))
-            tabla_05_s0.controls.append(ft.Text(punto.s0,size=10))
-            tabla_06_Sa.controls.append(ft.Text(punto.Sa,size=10))
-            tabla_07_Si.controls.append(ft.Text(punto.Si,size=10))
-            tabla_08_qsDai.controls.append(ft.Text(punto.qsD_ai,size=10))
-            tabla_09_qsIai.controls.append(ft.Text(punto.qsI_ai,size=10))
-            tabla_10_Tvia_ai.controls.append(ft.Text(punto.Tvia_ai,size=10))
-            tabla_11_Dbgai.controls.append(ft.Text(punto.Dbg_ai,size=10))
-            tabla_12_Dbcai.controls.append(ft.Text(punto.Dbc_ai,size=10))
-            tabla_13_Dbsuspai.controls.append(ft.Text(punto.Dbsusp_ai,size=10))
-            tabla_14_Dbcargaai.controls.append(ft.Text(punto.Dbcarg_ai,size=10))
-            tabla_15_Dbetaai.controls.append(ft.Text(punto.Dbeta0_ai,size=10))
-            tabla_16_aosca.controls.append(ft.Text(punto.aosc_a,size=10))
-            tabla_17_aosci.controls.append(ft.Text(punto.aosc_i,size=10))
-            tabla_18_Dbosca.controls.append(ft.Text(punto.Dbosc_a,size=10))
-            tabla_19_Dbosci.controls.append(ft.Text(punto.Dbosc_i,size=10))
-            tabla_20_M3h.controls.append(ft.Text(punto.M3b,size=10))
-            tabla_21_DhRv.controls.append(ft.Text(punto.DhRv,size=10))
-            tabla_22_DhPTDai.controls.append(ft.Text(punto.DhPT_D_ai,size=10))
-            tabla_23_DhPTIai.controls.append(ft.Text(punto.DhPT_I_ai,size=10))
-            tabla_24_TN.controls.append(ft.Text(punto.TN,size=10))
-            tabla_25_Dhga.controls.append(ft.Text(punto.Dhg_a,size=10))
-            tabla_26_Dhgi.controls.append(ft.Text(punto.Dhg_i,size=10))
-            tabla_27_Dhc.controls.append(ft.Text(punto.Dhc,size=10))
-            tabla_28_Dhgca.controls.append(ft.Text(punto.Dhg_a,size=10))
-            tabla_29_Dhgci.controls.append(ft.Text(punto.Dhg_i,size=10))
-            tabla_30_Dhsuspai.controls.append(ft.Text(punto.Dhc,size=10))
-            tabla_31_Dhcargai.controls.append(ft.Text(punto.Dhsusp_ai,size=10))
-            tabla_32_Dhetaai.controls.append(ft.Text(punto.Dhcarg_ai,size=10))
-            tabla_33_Dhosca.controls.append(ft.Text(punto.Dhosc_a,size=10))
-            tabla_34_Dhosci.controls.append(ft.Text(punto.Dhosc_i,size=10))
-            tabla_35_M3h.controls.append(ft.Text(punto.M3h,size=10))
-            tabla_36_lim_Sja1.controls.append(ft.Text(punto.lim_Sja1,size=10))
-            tabla_37_lim_Sji1.controls.append(ft.Text(punto.lim_Sji1,size=10))
-            tabla_38_lim_Sja2.controls.append(ft.Text(punto.lim_Sja2,size=10))
-            tabla_39_lim_Sji2.controls.append(ft.Text(punto.lim_Sji2,size=10))
-            tabla_40_lim_Sja1_ast.controls.append(ft.Text(punto.lim_Sja1_ast,size=10))
-            tabla_41_lim_Sji1_ast.controls.append(ft.Text(punto.lim_Sji1_ast,size=10))
-            tabla_42_lim_Sja2_ast.controls.append(ft.Text(punto.lim_Sja2_ast,size=10))
-            tabla_43_lim_Sji2_ast.controls.append(ft.Text(punto.lim_Sji2_ast,size=10))
-            tabla_44_lim_SVa1.controls.append(ft.Text(punto.lim_SVa1,size=10))
-            tabla_45_lim_SVi1.controls.append(ft.Text(punto.lim_SVi1,size=10))
-            tabla_46_lim_SVa2.controls.append(ft.Text(punto.lim_SVa2,size=10))
-            tabla_47_lim_SVi2.controls.append(ft.Text(punto.lim_SVi2,size=10))
-            tabla_48_lim_SVa1_ast.controls.append(ft.Text(punto.lim_SVa1_ast,size=10))
-            tabla_49_lim_SVa2_ast.controls.append(ft.Text(punto.lim_SVa2_ast,size=10))
-            tabla_50_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
-            tabla_51_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=10))
-            tabla_52_nom_Sja3.controls.append(ft.Text(punto.nom_Sja3,size=10))
-            tabla_53_nom_Sji3.controls.append(ft.Text(punto.nom_Sji3,size=10))
-            tabla_54_nom_Sja4.controls.append(ft.Text(punto.nom_Sja4,size=10))
-            tabla_55_nom_Sji4.controls.append(ft.Text(punto.nom_Sji4,size=10))
-            tabla_56_nom_Sja3_ast.controls.append(ft.Text(punto.nom_Sja3_ast,size=10))
-            tabla_57_nom_Sji3_ast.controls.append(ft.Text(punto.nom_Sji3_ast,size=10))
-            tabla_58_nom_Sja4_ast.controls.append(ft.Text(punto.nom_Sja4_ast,size=10))
-            tabla_59_nom_Sji4_ast.controls.append(ft.Text(punto.nom_Sji4_ast,size=10))
-            tabla_60_nom_SVa3.controls.append(ft.Text(punto.nom_SVa3,size=10))
-            tabla_61_nom_SVi3.controls.append(ft.Text(punto.nom_SVi3,size=10))
-            tabla_62_nom_SVa4.controls.append(ft.Text(punto.nom_SVa4,size=10))
-            tabla_63_nom_SVi4.controls.append(ft.Text(punto.nom_SVi4,size=10))
-            tabla_64_nom_SVa3_ast.controls.append(ft.Text(punto.nom_SVa3_ast,size=10))
-            tabla_65_nom_SVi3_ast.controls.append(ft.Text(punto.nom_SVi3_ast,size=10))
-            tabla_66_nom_SVa4_ast.controls.append(ft.Text(punto.nom_SVa4_ast,size=10))
-            tabla_67_nom_SVi4_ast.controls.append(ft.Text(punto.nom_SVi4_ast,size=10))
-            tabla_68_lim_bobstVM_max_i.controls.append(ft.Text(punto.lim_bobstVM_max_i,size=10))
-            tabla_69_lim_hobstVM_con_i.controls.append(ft.Text(punto.lim_hobstVM_con_i,size=10))
-            tabla_70_lim_bobstVM_max_a.controls.append(ft.Text(punto.lim_bobstVM_max_a,size=10))
-            tabla_71_lim_hobstVM_con_a.controls.append(ft.Text(punto.lim_hobstVM_con_a,size=10))
-            tabla_72_lim_bobstVM_con_i.controls.append(ft.Text(punto.lim_bobstVM_con_i,size=10))
-            tabla_73_lim_hobstVM_max_i.controls.append(ft.Text(punto.lim_hobstVM_max_i,size=10))
-            tabla_74_lim_bobstVM_con_a.controls.append(ft.Text(punto.lim_bobstVM_con_a,size=10))
-            tabla_75_lim_hobstVM_max_a.controls.append(ft.Text(punto.lim_hobstVM_max_a,size=10))
-            tabla_76_lim_bobstV0_max_i.controls.append(ft.Text(punto.lim_bobstV0_max_i,size=10))
-            tabla_77_lim_hobstV0_con_i.controls.append(ft.Text(punto.lim_hobstV0_con_i,size=10))
-            tabla_78_lim_bobstV0_max_a.controls.append(ft.Text(punto.lim_bobstV0_max_a,size=10))
-            tabla_79_lim_hobstV0_con_a.controls.append(ft.Text(punto.lim_hobstV0_con_a,size=10))
-            tabla_80_lim_bobstV0_con_i.controls.append(ft.Text(punto.lim_bobstV0_con_i,size=10))
-            tabla_81_lim_hobstV0_max_i.controls.append(ft.Text(punto.lim_hobstV0_max_i,size=10))
-            tabla_82_lim_bobstV0_con_a.controls.append(ft.Text(punto.lim_bobstV0_con_a,size=10))
-            tabla_83_lim_hobstV0_max_a.controls.append(ft.Text(punto.lim_hobstV0_max_a,size=10))
-            tabla_84_nom_bobstVM_max_i.controls.append(ft.Text(punto.nom_bobstVM_max_i,size=10))
-            tabla_85_nom_hobstVM_con_i.controls.append(ft.Text(punto.nom_hobstVM_con_i,size=10))
-            tabla_86_nom_bobstVM_max_a.controls.append(ft.Text(punto.nom_bobstVM_max_a,size=10))
-            tabla_87_nom_hobstVM_con_a.controls.append(ft.Text(punto.nom_hobstVM_con_a,size=10))
-            tabla_88_nom_bobstVM_con_i.controls.append(ft.Text(punto.nom_bobstVM_con_i,size=10))
-            tabla_89_nom_hobstVM_max_i.controls.append(ft.Text(punto.nom_hobstVM_max_i,size=10))
-            tabla_90_nom_bobstVM_con_a.controls.append(ft.Text(punto.nom_bobstVM_con_a,size=10))
-            tabla_91_nom_hobstVM_max_a.controls.append(ft.Text(punto.nom_hobstVM_max_a,size=10))
-            tabla_92_nom_bobstV0_max_i.controls.append(ft.Text(punto.nom_bobstV0_max_i,size=10))
-            tabla_93_nom_hobstV0_con_i.controls.append(ft.Text(punto.nom_hobstV0_con_i,size=10))
-            tabla_94_nom_bobstV0_max_a.controls.append(ft.Text(punto.nom_bobstV0_max_a,size=10))
-            tabla_95_nom_hobstV0_con_a.controls.append(ft.Text(punto.nom_hobstV0_con_a,size=10))
-            tabla_96_nom_bobstV0_con_i.controls.append(ft.Text(punto.nom_bobstV0_con_i,size=10))
-            tabla_97_nom_hobstV0_max_i.controls.append(ft.Text(punto.nom_hobstV0_max_i,size=10))
-            tabla_98_nom_bobstV0_con_a.controls.append(ft.Text(punto.nom_bobstV0_con_a,size=10))
-            tabla_99_nom_hobstV0_max_a.controls.append(ft.Text(punto.nom_hobstV0_max_a,size=10))
+            tabla_00_Punto_des.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_00_Punto_lim.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_00_Punto_nom.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_01_X_des.controls.append(ft.Text(punto.X,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_01_X_lim.controls.append(ft.Text(punto.X,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_01_X_nom.controls.append(ft.Text(punto.X,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_02_Y_des.controls.append(ft.Text(punto.Y,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_02_Y_lim.controls.append(ft.Text(punto.Y,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_02_Y_nom.controls.append(ft.Text(punto.Y,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_03_esPT.controls.append(ft.Text(punto.esPT,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_04_k.controls.append(ft.Text(punto.k,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_05_s0.controls.append(ft.Text(punto.s0,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_06_Sa.controls.append(ft.Text(punto.Sa,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_07_Si.controls.append(ft.Text(punto.Si,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_08_qsDai.controls.append(ft.Text(punto.qsD_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_09_qsIai.controls.append(ft.Text(punto.qsI_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_10_Tvia_ai.controls.append(ft.Text(punto.Tvia_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_11_Dbgai.controls.append(ft.Text(punto.Dbg_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_12_Dbcai.controls.append(ft.Text(punto.Dbc_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_13_Dbsuspai.controls.append(ft.Text(punto.Dbsusp_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_14_Dbcargaai.controls.append(ft.Text(punto.Dbcarg_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_15_Dbetaai.controls.append(ft.Text(punto.Dbeta0_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_16_aosca.controls.append(ft.Text(punto.aosc_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_17_aosci.controls.append(ft.Text(punto.aosc_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_18_Dbosca.controls.append(ft.Text(punto.Dbosc_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_19_Dbosci.controls.append(ft.Text(punto.Dbosc_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_20_M3h.controls.append(ft.Text(punto.M3b,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_21_DhRv.controls.append(ft.Text(punto.DhRv,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_22_DhPTDai.controls.append(ft.Text(punto.DhPT_D_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_23_DhPTIai.controls.append(ft.Text(punto.DhPT_I_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_24_TN.controls.append(ft.Text(punto.TN,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_25_Dhga.controls.append(ft.Text(punto.Dhg_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_26_Dhgi.controls.append(ft.Text(punto.Dhg_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_27_Dhc.controls.append(ft.Text(punto.Dhc,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_28_Dhgca.controls.append(ft.Text(punto.Dhg_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_29_Dhgci.controls.append(ft.Text(punto.Dhg_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_30_Dhsuspai.controls.append(ft.Text(punto.Dhc,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_31_Dhcargai.controls.append(ft.Text(punto.Dhsusp_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_32_Dhetaai.controls.append(ft.Text(punto.Dhcarg_ai,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_33_Dhosca.controls.append(ft.Text(punto.Dhosc_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_34_Dhosci.controls.append(ft.Text(punto.Dhosc_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_35_M3h.controls.append(ft.Text(punto.M3h,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_36_lim_Sja1.controls.append(ft.Text(punto.lim_Sja1,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_37_lim_Sji1.controls.append(ft.Text(punto.lim_Sji1,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_38_lim_Sja2.controls.append(ft.Text(punto.lim_Sja2,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_39_lim_Sji2.controls.append(ft.Text(punto.lim_Sji2,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_40_lim_Sja1_ast.controls.append(ft.Text(punto.lim_Sja1_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_41_lim_Sji1_ast.controls.append(ft.Text(punto.lim_Sji1_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_42_lim_Sja2_ast.controls.append(ft.Text(punto.lim_Sja2_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_43_lim_Sji2_ast.controls.append(ft.Text(punto.lim_Sji2_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_44_lim_SVa1.controls.append(ft.Text(punto.lim_SVa1,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_45_lim_SVi1.controls.append(ft.Text(punto.lim_SVi1,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_46_lim_SVa2.controls.append(ft.Text(punto.lim_SVa2,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_47_lim_SVi2.controls.append(ft.Text(punto.lim_SVi2,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_48_lim_SVa1_ast.controls.append(ft.Text(punto.lim_SVa1_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_49_lim_SVa2_ast.controls.append(ft.Text(punto.lim_SVa2_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_50_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_51_lim_SVi2_ast.controls.append(ft.Text(punto.lim_SVi2_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_52_nom_Sja3.controls.append(ft.Text(punto.nom_Sja3,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_53_nom_Sji3.controls.append(ft.Text(punto.nom_Sji3,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_54_nom_Sja4.controls.append(ft.Text(punto.nom_Sja4,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_55_nom_Sji4.controls.append(ft.Text(punto.nom_Sji4,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_56_nom_Sja3_ast.controls.append(ft.Text(punto.nom_Sja3_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_57_nom_Sji3_ast.controls.append(ft.Text(punto.nom_Sji3_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_58_nom_Sja4_ast.controls.append(ft.Text(punto.nom_Sja4_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_59_nom_Sji4_ast.controls.append(ft.Text(punto.nom_Sji4_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_60_nom_SVa3.controls.append(ft.Text(punto.nom_SVa3,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_61_nom_SVi3.controls.append(ft.Text(punto.nom_SVi3,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_62_nom_SVa4.controls.append(ft.Text(punto.nom_SVa4,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_63_nom_SVi4.controls.append(ft.Text(punto.nom_SVi4,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_64_nom_SVa3_ast.controls.append(ft.Text(punto.nom_SVa3_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_65_nom_SVi3_ast.controls.append(ft.Text(punto.nom_SVi3_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_66_nom_SVa4_ast.controls.append(ft.Text(punto.nom_SVa4_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_67_nom_SVi4_ast.controls.append(ft.Text(punto.nom_SVi4_ast,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_68_lim_bobstVM_max_i.controls.append(ft.Text(punto.lim_bobstVM_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_69_lim_hobstVM_con_i.controls.append(ft.Text(punto.lim_hobstVM_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_70_lim_bobstVM_max_a.controls.append(ft.Text(punto.lim_bobstVM_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_71_lim_hobstVM_con_a.controls.append(ft.Text(punto.lim_hobstVM_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_72_lim_bobstVM_con_i.controls.append(ft.Text(punto.lim_bobstVM_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_73_lim_hobstVM_max_i.controls.append(ft.Text(punto.lim_hobstVM_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_74_lim_bobstVM_con_a.controls.append(ft.Text(punto.lim_bobstVM_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_75_lim_hobstVM_max_a.controls.append(ft.Text(punto.lim_hobstVM_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_76_lim_bobstV0_max_i.controls.append(ft.Text(punto.lim_bobstV0_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_77_lim_hobstV0_con_i.controls.append(ft.Text(punto.lim_hobstV0_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_78_lim_bobstV0_max_a.controls.append(ft.Text(punto.lim_bobstV0_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_79_lim_hobstV0_con_a.controls.append(ft.Text(punto.lim_hobstV0_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_80_lim_bobstV0_con_i.controls.append(ft.Text(punto.lim_bobstV0_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_81_lim_hobstV0_max_i.controls.append(ft.Text(punto.lim_hobstV0_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_82_lim_bobstV0_con_a.controls.append(ft.Text(punto.lim_bobstV0_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_83_lim_hobstV0_max_a.controls.append(ft.Text(punto.lim_hobstV0_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_84_nom_bobstVM_max_i.controls.append(ft.Text(punto.nom_bobstVM_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_85_nom_hobstVM_con_i.controls.append(ft.Text(punto.nom_hobstVM_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_86_nom_bobstVM_max_a.controls.append(ft.Text(punto.nom_bobstVM_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_87_nom_hobstVM_con_a.controls.append(ft.Text(punto.nom_hobstVM_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_88_nom_bobstVM_con_i.controls.append(ft.Text(punto.nom_bobstVM_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_89_nom_hobstVM_max_i.controls.append(ft.Text(punto.nom_hobstVM_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_90_nom_bobstVM_con_a.controls.append(ft.Text(punto.nom_bobstVM_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_91_nom_hobstVM_max_a.controls.append(ft.Text(punto.nom_hobstVM_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_92_nom_bobstV0_max_i.controls.append(ft.Text(punto.nom_bobstV0_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_93_nom_hobstV0_con_i.controls.append(ft.Text(punto.nom_hobstV0_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_94_nom_bobstV0_max_a.controls.append(ft.Text(punto.nom_bobstV0_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_95_nom_hobstV0_con_a.controls.append(ft.Text(punto.nom_hobstV0_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_96_nom_bobstV0_con_i.controls.append(ft.Text(punto.nom_bobstV0_con_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_97_nom_hobstV0_max_i.controls.append(ft.Text(punto.nom_hobstV0_max_i,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_98_nom_bobstV0_con_a.controls.append(ft.Text(punto.nom_bobstV0_con_a,size=Tamanyos.TABLA_NORMAL.value))
+            tabla_99_nom_hobstV0_max_a.controls.append(ft.Text(punto.nom_hobstV0_max_a,size=Tamanyos.TABLA_NORMAL.value))
 
         #ACTUALIZACIÓN DE LOS GRÁFICOS
+
         for nombre,punto in galiboPA.items():
-            datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(punto.X, punto.Y, tooltip=(nombre, punto.X, punto.Y)))
-            datos_grafico_GPA_lim.data_points.append(ft.LineChartDataPoint(punto.lim_bi, punto.lim_hi, tooltip=(nombre, punto.lim_bi, punto.lim_hi)))      #por ahora, se muestra sólo los datos interiores, no los esteriores
+            datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(punto.X/conf.ESCALA_GRAFICO, punto.Y/conf.ESCALA_GRAFICO, tooltip=(nombre, punto.X, punto.Y)))
+            datos_grafico_GPA_lim.data_points.append(ft.LineChartDataPoint(punto.lim_bi/conf.ESCALA_GRAFICO, punto.lim_hi/conf.ESCALA_GRAFICO, tooltip=(nombre, punto.lim_bi, punto.lim_hi)))      #por ahora, se muestra sólo los datos interiores, no los esteriores
+            datos_grafico_GPA_nom.data_points.append(ft.LineChartDataPoint(punto.nom_bi/conf.ESCALA_GRAFICO, punto.nom_hi/conf.ESCALA_GRAFICO, tooltip=(nombre, punto.nom_bi, punto.nom_hi)))      #por ahora, se muestra sólo los datos interiores, no los esteriores
         datos_grafico_GPA.visible = cb_graf_GPA.value
+        datos_grafico_GPA_lim.visible = cb_graf_GPA_lim.value
+        datos_grafico_GPA_nom.visible = cb_graf_GPA_nom.value
 
         for nombre,punto in galiboPB.items():
-            datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(punto.X, punto.Y, tooltip=(nombre, punto.X, punto.Y)))
+            datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(punto.X/conf.ESCALA_GRAFICO, punto.Y/conf.ESCALA_GRAFICO, tooltip=(nombre, punto.X, punto.Y)))
         datos_grafico_GPB.visible = cb_graf_GPB.value
         
 
@@ -506,18 +517,18 @@ def galibos(page: ft.Page):
         curved=False,
         stroke_cap_round=True,
     )
-    #datos_grafico_GPB_lim = ft.LineChartData(
-        # data_points=[],
-        # stroke_width=3,
-        # color=ft.colors.YELLOW_100,
-        # curved=False,
-        # stroke_cap_round=True,
-    #)
+    datos_grafico_GPA_nom = ft.LineChartData(
+        data_points=[],
+        stroke_width=3,
+        color=ft.colors.RED,
+        curved=False,
+        stroke_cap_round=True,
+    )
     datos_grafico = [
         datos_grafico_GPA,
         datos_grafico_GPB,
         datos_grafico_GPA_lim,
-        #datos_grafico_GPB_lim,
+        datos_grafico_GPA_nom,
     ]
 
     #COMPONENTES INDIVIDUALES
@@ -611,6 +622,8 @@ def galibos(page: ft.Page):
 
     cb_graf_GPA = ft.Checkbox("Mostrar Gálibo superior", value = True, on_change = cambiar)
     cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar)
+    cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar)
+    cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar)
 
     t_3221 = ft.ResponsiveRow([
         ft.Column([
@@ -752,97 +765,106 @@ def galibos(page: ft.Page):
 
     page.add(
         
-        ft.ResponsiveRow([
-            ft.Column(
-                col=4,
-                controls = [
-                    cb_graf_GPA,
-                    cb_graf_GPB,
-                    ft.LineChart(
-                        data_series=datos_grafico,
-                        border=ft.border.all(3, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE)),
-                        horizontal_grid_lines=ft.ChartGridLines(
-                            interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
+        ft.Column([
+            ft.ResponsiveRow([
+                ft.Column(
+                    col=4,
+                    controls = [
+                        ft.LineChart(
+                            data_series=datos_grafico,
+                            border=ft.border.all(3, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE)),
+                            horizontal_grid_lines=ft.ChartGridLines(
+                                interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
+                            ),
+                            vertical_grid_lines=ft.ChartGridLines(
+                                interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
+                            ),
+                            left_axis=ft.ChartAxis(
+                                show_labels = False,
+                                labels=[],
+                                labels_size=20,
+                            ),
+                            bottom_axis=ft.ChartAxis(
+                                show_labels = False,
+                                labels=[],
+                                labels_size=20,
+                            ),
+                            tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
+                            min_y=-1000,
+                            max_y=2000,
+                            min_x=-2000,
+                            max_x=2000,
+                            animate = 0,
+                            #expand=True,
+                            height=425,
                         ),
-                        vertical_grid_lines=ft.ChartGridLines(
-                            interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
-                        ),
-                        left_axis=ft.ChartAxis(
-                            show_labels = False,
-                        ),
-                        bottom_axis=ft.ChartAxis(
-                            labels=[],
-                            labels_size=20,
-                        ),
-                        tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
-                        min_y=-2000,
-                        max_y=6000,
-                        min_x=-2000,
-                        max_x=2000,
-                        animate = 0,
-                        expand=True,
-                        height=1000,
+                        ]
                     ),
-                    ]
+                ft.Column(col=8,
+                    controls = [
+                        ft.Text("DATOS", size = Tamanyos.MEDIANO.value),
+                        ft.Row([
+                            dd_GPA,
+                            dd_GPB,
+                            dd_TV,
+                            dd_EV,
+                        ]),
+                        ft.Row([
+                            tf_R,
+                            cb_R,
+                            ft.Text("Alineación recta en planta",size=Tamanyos.PEQUENYO.value),
+                            tf_RV,
+                            cb_RV,
+                            ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
+                        ]),
+                        ft.Row([
+                            tf_DL,
+                            tf_D,
+                        ]),
+                        ft.Row([
+                            tf_tol_sus,
+                            tf_tol_carga,
+                        ]),
+                        tf_vmax,
+                        ft.Row([
+                            cb_graf_GPA,
+                            cb_graf_GPB,
+                            cb_graf_GPA_lim,
+                            cb_graf_GPA_nom,
+                        ])
+                ]),
+        ]),
+            ft.Tabs(
+                selected_index=3,
+                animation_duration=50,
+                tabs=[
+                    ft.Tab(
+                        text = "3.2.2.1.- Salientes",
+                        content = t_3221,
+                    ),
+                    ft.Tab(
+                        text = "3.2.2.2.- Desplazamientos cuasiestáticos laterales",
+                        content = t_3222,
+                    ),
+                    ft.Tab(
+                        text = "3.2.2.3.- Desplazamientos aleatorios laterales",
+                        content = t_3223,
+                    ), 
+                    ft.Tab(
+                        text = "Desplazamientos",
+                        content = tabla_des,
+                    ), 
+                    ft.Tab(
+                        text = "Galibo límite",
+                        content = tabla_lim,
+                    ), 
+                    ft.Tab(
+                        text = "Galibo nominal",
+                        content = tabla_nom,
+                    ), 
+                ],
+                expand = 1
                 ),
-            ft.Column(col=8,
-                controls = [
-                    ft.Text("DATOS", size = Tamanyos.MEDIANO.value),
-                    ft.Row([
-                        dd_GPA,
-                        dd_GPB,
-                        dd_TV,
-                        dd_EV,
-                    ]),
-                    ft.Row([
-                        tf_R,
-                        cb_R,
-                        ft.Text("Alineación recta en planta",size=Tamanyos.PEQUENYO.value),
-                        tf_RV,
-                        cb_RV,
-                        ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
-                    ]),
-                    ft.Row([
-                        tf_DL,
-                        tf_D,
-                    ]),
-                    ft.Row([
-                        tf_tol_sus,
-                        tf_tol_carga,
-                    ]),
-                    tf_vmax,
-                    ft.Tabs(
-                        selected_index=3,
-                        animation_duration=50,
-                        tabs=[
-                            ft.Tab(
-                                text = "3.2.2.1.- Salientes",
-                                content = t_3221,
-                            ),
-                            ft.Tab(
-                                text = "3.2.2.2.- Desplazamientos cuasiestáticos laterales",
-                                content = t_3222,
-                            ),
-                            ft.Tab(
-                                text = "3.2.2.3.- Desplazamientos aleatorios laterales",
-                                content = t_3223,
-                            ), 
-                            ft.Tab(
-                                text = "Desplazamientos",
-                                content = tabla_des,
-                            ), 
-                            ft.Tab(
-                                text = "Galibo límite",
-                                content = tabla_lim,
-                            ), 
-                            ft.Tab(
-                                text = "Galibo nominal",
-                                content = tabla_nom,
-                            ), 
-                        ],
-                        expand = 1
-                        ),
-            ]),
         ])
     )
 

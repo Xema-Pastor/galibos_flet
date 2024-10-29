@@ -4,6 +4,8 @@ class Tamanyos(Enum):
     GRANDE = 50
     MEDIANO = 25
     PEQUENYO = 10
+    TABLA_NORMAL = 11
+    TABLA_SUBTITULO = 9
 
 class EGPA(Enum):
     GHE16 = "GHE16"
