@@ -203,3 +203,36 @@ def calcular_h(Y: float, hbmax: float, lim_hobstVM_con: float, lim_hobstVM_max: 
     else:
         return min(abs(lim_hobstVM_con), abs(lim_hobstVM_max), abs(lim_hobstV0_con), abs(lim_hobstV0_max))
 
+def calcular_lim_bobst(X: float, Y: float, hb_max: float, S: float, qS: float, j1: float, j2: float) -> float:
+    def signo(valor: float) -> int:
+        return 1 if valor > 0 else -1
+    
+    j = j1 if Y > hb_max else j2
+
+    return X + signo(X) * S + qS + j
+
+def calcular_nom_bobst(X: float, Y: float, hb_max: float, S: float, qS: float, j1: float, j2: float, M3b: float) -> float:
+    def signo(valor: float) -> int:
+        return 1 if valor > 0 else -1
+    
+    j = j1 if Y > hb_max else j2
+
+    return X + signo(X) * S + qS + j + M3b
+
+def calcular_lim_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: float, SV1: float, SV2: float) -> float:
+    def signo(valor: float) -> int:
+        return 1 if valor > 0 else -1
+
+    cond1 = 1 if esPT else 0
+    cond2 = 1 if not esPT else 0
+
+    return Y + DhRV * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
+
+def calcular_nom_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: float, SV1: float, SV2: float, M3h: float) -> float:
+    def signo(valor: float) -> int:
+        return 1 if valor > 0 else -1
+
+    cond1 = 1 if esPT else 0
+    cond2 = 1 if not esPT else 0
+
+    return Y + (DhRV + M3h) * signo(Y - hb_max) + cond1 * (DhPT + SV1 ) + cond2 * signo(Y - hb_max * 1000) * SV2
