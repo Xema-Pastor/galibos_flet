@@ -1,0 +1,1 @@
+ESCALA_GRAFICO = 4
