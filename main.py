@@ -20,7 +20,7 @@ def galibos(page: ft.Page):
         #Los valores que no se definen aquí están definidos en la clase variables. No dependen de nada, son constantes
         var.GPA = dd_GPA.value
         var.GPB = dd_GPB.value
-        print("-"*30)
+        #print("-"*30)
         galiboPA = datos_GPA[var.GPA]
         galiboPB = datos_GPB[var.GPB]
 
@@ -63,14 +63,13 @@ def galibos(page: ft.Page):
         es_recta = cb_R.value
         es_recta_V = cb_RV.value
         es_girado = cb_graf_esGirado.value
-        var.R = 99999999999 if es_recta else int(tf_R.value)
-        var.Rv = 99999999999 if es_recta_V else int(tf_RV.value)
+        var.R = 999999 if es_recta else int(tf_R.value)
+        var.Rv = 999999 if es_recta_V else int(tf_RV.value)
         tf_R.disabled = es_recta
         tf_RV.disabled = es_recta_V
         cb_graf_inclinacion.disabled = not es_girado
         var.Inclinac = 0.0 if not es_girado else degrees(atan(var.D / var.LN))
         lado_inclinacion = cb_graf_inclinacion.value
-        print(lado_inclinacion)
         if lado_inclinacion == "A derechas":
             var.Inclinac = abs(var.Inclinac)
         elif lado_inclinacion == "A izquierdas":
@@ -83,7 +82,7 @@ def galibos(page: ft.Page):
             case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: var.D0 = 0.05
             case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: var.D0 = 0.07
         var.vmax = tf_vmax.value
-        var.heq = (float(var.vmax) / 3.6)**2 * var.LN / (float(var.R) * 9.81)
+        var.heq = round((float(var.vmax) / 3.6)**2 * var.LN / (float(var.R) * 9.81), 4)
         #var.I = var.heq - var.D
         var.I = float(tf_I.value)
         match var.GPA:
@@ -128,7 +127,7 @@ def galibos(page: ft.Page):
                     var.aosc_i_s0_03b = 0.15
                     var.aosc_a_s0_03b = 0.75
         #var.Rv = tf_RV.value
-        var.DhRV = 50/float(var.Rv)
+        var.DhRV = round(50/float(var.Rv), 2)
         if var.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
             if var.tipo_via == ETV.BALASTO.value and var.estado_via == EEV.BUEN_ESTADO.value:
                 var.aosc_i_s0_04h = 0.1
@@ -183,9 +182,11 @@ def galibos(page: ft.Page):
 
         #ACTUALIZACIÓN DE LOS ELEMENTOS DE FLET CON LOS VALORES CALCULADOS ANTERIORMENTE
         t_R.value = var.R
+        t_RV.value = var.Rv
         t_LN.value = var.LN
         t_DL.value = var.DL
         t_LND.value = var.LND
+        t_DhRV.value = var.DhRV
         
         t_D.value = var.D
         t_D0.value = var.D0
@@ -194,6 +195,18 @@ def galibos(page: ft.Page):
         t_I0.value = var.I0
         t_L.value = var.L
         t_hco.value = var.hco
+
+        t_tipo_via.value = var.tipo_via
+        t_tvia.value = var.TVIA
+        t_td.value = var.TD
+        t_vmax.value = var.vmax
+        t_asusp.value = var.asusp
+        t_acarga.value = var.acarga
+        t_eta0.value = var.eta0
+        t_aosc_i_s0_04b.value = var.aosc_i_s0_04b
+        t_aosc_i_s0_03b.value = var.aosc_i_s0_03b
+        t_aosc_a_s0_04b.value = var.aosc_a_s0_04b
+        t_aosc_a_s0_03b.value = var.aosc_a_s0_03b
 
         def limpiar_tabla(elemento: ft.Column, text1: str, text2: str, unidades: str):
             elemento.controls.clear()
@@ -650,31 +663,33 @@ def galibos(page: ft.Page):
         on_change=cambiar,
     )
 
-    t_R = ft.Text(var.R)
-    t_LN = ft.Text(var.LN)
-    t_DL = ft.Text(var.DL)
-    t_LND = ft.Text(var.LND)
+    t_R = ft.Text(var.R,width=50)
+    t_RV = ft.Text(var.R,width=50)
+    t_LN = ft.Text(var.LN,width=50)
+    t_DL = ft.Text(var.DL,width=50)
+    t_LND = ft.Text(var.LND,width=50)
+    t_DhRV = ft.Text(var.LND,width=50)
 
-    t_D = ft.Text(var.D)    
-    t_D0 = ft.Text(var.D0)
-    t_heq = ft.Text(var.heq)
-    t_I = ft.Text(var.I)
-    t_I0 = ft.Text(var.I0)
-    t_L = ft.Text(var.L)
-    t_hco = ft.Text(var.hco)
+    t_D = ft.Text(var.D,width=50)
+    t_D0 = ft.Text(var.D0,width=50)
+    t_heq = ft.Text(var.heq,width=50)
+    t_I = ft.Text(var.I,width=50)
+    t_I0 = ft.Text(var.I0,width=50)
+    t_L = ft.Text(var.L,width=50)
+    t_hco = ft.Text(var.hco,width=50)
 
-    t_tipo_via = ft.Text(var.D)
-    t_tvia = ft.Text(var.TVIA)
-    t_td = ft.Text(var.TD)
-    t_vmax = ft.Text(var.vmax)
-    t_asusp = ft.Text(var.asusp)
-    t_acarga = ft.Text(var.acarga)
-    t_eta0 = ft.Text(var.eta0)
-    t_estado_via = ft.Text(var.estado_via)
-    t_aosc_i_s0_04b = ft.Text(var.aosc_i_s0_04b)
-    t_aosc_i_s0_03b = ft.Text(var.aosc_i_s0_03b)
-    t_aosc_a_s0_04b = ft.Text(var.aosc_a_s0_04b)
-    t_aosc_a_s0_04b = ft.Text(var.aosc_a_s0_03b)
+    t_tipo_via = ft.Text(var.D,width=50)
+    t_tvia = ft.Text(var.TVIA,width=50)
+    t_td = ft.Text(var.TD,width=50)
+    t_vmax = ft.Text(var.vmax,width=50)
+    t_asusp = ft.Text(var.asusp,width=50)
+    t_acarga = ft.Text(var.acarga,width=50)
+    t_eta0 = ft.Text(var.eta0,width=50)
+    t_estado_via = ft.Text(var.estado_via,width=50)
+    t_aosc_i_s0_04b = ft.Text(var.aosc_i_s0_04b,width=50)
+    t_aosc_i_s0_03b = ft.Text(var.aosc_i_s0_03b,width=50)
+    t_aosc_a_s0_04b = ft.Text(var.aosc_a_s0_04b,width=50)
+    t_aosc_a_s0_03b = ft.Text(var.aosc_a_s0_03b,width=50)
 
     tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_submit=cambiar)
     cb_R = ft.Checkbox(value = False, on_change=cambiar)
@@ -699,143 +714,50 @@ def galibos(page: ft.Page):
         value = "A derechas",
         on_change=cambiar)
 
-    t_3221 = ft.ResponsiveRow([
+    tabla_variables = ft.ResponsiveRow([
         ft.Column([
-            ft.Text("Radio de curvatura"),
-            ft.Text("Ancho de vía nominal"),
-            ft.Text("Sobreancho máximo"),
-            ft.Text("Ancho de vía"),
+            ft.Text("Salientes"),
+            MiFilaDatos("Radio de curvatura, planta", "R=", "m", t_R),
+            MiFilaDatos("Radio de curvatura, alzado", "RV=", "m", t_RV),
+            MiFilaDatos("Ancho de vía nominal", "lN=", "m", t_LN),
+            MiFilaDatos("Sobreancho máximo", "Dl=", "m", t_DL),
+            MiFilaDatos("Ancho de vía", "I=Dl+lN=", "m", t_LND),
+            MiFilaDatos("Desplazamiento por inscripción en acuerdos vert.", "DhRV=", "m", t_DhRV),
         ],
-        col=6,),
+        col=1,
+        ),
         ft.Column([
-            ft.Text("R="),
-            ft.Text("lN="),
-            ft.Text("Dl="),
-            ft.Text("I=Dl+lN="),
+            ft.Text("Desplazamientos cuasiestáticos laterales"),
+            MiFilaDatos("Peralte de la vía", "D=", "m", t_D),
+            MiFilaDatos("Peralte por convenio de la vía", "D0=", "m", t_D0),
+            MiFilaDatos("Peralte de equilibrio", "heq=", "m", t_heq),
+            MiFilaDatos("Insuficiencia de peralte", "I=", "m", t_I),
+            MiFilaDatos("Insuficiencia de peralte por convenio", "I0=", "m", t_I0),
+            MiFilaDatos("Distancia entre círculos de rodadura", "L=", "m", t_L),
+            MiFilaDatos("Altura del centro de balanceo, por convenio", "hco=", "m", t_hco),
         ],
-        col=2,),
+        col=1
+        ),
         ft.Column([
-            t_R,
-            t_LN,
-            t_DL,
-            t_LND,
+            ft.Text("Desplazamientos cuasiestáticos laterales"),
+            MiFilaDatos("Tipo de vía", "", "", t_tipo_via),
+            MiFilaDatos("Desplazaiento lateral de la vía", "Tvia=", "m", t_tvia),
+            MiFilaDatos("Diferencia entre peralte real y teórico", "TD=", "m", t_td),
+            MiFilaDatos("Velocidad máxima de la vía", "Vmax=", "km/h", t_vmax),
+            MiFilaDatos("Tolerancias en el reglaje de la suspensión", "asusp=", "º", t_asusp),
+            MiFilaDatos("Reparto desigual de cargas", "acarga=", "º", t_acarga),
+            MiFilaDatos("Giro total", "n0=", "", t_eta0),
+            MiFilaDatos("Estado de la vía", "", "", t_estado_via),
+            MiFilaDatos("Giro por oscilaciones aleatorias por irreg. de la vía", "aosc,i,s0=0,4=", "º", t_aosc_i_s0_04b),
+            MiFilaDatos("", "aosc,i,s0=0,3=", "º", t_aosc_i_s0_03b),
+            MiFilaDatos("", "aosc,a,s0=0,4=", "º", t_aosc_a_s0_04b),
+            MiFilaDatos("", "aosc,a,s0=0,3=", "º", t_aosc_a_s0_03b),
         ],
-        col=2,),
-        ft.Column([
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-        ],
-        col=2,),
-        ],
-        columns=12)
-    t_3222 = ft.ResponsiveRow([
-        ft.Column([
-            ft.Text("Peralte de la vía"),
-            ft.Text("Peralte por convenio de la vía"),
-            ft.Text("Peralte de equilibrio"),
-            ft.Text("Insuficiencia de peralte"),
-            ft.Text("Insuficiencia de peralte por convenio"),
-            ft.Text("Distancia entre círculos de rodadura"),
-            ft.Text("Altura  del  centro  de  balanceo  del  vehículo, por convenio"),
-            ],
-            col=6,),
-        ft.Column([
-            ft.Text("D="),
-            ft.Text("D0="),
-            ft.Text("heq="),
-            ft.Text("I="),
-            ft.Text("I0="),
-            ft.Text("L="),
-            ft.Text("hco="),
-            ],
-            col=2,),
-        ft.Column([
-            t_D,
-            t_D0 ,
-            t_heq,
-            t_I,
-            t_I0,
-            t_L,
-            t_hco,
-            ],
-            col=2,),
-        ft.Column([
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("m"),
-            ],
-            col=2,),
-            ],
-            columns=12)
-    t_3223 = ft.ResponsiveRow([
-        ft.Column([
-            ft.Text("Tipo de vía"),
-            ft.Text("Desplazaiento lateral de la vía"),
-            ft.Text("Diferencia entre peralte real y teórico"),
-            ft.Text("Velocidad máxima de la vía"),
-            ft.Text("Tolerancias en el reglaje de la suspensión"),
-            ft.Text("Reparto desigual de cargas"),
-            ft.Text("Giro total"),
-            ft.Text("Estado de la vía"),
-            ft.Text("Giro por oscilaciones aleatorias por irregularidades de la vía"),
-            ft.Text(""),
-            ft.Text(""),
-            ft.Text(""),
-            ],
-            col=6,),
-        ft.Column([
-            ft.Text(""),
-            ft.Text("Tvia="),
-            ft.Text("TD="),
-            ft.Text("Vmax="),
-            ft.Text("asusp="),
-            ft.Text("acarga="),
-            ft.Text("n0="),
-            ft.Text(""),
-            ft.Text("aosc,i,s0=0,4="),
-            ft.Text("aosc,i,s0=0,3="),
-            ft.Text("aosc,a,s0=0,4="),
-            ft.Text("aosc,a,s0=0,3="),
-            ],
-            col=2,),
-        ft.Column([
-            t_tipo_via,
-            t_tvia,
-            t_td,
-            t_vmax,
-            t_asusp,
-            t_acarga,
-            t_eta0,
-            t_estado_via,
-            t_aosc_i_s0_04b,
-            t_aosc_i_s0_03b,
-            t_aosc_a_s0_04b,
-            t_aosc_a_s0_04b,
-            ],
-            col=2,),
-        ft.Column([
-            ft.Text(""),
-            ft.Text("m"),
-            ft.Text("m"),
-            ft.Text("km/h"),
-            ft.Text("º"),
-            ft.Text("º"),
-            ft.Text("º"),
-            ft.Text(""),
-            ft.Text("º"),
-            ft.Text("º"),
-            ft.Text("º"),
-            ft.Text("º"),
-            ],
-            col=2,),
-            ],
-            columns=12)
+        col=1
+        ),
+    ],
+    columns=3
+    )
 
     page.add(
         
@@ -915,21 +837,13 @@ def galibos(page: ft.Page):
                 ]),
         ]),
             ft.Tabs(
-                selected_index=3,
+                selected_index=0,
                 animation_duration=50,
                 tabs=[
                     ft.Tab(
-                        text = "3.2.2.1.- Salientes",
-                        content = t_3221,
+                        text = "Variables",
+                        content = tabla_variables,
                     ),
-                    ft.Tab(
-                        text = "3.2.2.2.- Desplazamientos cuasiestáticos laterales",
-                        content = t_3222,
-                    ),
-                    ft.Tab(
-                        text = "3.2.2.3.- Desplazamientos aleatorios laterales",
-                        content = t_3223,
-                    ), 
                     ft.Tab(
                         text = "Desplazamientos",
                         content = tabla_des,

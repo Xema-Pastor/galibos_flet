@@ -30,3 +30,14 @@ class MiColumnaTabla(ft.Column):
         self.col = 1
         self.spacing = 8
         self.horizontal_alignment = ft.CrossAxisAlignment.END
+
+class MiFilaDatos(ft.Row):
+    def __init__(self, texto, abreviatura, unidades, componente):
+        super().__init__()
+        self.controls = [
+            ft.Text(texto,width=350),
+            ft.Text(abreviatura,width=100),
+            componente,
+            ft.Text(unidades,width=60),
+        ]
+

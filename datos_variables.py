@@ -158,7 +158,7 @@ class Variables():
     I = 0               #Insuficiencia de peralte
     I0 = 0              #Insuficiencia de peralte por convenio
     L = 0               #Distancia entre circulos de rodadura
-    hco = 0.5           #Altura  del  centro  de  balanceo  del  vehículo, por convenio
+    hco = 0.50          #Altura  del  centro  de  balanceo  del  vehículo, por convenio
 
     #3.2.2.3
     tipo_via = ""       #Tipo de vía (BALASTO|PLACA)
