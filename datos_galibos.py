@@ -1,8 +1,9 @@
 from datos_variables import Punto, PuntoI
 
-#GALIBOS PARTES BAJAS
+#GALIBOS PARTES ALTAS
 datos_GPA = {
     'GHE16': {
+        #'hbmax': 875,
         'P1': Punto(X = -1675, Y = 400,),
         'P2': Punto(X = -1675, Y = 600,),
         'P3': Punto(X = -1695, Y = 600,),
@@ -23,6 +24,7 @@ datos_GPA = {
         'P18': Punto(X = 1675, Y = 400,),
     },
     'GEA16': {
+        #'hbmax': 2185,
         'P1': Punto(X = -1695, Y = 400,),
         'P2': Punto(X = -1695, Y = 1150,),
         'P3': Punto(X = -1720, Y = 1150,),
@@ -39,6 +41,7 @@ datos_GPA = {
         'P14': Punto(X = 1695, Y = 400,),
     },
     'GEB16': {
+        #'hbmax': 2185,
         'P1': Punto(X = -1695, Y = 400,),
         'P2': Punto(X = -1695, Y = 1150,),
         'P3': Punto(X = -1720, Y = 1150,),
@@ -55,6 +58,7 @@ datos_GPA = {
         'P14': Punto(X = 1695, Y = 400,),
     },
     'GEC16': {
+        #'hbmax': 2185,
         'P1': Punto(X = -1695, Y = 400,),
         'P2': Punto(X = -1695, Y = 1150,),
         'P3': Punto(X = -1720, Y = 1150,),
@@ -67,6 +71,7 @@ datos_GPA = {
         'P10': Punto(X = 1695, Y = 400,),
     },
     'GA': {
+        #'hbmax': 2210,
         'P1': Punto(X = -1620, Y = 400,),
         'P2': Punto(X = -1620, Y = 1170,),
         'P3': Punto(X = -1645, Y = 1170,),
@@ -83,6 +88,7 @@ datos_GPA = {
         'P14': Punto(X = 1620, Y = 400,),
     },
     'GB': {
+        #'hbmax': 2210,
         'P1': Punto(X = -1620, Y = 400,),
         'P2': Punto(X = -1620, Y = 1170,),
         'P3': Punto(X = -1645, Y = 1170,),
@@ -97,6 +103,7 @@ datos_GPA = {
         'P12': Punto(X = 1620, Y = 400,),
     },
     'GC': {
+        #'hbmax': 2360,
         'P1': Punto(X = -1620, Y = 400,),
         'P2': Punto(X = -1620, Y = 1170,),
         'P3': Punto(X = -1645, Y = 1170,),
@@ -109,6 +116,7 @@ datos_GPA = {
         'P10': Punto(X = 1620, Y = 400,),
     },
     'GEE10': {
+        #'hbmax': 1975,
         'P1': Punto(X = -1530, Y = 400,),
         'P2': Punto(X = -1530, Y = 3550,),
         'P3': Punto(X = -1185, Y = 3900,),
@@ -119,6 +127,7 @@ datos_GPA = {
         'P8': Punto(X = 1530, Y = 400,),
     },
     'GED10': {
+        #'hbmax': 1975,
         'P1': Punto(X = -1530, Y = 400,),
         'P2': Punto(X = -1530, Y = 3550,),
         'P3': Punto(X = -1150, Y = 3800,),
@@ -129,6 +138,7 @@ datos_GPA = {
         'P8': Punto(X = 1530, Y = 400,),
     },
     'PERSONALIZADO': {
+        #'hbmax': 400,
         'P1': Punto(X = -1153, Y = 356,),
         'P2': Punto(X = -1176, Y = 756,),
         'P3': Punto(X = -1191, Y = 1156,),

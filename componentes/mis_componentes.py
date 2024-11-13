@@ -8,6 +8,7 @@ class MiFila(ft.Row):
         self.text_2 = ft.Text(text2, size=Tamanyos.TABLA_SUBTITULO.value)
         self.spacing = 0
         self.vertical_alignment = ft.CrossAxisAlignment.END
+        self.alignment = ft.MainAxisAlignment.END
 
         self.controls = [
             self.text_1,
@@ -28,3 +29,4 @@ class MiColumnaTabla(ft.Column):
         super().__init__()
         self.col = 1
         self.spacing = 8
+        self.horizontal_alignment = ft.CrossAxisAlignment.END

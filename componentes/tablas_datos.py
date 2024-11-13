@@ -57,8 +57,8 @@ tabla_45_lim_SVi1 = MiColumnaTabla()
 tabla_46_lim_SVa2 = MiColumnaTabla()
 tabla_47_lim_SVi2 = MiColumnaTabla()
 tabla_48_lim_SVa1_ast = MiColumnaTabla()
-tabla_49_lim_SVa2_ast = MiColumnaTabla()
-tabla_50_lim_SVi2_ast = MiColumnaTabla()
+tabla_49_lim_SVi1_ast = MiColumnaTabla()
+tabla_50_lim_SVa2_ast = MiColumnaTabla()
 tabla_51_lim_SVi2_ast = MiColumnaTabla()
 tabla_52_nom_Sja3 = MiColumnaTabla()
 tabla_53_nom_Sji3 = MiColumnaTabla()
@@ -166,8 +166,8 @@ tabla_lim = ft.ResponsiveRow([
     tabla_46_lim_SVa2,
     tabla_47_lim_SVi2,
     tabla_48_lim_SVa1_ast,
-    tabla_49_lim_SVa2_ast,
-    tabla_50_lim_SVi2_ast,
+    tabla_49_lim_SVi1_ast,
+    tabla_50_lim_SVa2_ast,
     tabla_51_lim_SVi2_ast,
     tabla_68_lim_bobstVM_max_i,
     tabla_69_lim_hobstVM_con_i,
