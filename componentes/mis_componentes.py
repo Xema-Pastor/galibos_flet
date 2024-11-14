@@ -2,10 +2,10 @@ import flet as ft
 from estilos.estilos import Tamanyos
 
 class MiFila(ft.Row):
-    def __init__(self, text1, text2):
+    def __init__(self, text1, text2, tamanyo_texto, tamanyo_sub):
         super().__init__()
-        self.text_1 = ft.Text(text1, size=Tamanyos.TABLA_NORMAL.value)
-        self.text_2 = ft.Text(text2, size=Tamanyos.TABLA_SUBTITULO.value)
+        self.text_1 = ft.Text(text1, size=tamanyo_texto)
+        self.text_2 = ft.Text(text2, size=tamanyo_sub)
         self.spacing = 0
         self.vertical_alignment = ft.CrossAxisAlignment.END
         self.alignment = ft.MainAxisAlignment.END
@@ -16,9 +16,9 @@ class MiFila(ft.Row):
         ]
 
 class MiText(ft.Column):
-    def __init__(self, text1, text2):
+    def __init__(self, text1, text2, tamanyo_texto = Tamanyos.TABLA_NORMAL.value, tamanyo_sub = Tamanyos.TABLA_SUBTITULO.value):
         super().__init__()
-        self.texto = MiFila(text1, text2)
+        self.texto = MiFila(text1, text2, tamanyo_texto, tamanyo_sub)
 
         self.controls = [
             self.texto
@@ -41,3 +41,16 @@ class MiFilaDatos(ft.Row):
             ft.Text(unidades,width=60),
         ]
 
+class MiFilaDatos2(ft.Row):
+    def __init__(self, texto, abreviatura, abreviatura_sub, unidades, componente):
+        super().__init__()
+        mitext =  MiText(abreviatura, abreviatura_sub, Tamanyos.NORMAL.value, Tamanyos.TABLA_SUBTITULO.value)
+        mitext.width = 50
+        self.controls = [
+            ft.Text(texto,width=350),
+            mitext,
+            #ft.Text(abreviatura,width=100),
+            ft.Text("="),
+            componente,
+            ft.Text(unidades,width=60),
+        ]

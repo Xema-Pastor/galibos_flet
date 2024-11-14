@@ -4,6 +4,7 @@ class Tamanyos(Enum):
     GRANDE = 50
     MEDIANO = 25
     PEQUENYO = 10
+    NORMAL = 15
     TABLA_NORMAL = 11
     TABLA_SUBTITULO = 9
 

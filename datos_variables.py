@@ -145,8 +145,8 @@ class Variables():
     hb_max = 0
 
     #3.2.2.1
-    R = 5001               #Radio de curvatura en planta
-    Inclinac = "D"      #Inclinación de la curva (D/I)
+    R = 100               #Radio de curvatura en planta
+    Inclinac = "A derechas"#Inclinación de la curva
     LN = 0              #Ancho de vía nominal
     DL = 0              #Sobreancho máximo
     LND = 0             #Ancho de vía
@@ -195,3 +195,5 @@ class Variables():
     K = 1.2             #Factor de seguridad, general
     Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
+via1 = Variables()
+via2 = Variables()
