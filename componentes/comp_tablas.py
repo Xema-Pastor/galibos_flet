@@ -6,114 +6,124 @@ from estilos.estilos import Tamanyos
 #COMPONENTES DE TABLAS
 @dataclass
 class ftTabla:
-    tabla_00_Punto_des = MiColumnaTabla()
-    tabla_00_Punto_lim = MiColumnaTabla()
-    tabla_00_Punto_nom = MiColumnaTabla()
-    tabla_01_X_des = MiColumnaTabla()
-    tabla_01_X_lim = MiColumnaTabla()
-    tabla_01_X_nom = MiColumnaTabla()
-    tabla_02_Y_des = MiColumnaTabla()
-    tabla_02_Y_lim = MiColumnaTabla()
-    tabla_02_Y_nom = MiColumnaTabla()
-    tabla_03_esPT = MiColumnaTabla()
-    tabla_04_k = MiColumnaTabla()
-    tabla_05_s0 = MiColumnaTabla()
-    tabla_06_Sa = MiColumnaTabla()
-    tabla_07_Si = MiColumnaTabla()
-    tabla_08_qsDai = MiColumnaTabla()
-    tabla_09_qsIai = MiColumnaTabla()
-    tabla_10_Tvia_ai = MiColumnaTabla()
-    tabla_11_Dbgai = MiColumnaTabla()
-    tabla_12_Dbcai = MiColumnaTabla()
-    tabla_13_Dbsuspai = MiColumnaTabla()
-    tabla_14_Dbcargaai = MiColumnaTabla()
-    tabla_15_Dbetaai = MiColumnaTabla()
-    tabla_16_aosca = MiColumnaTabla()
-    tabla_17_aosci = MiColumnaTabla()
-    tabla_18_Dbosca = MiColumnaTabla()
-    tabla_19_Dbosci = MiColumnaTabla()
-    tabla_20_M3h = MiColumnaTabla()
-    tabla_21_DhRv = MiColumnaTabla()
-    tabla_22_DhPTDai = MiColumnaTabla()
-    tabla_23_DhPTIai = MiColumnaTabla()
-    tabla_24_TN = MiColumnaTabla()
-    tabla_25_Dhga = MiColumnaTabla()
-    tabla_26_Dhgi = MiColumnaTabla()
-    tabla_27_Dhc = MiColumnaTabla()
-    tabla_28_Dhgca = MiColumnaTabla()
-    tabla_29_Dhgci = MiColumnaTabla()
-    tabla_30_Dhsuspai = MiColumnaTabla()
-    tabla_31_Dhcargai = MiColumnaTabla()
-    tabla_32_Dhetaai = MiColumnaTabla()
-    tabla_33_Dhosca = MiColumnaTabla()
-    tabla_34_Dhosci = MiColumnaTabla()
-    tabla_35_M3h = MiColumnaTabla()
-    tabla_36_lim_Sja1 = MiColumnaTabla()
-    tabla_37_lim_Sji1 = MiColumnaTabla()
-    tabla_38_lim_Sja2 = MiColumnaTabla()
-    tabla_39_lim_Sji2 = MiColumnaTabla()
-    tabla_40_lim_Sja1_ast = MiColumnaTabla()
-    tabla_41_lim_Sji1_ast = MiColumnaTabla()
-    tabla_42_lim_Sja2_ast = MiColumnaTabla()
-    tabla_43_lim_Sji2_ast = MiColumnaTabla()
-    tabla_44_lim_SVa1 = MiColumnaTabla()
-    tabla_45_lim_SVi1 = MiColumnaTabla()
-    tabla_46_lim_SVa2 = MiColumnaTabla()
-    tabla_47_lim_SVi2 = MiColumnaTabla()
-    tabla_48_lim_SVa1_ast = MiColumnaTabla()
-    tabla_49_lim_SVi1_ast = MiColumnaTabla()
-    tabla_50_lim_SVa2_ast = MiColumnaTabla()
-    tabla_51_lim_SVi2_ast = MiColumnaTabla()
-    tabla_52_nom_Sja3 = MiColumnaTabla()
-    tabla_53_nom_Sji3 = MiColumnaTabla()
-    tabla_54_nom_Sja4 = MiColumnaTabla()
-    tabla_55_nom_Sji4 = MiColumnaTabla()
-    tabla_56_nom_Sja3_ast = MiColumnaTabla()
-    tabla_57_nom_Sji3_ast = MiColumnaTabla()
-    tabla_58_nom_Sja4_ast = MiColumnaTabla()
-    tabla_59_nom_Sji4_ast = MiColumnaTabla()
-    tabla_60_nom_SVa3 = MiColumnaTabla()
-    tabla_61_nom_SVi3 = MiColumnaTabla()
-    tabla_62_nom_SVa4 = MiColumnaTabla()
-    tabla_63_nom_SVi4 = MiColumnaTabla()
-    tabla_64_nom_SVa3_ast = MiColumnaTabla()
-    tabla_65_nom_SVi3_ast = MiColumnaTabla()
-    tabla_66_nom_SVa4_ast = MiColumnaTabla()
-    tabla_67_nom_SVi4_ast = MiColumnaTabla()
-    tabla_68_lim_bobstVM_max_i = MiColumnaTabla()
-    tabla_69_lim_hobstVM_con_i = MiColumnaTabla()
-    tabla_70_lim_bobstVM_max_a = MiColumnaTabla()
-    tabla_71_lim_hobstVM_con_a = MiColumnaTabla()
-    tabla_72_lim_bobstVM_con_i = MiColumnaTabla()
-    tabla_73_lim_hobstVM_max_i = MiColumnaTabla()
-    tabla_74_lim_bobstVM_con_a = MiColumnaTabla()
-    tabla_75_lim_hobstVM_max_a = MiColumnaTabla()
-    tabla_76_lim_bobstV0_max_i = MiColumnaTabla()
-    tabla_77_lim_hobstV0_con_i = MiColumnaTabla()
-    tabla_78_lim_bobstV0_max_a = MiColumnaTabla()
-    tabla_79_lim_hobstV0_con_a = MiColumnaTabla()
-    tabla_80_lim_bobstV0_con_i = MiColumnaTabla()
-    tabla_81_lim_hobstV0_max_i = MiColumnaTabla()
-    tabla_82_lim_bobstV0_con_a = MiColumnaTabla()
-    tabla_83_lim_hobstV0_max_a = MiColumnaTabla()
-    tabla_84_nom_bobstVM_max_i = MiColumnaTabla()
-    tabla_85_nom_hobstVM_con_i = MiColumnaTabla()
-    tabla_86_nom_bobstVM_max_a = MiColumnaTabla()
-    tabla_87_nom_hobstVM_con_a = MiColumnaTabla()
-    tabla_88_nom_bobstVM_con_i = MiColumnaTabla()
-    tabla_89_nom_hobstVM_max_i = MiColumnaTabla()
-    tabla_90_nom_bobstVM_con_a = MiColumnaTabla()
-    tabla_91_nom_hobstVM_max_a = MiColumnaTabla()
-    tabla_92_nom_bobstV0_max_i = MiColumnaTabla()
-    tabla_93_nom_hobstV0_con_i = MiColumnaTabla()
-    tabla_94_nom_bobstV0_max_a = MiColumnaTabla()
-    tabla_95_nom_hobstV0_con_a = MiColumnaTabla()
-    tabla_96_nom_bobstV0_con_i = MiColumnaTabla()
-    tabla_97_nom_hobstV0_max_i = MiColumnaTabla()
-    tabla_98_nom_bobstV0_con_a = MiColumnaTabla()
-    tabla_99_nom_hobstV0_max_a = MiColumnaTabla()
+    def __init__(self):
+        self.tabla_00_Punto_des = MiColumnaTabla()
+        self.tabla_00_Punto_lim = MiColumnaTabla()
+        self.tabla_00_Punto_nom = MiColumnaTabla()
+        self.tabla_01_X_des = MiColumnaTabla()
+        self.tabla_01_X_lim = MiColumnaTabla()
+        self.tabla_01_X_nom = MiColumnaTabla()
+        self.tabla_02_Y_des = MiColumnaTabla()
+        self.tabla_02_Y_lim = MiColumnaTabla()
+        self.tabla_02_Y_nom = MiColumnaTabla()
+        self.tabla_03_esPT = MiColumnaTabla()
+        self.tabla_04_k = MiColumnaTabla()
+        self.tabla_05_s0 = MiColumnaTabla()
+        self.tabla_06_Sa = MiColumnaTabla()
+        self.tabla_07_Si = MiColumnaTabla()
+        self.tabla_08_qsDai = MiColumnaTabla()
+        self.tabla_09_qsIai = MiColumnaTabla()
+        self.tabla_10_Tvia_ai = MiColumnaTabla()
+        self.tabla_11_Dbgai = MiColumnaTabla()
+        self.tabla_12_Dbcai = MiColumnaTabla()
+        self.tabla_13_Dbsuspai = MiColumnaTabla()
+        self.tabla_14_Dbcargaai = MiColumnaTabla()
+        self.tabla_15_Dbetaai = MiColumnaTabla()
+        self.tabla_16_aosca = MiColumnaTabla()
+        self.tabla_17_aosci = MiColumnaTabla()
+        self.tabla_18_Dbosca = MiColumnaTabla()
+        self.tabla_19_Dbosci = MiColumnaTabla()
+        self.tabla_20_M3h = MiColumnaTabla()
+        self.tabla_21_DhRv = MiColumnaTabla()
+        self.tabla_22_DhPTDai = MiColumnaTabla()
+        self.tabla_23_DhPTIai = MiColumnaTabla()
+        self.tabla_24_TN = MiColumnaTabla()
+        self.tabla_25_Dhga = MiColumnaTabla()
+        self.tabla_26_Dhgi = MiColumnaTabla()
+        self.tabla_27_Dhc = MiColumnaTabla()
+        self.tabla_28_Dhgca = MiColumnaTabla()
+        self.tabla_29_Dhgci = MiColumnaTabla()
+        self.tabla_30_Dhsuspai = MiColumnaTabla()
+        self.tabla_31_Dhcargai = MiColumnaTabla()
+        self.tabla_32_Dhetaai = MiColumnaTabla()
+        self.tabla_33_Dhosca = MiColumnaTabla()
+        self.tabla_34_Dhosci = MiColumnaTabla()
+        self.tabla_35_M3h = MiColumnaTabla()
+        self.tabla_36_lim_Sja1 = MiColumnaTabla()
+        self.tabla_37_lim_Sji1 = MiColumnaTabla()
+        self.tabla_38_lim_Sja2 = MiColumnaTabla()
+        self.tabla_39_lim_Sji2 = MiColumnaTabla()
+        self.tabla_40_lim_Sja1_ast = MiColumnaTabla()
+        self.tabla_41_lim_Sji1_ast = MiColumnaTabla()
+        self.tabla_42_lim_Sja2_ast = MiColumnaTabla()
+        self.tabla_43_lim_Sji2_ast = MiColumnaTabla()
+        self.tabla_44_lim_SVa1 = MiColumnaTabla()
+        self.tabla_45_lim_SVi1 = MiColumnaTabla()
+        self.tabla_46_lim_SVa2 = MiColumnaTabla()
+        self.tabla_47_lim_SVi2 = MiColumnaTabla()
+        self.tabla_48_lim_SVa1_ast = MiColumnaTabla()
+        self.tabla_49_lim_SVi1_ast = MiColumnaTabla()
+        self.tabla_50_lim_SVa2_ast = MiColumnaTabla()
+        self.tabla_51_lim_SVi2_ast = MiColumnaTabla()
+        self.tabla_52_nom_Sja3 = MiColumnaTabla()
+        self.tabla_53_nom_Sji3 = MiColumnaTabla()
+        self.tabla_54_nom_Sja4 = MiColumnaTabla()
+        self.tabla_55_nom_Sji4 = MiColumnaTabla()
+        self.tabla_56_nom_Sja3_ast = MiColumnaTabla()
+        self.tabla_57_nom_Sji3_ast = MiColumnaTabla()
+        self.tabla_58_nom_Sja4_ast = MiColumnaTabla()
+        self.tabla_59_nom_Sji4_ast = MiColumnaTabla()
+        self.tabla_60_nom_SVa3 = MiColumnaTabla()
+        self.tabla_61_nom_SVi3 = MiColumnaTabla()
+        self.tabla_62_nom_SVa4 = MiColumnaTabla()
+        self.tabla_63_nom_SVi4 = MiColumnaTabla()
+        self.tabla_64_nom_SVa3_ast = MiColumnaTabla()
+        self.tabla_65_nom_SVi3_ast = MiColumnaTabla()
+        self.tabla_66_nom_SVa4_ast = MiColumnaTabla()
+        self.tabla_67_nom_SVi4_ast = MiColumnaTabla()
+        self.tabla_68_lim_bobstVM_max_i = MiColumnaTabla()
+        self.tabla_69_lim_hobstVM_con_i = MiColumnaTabla()
+        self.tabla_70_lim_bobstVM_max_a = MiColumnaTabla()
+        self.tabla_71_lim_hobstVM_con_a = MiColumnaTabla()
+        self.tabla_72_lim_bobstVM_con_i = MiColumnaTabla()
+        self.tabla_73_lim_hobstVM_max_i = MiColumnaTabla()
+        self.tabla_74_lim_bobstVM_con_a = MiColumnaTabla()
+        self.tabla_75_lim_hobstVM_max_a = MiColumnaTabla()
+        self.tabla_76_lim_bobstV0_max_i = MiColumnaTabla()
+        self.tabla_77_lim_hobstV0_con_i = MiColumnaTabla()
+        self.tabla_78_lim_bobstV0_max_a = MiColumnaTabla()
+        self.tabla_79_lim_hobstV0_con_a = MiColumnaTabla()
+        self.tabla_80_lim_bobstV0_con_i = MiColumnaTabla()
+        self.tabla_81_lim_hobstV0_max_i = MiColumnaTabla()
+        self.tabla_82_lim_bobstV0_con_a = MiColumnaTabla()
+        self.tabla_83_lim_hobstV0_max_a = MiColumnaTabla()
+        self.tabla_84_nom_bobstVM_max_i = MiColumnaTabla()
+        self.tabla_85_nom_hobstVM_con_i = MiColumnaTabla()
+        self.tabla_86_nom_bobstVM_max_a = MiColumnaTabla()
+        self.tabla_87_nom_hobstVM_con_a = MiColumnaTabla()
+        self.tabla_88_nom_bobstVM_con_i = MiColumnaTabla()
+        self.tabla_89_nom_hobstVM_max_i = MiColumnaTabla()
+        self.tabla_90_nom_bobstVM_con_a = MiColumnaTabla()
+        self.tabla_91_nom_hobstVM_max_a = MiColumnaTabla()
+        self.tabla_92_nom_bobstV0_max_i = MiColumnaTabla()
+        self.tabla_93_nom_hobstV0_con_i = MiColumnaTabla()
+        self.tabla_94_nom_bobstV0_max_a = MiColumnaTabla()
+        self.tabla_95_nom_hobstV0_con_a = MiColumnaTabla()
+        self.tabla_96_nom_bobstV0_con_i = MiColumnaTabla()
+        self.tabla_97_nom_hobstV0_max_i = MiColumnaTabla()
+        self.tabla_98_nom_bobstV0_con_a = MiColumnaTabla()
+        self.tabla_99_nom_hobstV0_max_a = MiColumnaTabla()
+        self.tabla_100_lim_ba = MiColumnaTabla()
+        self.tabla_101_lim_ha = MiColumnaTabla()
+        self.tabla_102_lim_bi = MiColumnaTabla()
+        self.tabla_103_lim_hi = MiColumnaTabla()
+        self.tabla_104_nom_ba = MiColumnaTabla()
+        self.tabla_105_nom_ha = MiColumnaTabla()
+        self.tabla_106_nom_bi = MiColumnaTabla()
+        self.tabla_107_nom_hi = MiColumnaTabla()
 
-    def limpiar_tabla(self,elemento: ft.Column, text1: str, text2: str, unidades: str):
+
+    def limpiar_tabla(self, elemento: ft.Column, text1: str, text2: str, unidades: str):
             elemento.controls.clear()
             elemento.controls.append(MiText(text1, text2))
             elemento.controls.append(ft.Text(unidades,size=Tamanyos.TABLA_NORMAL.value))
@@ -225,123 +235,267 @@ class ftTabla:
         self.limpiar_tabla(self.tabla_97_nom_hobstV0_max_i, "h", "V0,max,i", "(mm)")
         self.limpiar_tabla(self.tabla_98_nom_bobstV0_con_a, "b", "V0,con,a", "(mm)")
         self.limpiar_tabla(self.tabla_99_nom_hobstV0_max_a, "h", "V0,max,a", "(mm)")
+        self.limpiar_tabla(self.tabla_100_lim_ba, "b", "lim,a", "(mm)")
+        self.limpiar_tabla(self.tabla_101_lim_ha, "h", "lim,a", "(mm)")
+        self.limpiar_tabla(self.tabla_102_lim_bi, "b", "lim,i", "(mm)")
+        self.limpiar_tabla(self.tabla_103_lim_hi, "h", "lim,i", "(mm)")
+        self.limpiar_tabla(self.tabla_104_nom_ba, "b", "nom,a", "(mm)")
+        self.limpiar_tabla(self.tabla_105_nom_ha, "h", "nom,a", "(mm)")
+        self.limpiar_tabla(self.tabla_106_nom_bi, "b", "nom,i", "(mm)")
+        self.limpiar_tabla(self.tabla_107_nom_hi, "h", "nom,i", "(mm)")
 
-fttabla = ftTabla()
+fttabla_1 = ftTabla()
+fttabla_2 = ftTabla()
 
-tabla_des = ft.ResponsiveRow([
-    fttabla.tabla_00_Punto_des,
-    fttabla.tabla_01_X_des,
-    fttabla.tabla_02_Y_des,
-    fttabla.tabla_03_esPT,
-    fttabla.tabla_04_k,
-    fttabla.tabla_05_s0,
-    fttabla.tabla_06_Sa,
-    fttabla.tabla_07_Si,
-    fttabla.tabla_08_qsDai,
-    fttabla.tabla_09_qsIai,
-    fttabla.tabla_10_Tvia_ai,
-    fttabla.tabla_11_Dbgai,
-    fttabla.tabla_12_Dbcai,
-    fttabla.tabla_13_Dbsuspai,
-    fttabla.tabla_14_Dbcargaai,
-    fttabla.tabla_15_Dbetaai,
-    fttabla.tabla_16_aosca,
-    fttabla.tabla_17_aosci,
-    fttabla.tabla_18_Dbosca,
-    fttabla.tabla_19_Dbosci,
-    fttabla.tabla_20_M3h,
-    fttabla.tabla_21_DhRv,
-    fttabla.tabla_22_DhPTDai,
-    fttabla.tabla_23_DhPTIai,
-    fttabla.tabla_24_TN,
-    fttabla.tabla_25_Dhga,
-    fttabla.tabla_26_Dhgi,
-    fttabla.tabla_27_Dhc,
-    fttabla.tabla_28_Dhgca,
-    fttabla.tabla_29_Dhgci,
-    fttabla.tabla_30_Dhsuspai,
-    fttabla.tabla_31_Dhcargai,
-    fttabla.tabla_32_Dhetaai,
-    fttabla.tabla_33_Dhosca,
-    fttabla.tabla_34_Dhosci,
-    fttabla.tabla_35_M3h,
+tabla_des_1 = ft.ResponsiveRow([
+    fttabla_1.tabla_00_Punto_des,
+    fttabla_1.tabla_01_X_des,
+    fttabla_1.tabla_02_Y_des,
+    fttabla_1.tabla_03_esPT,
+    fttabla_1.tabla_04_k,
+    fttabla_1.tabla_05_s0,
+    fttabla_1.tabla_06_Sa,
+    fttabla_1.tabla_07_Si,
+    fttabla_1.tabla_08_qsDai,
+    fttabla_1.tabla_09_qsIai,
+    fttabla_1.tabla_10_Tvia_ai,
+    fttabla_1.tabla_11_Dbgai,
+    fttabla_1.tabla_12_Dbcai,
+    fttabla_1.tabla_13_Dbsuspai,
+    fttabla_1.tabla_14_Dbcargaai,
+    fttabla_1.tabla_15_Dbetaai,
+    fttabla_1.tabla_16_aosca,
+    fttabla_1.tabla_17_aosci,
+    fttabla_1.tabla_18_Dbosca,
+    fttabla_1.tabla_19_Dbosci,
+    fttabla_1.tabla_20_M3h,
+    fttabla_1.tabla_21_DhRv,
+    fttabla_1.tabla_22_DhPTDai,
+    fttabla_1.tabla_23_DhPTIai,
+    fttabla_1.tabla_24_TN,
+    fttabla_1.tabla_25_Dhga,
+    fttabla_1.tabla_26_Dhgi,
+    fttabla_1.tabla_27_Dhc,
+    fttabla_1.tabla_28_Dhgca,
+    fttabla_1.tabla_29_Dhgci,
+    fttabla_1.tabla_30_Dhsuspai,
+    fttabla_1.tabla_31_Dhcargai,
+    fttabla_1.tabla_32_Dhetaai,
+    fttabla_1.tabla_33_Dhosca,
+    fttabla_1.tabla_34_Dhosci,
+    fttabla_1.tabla_35_M3h,
 ],
 columns=36)
 
-tabla_lim = ft.ResponsiveRow([
-    fttabla.tabla_00_Punto_lim,
-    fttabla.tabla_01_X_lim,
-    fttabla.tabla_02_Y_lim,
-    fttabla.tabla_36_lim_Sja1,
-    fttabla.tabla_37_lim_Sji1,
-    fttabla.tabla_38_lim_Sja2,
-    fttabla.tabla_39_lim_Sji2,
-    fttabla.tabla_40_lim_Sja1_ast,
-    fttabla.tabla_41_lim_Sji1_ast,
-    fttabla.tabla_42_lim_Sja2_ast,
-    fttabla.tabla_43_lim_Sji2_ast,
-    fttabla.tabla_44_lim_SVa1,
-    fttabla.tabla_45_lim_SVi1,
-    fttabla.tabla_46_lim_SVa2,
-    fttabla.tabla_47_lim_SVi2,
-    fttabla.tabla_48_lim_SVa1_ast,
-    fttabla.tabla_49_lim_SVi1_ast,
-    fttabla.tabla_50_lim_SVa2_ast,
-    fttabla.tabla_51_lim_SVi2_ast,
-    fttabla.tabla_68_lim_bobstVM_max_i,
-    fttabla.tabla_69_lim_hobstVM_con_i,
-    fttabla.tabla_70_lim_bobstVM_max_a,
-    fttabla.tabla_71_lim_hobstVM_con_a,
-    fttabla.tabla_72_lim_bobstVM_con_i,
-    fttabla.tabla_73_lim_hobstVM_max_i,
-    fttabla.tabla_74_lim_bobstVM_con_a,
-    fttabla.tabla_75_lim_hobstVM_max_a,
-    fttabla.tabla_76_lim_bobstV0_max_i,
-    fttabla.tabla_77_lim_hobstV0_con_i,
-    fttabla.tabla_78_lim_bobstV0_max_a,
-    fttabla.tabla_79_lim_hobstV0_con_a,
-    fttabla.tabla_80_lim_bobstV0_con_i,
-    fttabla.tabla_81_lim_hobstV0_max_i,
-    fttabla.tabla_82_lim_bobstV0_con_a,
-    fttabla.tabla_83_lim_hobstV0_max_a,
-],
-columns=35)
+tabla_lim_1 = ft.ResponsiveRow([
+    fttabla_1.tabla_00_Punto_lim,
+    fttabla_1.tabla_01_X_lim,
+    fttabla_1.tabla_02_Y_lim,
+    fttabla_1.tabla_36_lim_Sja1,
+    fttabla_1.tabla_37_lim_Sji1,
+    fttabla_1.tabla_38_lim_Sja2,
+    fttabla_1.tabla_39_lim_Sji2,
+    fttabla_1.tabla_40_lim_Sja1_ast,
+    fttabla_1.tabla_41_lim_Sji1_ast,
+    fttabla_1.tabla_42_lim_Sja2_ast,
+    fttabla_1.tabla_43_lim_Sji2_ast,
+    fttabla_1.tabla_44_lim_SVa1,
+    fttabla_1.tabla_45_lim_SVi1,
+    fttabla_1.tabla_46_lim_SVa2,
+    fttabla_1.tabla_47_lim_SVi2,
+    fttabla_1.tabla_48_lim_SVa1_ast,
+    fttabla_1.tabla_49_lim_SVi1_ast,
+    fttabla_1.tabla_50_lim_SVa2_ast,
+    fttabla_1.tabla_51_lim_SVi2_ast,
+    fttabla_1.tabla_68_lim_bobstVM_max_i,
+    fttabla_1.tabla_69_lim_hobstVM_con_i,
+    fttabla_1.tabla_70_lim_bobstVM_max_a,
+    fttabla_1.tabla_71_lim_hobstVM_con_a,
+    fttabla_1.tabla_72_lim_bobstVM_con_i,
+    fttabla_1.tabla_73_lim_hobstVM_max_i,
+    fttabla_1.tabla_74_lim_bobstVM_con_a,
+    fttabla_1.tabla_75_lim_hobstVM_max_a,
+    fttabla_1.tabla_76_lim_bobstV0_max_i,
+    fttabla_1.tabla_77_lim_hobstV0_con_i,
+    fttabla_1.tabla_78_lim_bobstV0_max_a,
+    fttabla_1.tabla_79_lim_hobstV0_con_a,
+    fttabla_1.tabla_80_lim_bobstV0_con_i,
+    fttabla_1.tabla_81_lim_hobstV0_max_i,
+    fttabla_1.tabla_82_lim_bobstV0_con_a,
+    fttabla_1.tabla_83_lim_hobstV0_max_a,
+    fttabla_1.tabla_100_lim_ba,
+    fttabla_1.tabla_101_lim_ha,
+    fttabla_1.tabla_102_lim_bi,
+    fttabla_1.tabla_103_lim_hi,
 
-tabla_nom = ft.ResponsiveRow([
-    fttabla.tabla_00_Punto_nom,
-    fttabla.tabla_01_X_nom,
-    fttabla.tabla_02_Y_nom,
-    fttabla.tabla_52_nom_Sja3,
-    fttabla.tabla_53_nom_Sji3,
-    fttabla.tabla_54_nom_Sja4,
-    fttabla.tabla_55_nom_Sji4,
-    fttabla.tabla_56_nom_Sja3_ast,
-    fttabla.tabla_57_nom_Sji3_ast,
-    fttabla.tabla_58_nom_Sja4_ast,
-    fttabla.tabla_59_nom_Sji4_ast,
-    fttabla.tabla_60_nom_SVa3,
-    fttabla.tabla_61_nom_SVi3,
-    fttabla.tabla_62_nom_SVa4,
-    fttabla.tabla_63_nom_SVi4,
-    fttabla.tabla_64_nom_SVa3_ast,
-    fttabla.tabla_65_nom_SVi3_ast,
-    fttabla.tabla_66_nom_SVa4_ast,
-    fttabla.tabla_67_nom_SVi4_ast,
-    fttabla.tabla_84_nom_bobstVM_max_i,
-    fttabla.tabla_85_nom_hobstVM_con_i,
-    fttabla.tabla_86_nom_bobstVM_max_a,
-    fttabla.tabla_87_nom_hobstVM_con_a,
-    fttabla.tabla_88_nom_bobstVM_con_i,
-    fttabla.tabla_89_nom_hobstVM_max_i,
-    fttabla.tabla_90_nom_bobstVM_con_a,
-    fttabla.tabla_91_nom_hobstVM_max_a,
-    fttabla.tabla_92_nom_bobstV0_max_i,
-    fttabla.tabla_93_nom_hobstV0_con_i,
-    fttabla.tabla_94_nom_bobstV0_max_a,
-    fttabla.tabla_95_nom_hobstV0_con_a,
-    fttabla.tabla_96_nom_bobstV0_con_i,
-    fttabla.tabla_97_nom_hobstV0_max_i,
-    fttabla.tabla_98_nom_bobstV0_con_a,
-    ftTabla.tabla_99_nom_hobstV0_max_a,
 ],
-columns=35,)
+columns=39)
+
+tabla_nom_1 = ft.ResponsiveRow([
+    fttabla_1.tabla_00_Punto_nom,
+    fttabla_1.tabla_01_X_nom,
+    fttabla_1.tabla_02_Y_nom,
+    fttabla_1.tabla_52_nom_Sja3,
+    fttabla_1.tabla_53_nom_Sji3,
+    fttabla_1.tabla_54_nom_Sja4,
+    fttabla_1.tabla_55_nom_Sji4,
+    fttabla_1.tabla_56_nom_Sja3_ast,
+    fttabla_1.tabla_57_nom_Sji3_ast,
+    fttabla_1.tabla_58_nom_Sja4_ast,
+    fttabla_1.tabla_59_nom_Sji4_ast,
+    fttabla_1.tabla_60_nom_SVa3,
+    fttabla_1.tabla_61_nom_SVi3,
+    fttabla_1.tabla_62_nom_SVa4,
+    fttabla_1.tabla_63_nom_SVi4,
+    fttabla_1.tabla_64_nom_SVa3_ast,
+    fttabla_1.tabla_65_nom_SVi3_ast,
+    fttabla_1.tabla_66_nom_SVa4_ast,
+    fttabla_1.tabla_67_nom_SVi4_ast,
+    fttabla_1.tabla_84_nom_bobstVM_max_i,
+    fttabla_1.tabla_85_nom_hobstVM_con_i,
+    fttabla_1.tabla_86_nom_bobstVM_max_a,
+    fttabla_1.tabla_87_nom_hobstVM_con_a,
+    fttabla_1.tabla_88_nom_bobstVM_con_i,
+    fttabla_1.tabla_89_nom_hobstVM_max_i,
+    fttabla_1.tabla_90_nom_bobstVM_con_a,
+    fttabla_1.tabla_91_nom_hobstVM_max_a,
+    fttabla_1.tabla_92_nom_bobstV0_max_i,
+    fttabla_1.tabla_93_nom_hobstV0_con_i,
+    fttabla_1.tabla_94_nom_bobstV0_max_a,
+    fttabla_1.tabla_95_nom_hobstV0_con_a,
+    fttabla_1.tabla_96_nom_bobstV0_con_i,
+    fttabla_1.tabla_97_nom_hobstV0_max_i,
+    fttabla_1.tabla_98_nom_bobstV0_con_a,
+    fttabla_1.tabla_99_nom_hobstV0_max_a,
+    fttabla_1.tabla_104_nom_ba,
+    fttabla_1.tabla_105_nom_ha,
+    fttabla_1.tabla_106_nom_bi,
+    fttabla_1.tabla_107_nom_hi,
+],
+columns=39,)
+
+tabla_des_2 = ft.ResponsiveRow([
+    fttabla_2.tabla_00_Punto_des,
+    fttabla_2.tabla_01_X_des,
+    fttabla_2.tabla_02_Y_des,
+    fttabla_2.tabla_03_esPT,
+    fttabla_2.tabla_04_k,
+    fttabla_2.tabla_05_s0,
+    fttabla_2.tabla_06_Sa,
+    fttabla_2.tabla_07_Si,
+    fttabla_2.tabla_08_qsDai,
+    fttabla_2.tabla_09_qsIai,
+    fttabla_2.tabla_10_Tvia_ai,
+    fttabla_2.tabla_11_Dbgai,
+    fttabla_2.tabla_12_Dbcai,
+    fttabla_2.tabla_13_Dbsuspai,
+    fttabla_2.tabla_14_Dbcargaai,
+    fttabla_2.tabla_15_Dbetaai,
+    fttabla_2.tabla_16_aosca,
+    fttabla_2.tabla_17_aosci,
+    fttabla_2.tabla_18_Dbosca,
+    fttabla_2.tabla_19_Dbosci,
+    fttabla_2.tabla_20_M3h,
+    fttabla_2.tabla_21_DhRv,
+    fttabla_2.tabla_22_DhPTDai,
+    fttabla_2.tabla_23_DhPTIai,
+    fttabla_2.tabla_24_TN,
+    fttabla_2.tabla_25_Dhga,
+    fttabla_2.tabla_26_Dhgi,
+    fttabla_2.tabla_27_Dhc,
+    fttabla_2.tabla_28_Dhgca,
+    fttabla_2.tabla_29_Dhgci,
+    fttabla_2.tabla_30_Dhsuspai,
+    fttabla_2.tabla_31_Dhcargai,
+    fttabla_2.tabla_32_Dhetaai,
+    fttabla_2.tabla_33_Dhosca,
+    fttabla_2.tabla_34_Dhosci,
+    fttabla_2.tabla_35_M3h,
+],
+columns=36)
+
+tabla_lim_2 = ft.ResponsiveRow([
+    fttabla_2.tabla_00_Punto_lim,
+    fttabla_2.tabla_01_X_lim,
+    fttabla_2.tabla_02_Y_lim,
+    fttabla_2.tabla_36_lim_Sja1,
+    fttabla_2.tabla_37_lim_Sji1,
+    fttabla_2.tabla_38_lim_Sja2,
+    fttabla_2.tabla_39_lim_Sji2,
+    fttabla_2.tabla_40_lim_Sja1_ast,
+    fttabla_2.tabla_41_lim_Sji1_ast,
+    fttabla_2.tabla_42_lim_Sja2_ast,
+    fttabla_2.tabla_43_lim_Sji2_ast,
+    fttabla_2.tabla_44_lim_SVa1,
+    fttabla_2.tabla_45_lim_SVi1,
+    fttabla_2.tabla_46_lim_SVa2,
+    fttabla_2.tabla_47_lim_SVi2,
+    fttabla_2.tabla_48_lim_SVa1_ast,
+    fttabla_2.tabla_49_lim_SVi1_ast,
+    fttabla_2.tabla_50_lim_SVa2_ast,
+    fttabla_2.tabla_51_lim_SVi2_ast,
+    fttabla_2.tabla_68_lim_bobstVM_max_i,
+    fttabla_2.tabla_69_lim_hobstVM_con_i,
+    fttabla_2.tabla_70_lim_bobstVM_max_a,
+    fttabla_2.tabla_71_lim_hobstVM_con_a,
+    fttabla_2.tabla_72_lim_bobstVM_con_i,
+    fttabla_2.tabla_73_lim_hobstVM_max_i,
+    fttabla_2.tabla_74_lim_bobstVM_con_a,
+    fttabla_2.tabla_75_lim_hobstVM_max_a,
+    fttabla_2.tabla_76_lim_bobstV0_max_i,
+    fttabla_2.tabla_77_lim_hobstV0_con_i,
+    fttabla_2.tabla_78_lim_bobstV0_max_a,
+    fttabla_2.tabla_79_lim_hobstV0_con_a,
+    fttabla_2.tabla_80_lim_bobstV0_con_i,
+    fttabla_2.tabla_81_lim_hobstV0_max_i,
+    fttabla_2.tabla_82_lim_bobstV0_con_a,
+    fttabla_2.tabla_83_lim_hobstV0_max_a,
+    fttabla_2.tabla_100_lim_ba,
+    fttabla_2.tabla_101_lim_ha,
+    fttabla_2.tabla_102_lim_bi,
+    fttabla_2.tabla_103_lim_hi,
+],
+columns=39)
+
+tabla_nom_2 = ft.ResponsiveRow([
+    fttabla_2.tabla_00_Punto_nom,
+    fttabla_2.tabla_01_X_nom,
+    fttabla_2.tabla_02_Y_nom,
+    fttabla_2.tabla_52_nom_Sja3,
+    fttabla_2.tabla_53_nom_Sji3,
+    fttabla_2.tabla_54_nom_Sja4,
+    fttabla_2.tabla_55_nom_Sji4,
+    fttabla_2.tabla_56_nom_Sja3_ast,
+    fttabla_2.tabla_57_nom_Sji3_ast,
+    fttabla_2.tabla_58_nom_Sja4_ast,
+    fttabla_2.tabla_59_nom_Sji4_ast,
+    fttabla_2.tabla_60_nom_SVa3,
+    fttabla_2.tabla_61_nom_SVi3,
+    fttabla_2.tabla_62_nom_SVa4,
+    fttabla_2.tabla_63_nom_SVi4,
+    fttabla_2.tabla_64_nom_SVa3_ast,
+    fttabla_2.tabla_65_nom_SVi3_ast,
+    fttabla_2.tabla_66_nom_SVa4_ast,
+    fttabla_2.tabla_67_nom_SVi4_ast,
+    fttabla_2.tabla_84_nom_bobstVM_max_i,
+    fttabla_2.tabla_85_nom_hobstVM_con_i,
+    fttabla_2.tabla_86_nom_bobstVM_max_a,
+    fttabla_2.tabla_87_nom_hobstVM_con_a,
+    fttabla_2.tabla_88_nom_bobstVM_con_i,
+    fttabla_2.tabla_89_nom_hobstVM_max_i,
+    fttabla_2.tabla_90_nom_bobstVM_con_a,
+    fttabla_2.tabla_91_nom_hobstVM_max_a,
+    fttabla_2.tabla_92_nom_bobstV0_max_i,
+    fttabla_2.tabla_93_nom_hobstV0_con_i,
+    fttabla_2.tabla_94_nom_bobstV0_max_a,
+    fttabla_2.tabla_95_nom_hobstV0_con_a,
+    fttabla_2.tabla_96_nom_bobstV0_con_i,
+    fttabla_2.tabla_97_nom_hobstV0_max_i,
+    fttabla_2.tabla_98_nom_bobstV0_con_a,
+    fttabla_2.tabla_99_nom_hobstV0_max_a,
+    fttabla_2.tabla_104_nom_ba,
+    fttabla_2.tabla_105_nom_ha,
+    fttabla_2.tabla_106_nom_bi,
+    fttabla_2.tabla_107_nom_hi,
+],
+columns=39,)

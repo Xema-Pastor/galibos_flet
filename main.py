@@ -3,8 +3,8 @@ import configuracion as conf
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import via1, via2
 from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
-from componentes.comp_tablas import tabla_des, tabla_lim, tabla_nom, fttabla
-from componentes.comp_textos import ftt
+from componentes.comp_tablas import tabla_des_1, tabla_lim_1, tabla_nom_1, fttabla_1, tabla_des_2, tabla_lim_2, tabla_nom_2, fttabla_2
+from componentes.comp_textos import ftt_1, ftt_2
 from componentes.comp_graficos import *
 from componentes.mis_componentes import *
 import calculos.calculos as calc
@@ -12,275 +12,279 @@ from math import sin, cos, atan, degrees, radians
 
 def galibos(page: ft.Page):
 
-    def cambiar_variables(galiboPA):
+    page.title = "Determinación de gálibos de material rodante de acuerdo a la Orden FOM/1630/2015 "
+    page.window.height = 600
+    page.window.width = 1800
+
+    def cambiar_variables(galibo, via, ft_elem):
         
         #CÁLCULO DE LAS VARIABLES GENERALES DEL PROGRAMA
-        via1.maxY = 0
-        for nombre,punto in galiboPA.items():                                   #intentar hacer esto con la función max y una lambda
-            if punto.Y > via1.maxY:
-                via1.maxY = punto.Y
-        match via1.GPA:
+        via.maxY = 0
+        for nombre,punto in galibo.items():                                   #intentar hacer esto con la función max y una lambda
+            if punto.Y > via.maxY:
+                via.maxY = punto.Y
+        match via.GPA:
             case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value:
-                via1.hb_max = ( galiboPA["P3"].Y + galiboPA["P4"].Y ) / 2
+                via.hb_max = ( galibo["P3"].Y + galibo["P4"].Y ) / 2
             case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value:
-                via1.hb_max = ( galiboPA["P1"].Y + galiboPA["P2"].Y ) / 2
-        match via1.GPA:
-            case EGPA.GEA16.value | EGPA.GEB16.value: via1.hquiebroaux = 3.32
-            case EGPA.GA.value | EGPA.GB.value: via1.hquiebroaux = 3.35
-            case other: via1.hquiebroaux = 0
-        match via1.GPA:
-            case EGPA.GEA16.value: via1.htopeaux = 3.7
-            case EGPA.GEB16.value | EGPA.GB.value: via1.htopeaux = 4.11
-            case EGPA.GA.value: via1.htopeaux = 3.88
-            case other: via1.htopeaux = 0
-        match via1.GPA:
-            case EGPA.GEA16.value: via1.difaux = 0.38
-            case EGPA.GEB16.value: via1.difaux = 0.79
-            case EGPA.GA.value: via1.difaux = 0.63
-            case EGPA.GB.value: via1.difaux = 0.86
-            case other: via1.difaux = 0
-        match via1.GPA:
-            case EGPA.GEA16.value: via1.otra = 4.84
-            case EGPA.GEB16.value: via1.otra = 6.48
-            case EGPA.GA.value: via1.otra = 5.77
-            case EGPA.GB.value: via1.otra = 6.69
-            case other: via1.otra = 0
-        match via1.GPA:
-            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: via1.LN = 1.668
-            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via1.LN = 1.435
-            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via1.LN = 1
+                via.hb_max = ( galibo["P1"].Y + galibo["P2"].Y ) / 2
+        match via.GPA:
+            case EGPA.GEA16.value | EGPA.GEB16.value: via.hquiebroaux = 3.32
+            case EGPA.GA.value | EGPA.GB.value: via.hquiebroaux = 3.35
+            case other: via.hquiebroaux = 0
+        match via.GPA:
+            case EGPA.GEA16.value: via.htopeaux = 3.7
+            case EGPA.GEB16.value | EGPA.GB.value: via.htopeaux = 4.11
+            case EGPA.GA.value: via.htopeaux = 3.88
+            case other: via.htopeaux = 0
+        match via.GPA:
+            case EGPA.GEA16.value: via.difaux = 0.38
+            case EGPA.GEB16.value: via.difaux = 0.79
+            case EGPA.GA.value: via.difaux = 0.63
+            case EGPA.GB.value: via.difaux = 0.86
+            case other: via.difaux = 0
+        match via.GPA:
+            case EGPA.GEA16.value: via.otra = 4.84
+            case EGPA.GEB16.value: via.otra = 6.48
+            case EGPA.GA.value: via.otra = 5.77
+            case EGPA.GB.value: via.otra = 6.69
+            case other: via.otra = 0
+        match via.GPA:
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: via.LN = 1.668
+            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via.LN = 1.435
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via.LN = 1
 
         #COMPROBACIÓN DE LOS CHECKBOXES: RADIOS EN PLANTA Y ALZADO, E INCLINACIÓN DEL GRÁFICO
-        es_recta = cb_R.value
-        es_recta_V = cb_RV.value
-        es_girado = cb_graf_esGirado.value
-        via1.R = 999999 if es_recta else int(tf_R.value)
-        via1.Rv = 999999 if es_recta_V else int(tf_RV.value)
-        tf_R.disabled = es_recta
-        tf_RV.disabled = es_recta_V
-        cb_graf_inclinacion.disabled = not es_girado
-        via1.Inclinac = 0.0 if not es_girado else degrees(atan(via1.D / via1.LN))
-        lado_inclinacion = cb_graf_inclinacion.value
+        es_recta = ft_elem.cb_R.value
+        es_recta_V = ft_elem.cb_RV.value
+        es_girado = ft_elem.cb_graf_esGirado.value
+        via.R = 999999 if es_recta else int(ft_elem.tf_R.value)
+        via.Rv = 999999 if es_recta_V else int(ft_elem.tf_RV.value)
+        ft_elem.tf_R.disabled = es_recta
+        ft_elem.tf_RV.disabled = es_recta_V
+        ft_elem.cb_graf_inclinacion.disabled = not es_girado
+        via.Inclinac = 0.0 if not es_girado else degrees(atan(via.D / via.LN))
+        lado_inclinacion = ft_elem.cb_graf_inclinacion.value
         if lado_inclinacion == "A derechas":
-            via1.Inclinac = abs(via1.Inclinac)
+            via.Inclinac = abs(via.Inclinac)
         elif lado_inclinacion == "A izquierdas":
-            via1.Inclinac = -abs(via1.Inclinac)
+            via.Inclinac = -abs(via.Inclinac)
 
-        via1.DL = tf_DL.value
-        via1.LND = via1.LN + via1.DL
-        via1.D = float(tf_D.value)
-        match via1.GPA:
-            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via1.D0 = 0.05
-            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via1.D0 = 0.07
-        via1.vmax = tf_vmax.value
-        via1.heq = round((float(via1.vmax) / 3.6)**2 * via1.LN / (float(via1.R) * 9.81), 4)
+        via.DL = ft_elem.tf_DL.value
+        via.LND = via.LN + via.DL
+        via.D = float(ft_elem.tf_D.value)
+        match via.GPA:
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via.D0 = 0.05
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via.D0 = 0.07
+        via.vmax = ft_elem.tf_vmax.value
+        via.heq = round((float(via.vmax) / 3.6)**2 * via.LN / (float(via.R) * 9.81), 4)
         #via1.I = via1.heq - via1.D
-        via1.I = float(tf_I.value)
-        match via1.GPA:
-            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via1.I0 = 0.05
-            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via1.I0 = 0.07
-        match via1.GPA:
-            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: via1.L = 1.733
-            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via1.L = 1.5
-            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via1.L = 1.055
-        via1.tipo_via = dd_TV.value
-        match via1.tipo_via:
+        via.I = float(ft_elem.tf_I.value)
+        match via.GPA:
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value | EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via.I0 = 0.05
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via.I0 = 0.07
+        match via.GPA:
+            case EGPA.GHE16.value | EGPA.GEA16.value | EGPA.GEB16.value | EGPA.GEC16.value: via.L = 1.733
+            case EGPA.GA.value | EGPA.GB.value | EGPA.GC.value: via.L = 1.5
+            case EGPA.GEE10.value |EGPA.GED10.value | EGPA.PERSONALIZADO.value: via.L = 1.055
+        via.tipo_via = ft_elem.dd_TV.value
+        match via.tipo_via:
             case ETV.VIA_PLACA.value:
-                via1.TVIA = 0.005
-                via1.TD = 0.015
+                via.TVIA = 0.005
+                via.TD = 0.015
             case ETV.BALASTO.value:
-                via1.TVIA = 0.025
-                via1.TD = 0.02 if int(via1.vmax) <=80 else 0.015
-        via1.asusp = tf_tol_sus.value
-        via1.acarga = tf_tol_carga.value
-        via1.eta0 = float(via1.asusp) + float(via1.acarga)
-        via1.estado_via = dd_EV.value
-        if via1.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
-            via1.aosc_i_s0_04b = 0.20 if via1.tipo_via == ETV.BALASTO.value else 0.1
-            via1.aosc_a_s0_04b = 1.00 if via1.tipo_via == ETV.BALASTO.value else 0.6
-            via1.aosc_i_s0_03b = 0.20 if via1.tipo_via == ETV.BALASTO.value else 0.1
-            via1.aosc_a_s0_03b = 1.00 if via1.tipo_via == ETV.BALASTO.value else 0.6
-        elif via1.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
-            if via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_i_s0_04b = 0.1
-                via1.aosc_a_s0_04b = 0.6
-                via1.aosc_i_s0_03b = 0.08
-                via1.aosc_a_s0_03b = 0.45
-            elif via1.tipo_via == ETV.BALASTO.value:
-                if via1.estado_via == EEV.BUEN_ESTADO.value:
-                    via1.aosc_i_s0_04b = 0.1
-                    via1.aosc_a_s0_04b = 0.6
-                    via1.aosc_i_s0_03b = 0.08
-                    via1.aosc_a_s0_03b = 0.45
-                elif via1.estado_via == EEV.MAL_ESTADO.value:
-                    via1.aosc_i_s0_04b = 0.2
-                    via1.aosc_a_s0_04b = 1.0
-                    via1.aosc_i_s0_03b = 0.15
-                    via1.aosc_a_s0_03b = 0.75
+                via.TVIA = 0.025
+                via.TD = 0.02 if int(via.vmax) <=80 else 0.015
+        via.asusp = ft_elem.tf_tol_sus.value
+        via.acarga = ft_elem.tf_tol_carga.value
+        via.eta0 = float(via.asusp) + float(via.acarga)
+        via.estado_via = ft_elem.dd_EV.value
+        if via.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            via.aosc_i_s0_04b = 0.20 if via.tipo_via == ETV.BALASTO.value else 0.1
+            via.aosc_a_s0_04b = 1.00 if via.tipo_via == ETV.BALASTO.value else 0.6
+            via.aosc_i_s0_03b = 0.20 if via.tipo_via == ETV.BALASTO.value else 0.1
+            via.aosc_a_s0_03b = 1.00 if via.tipo_via == ETV.BALASTO.value else 0.6
+        elif via.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_i_s0_04b = 0.1
+                via.aosc_a_s0_04b = 0.6
+                via.aosc_i_s0_03b = 0.08
+                via.aosc_a_s0_03b = 0.45
+            elif via.tipo_via == ETV.BALASTO.value:
+                if via.estado_via == EEV.BUEN_ESTADO.value:
+                    via.aosc_i_s0_04b = 0.1
+                    via.aosc_a_s0_04b = 0.6
+                    via.aosc_i_s0_03b = 0.08
+                    via.aosc_a_s0_03b = 0.45
+                elif via.estado_via == EEV.MAL_ESTADO.value:
+                    via.aosc_i_s0_04b = 0.2
+                    via.aosc_a_s0_04b = 1.0
+                    via.aosc_i_s0_03b = 0.15
+                    via.aosc_a_s0_03b = 0.75
 
-        via1.DhRV = round(50/float(via1.Rv), 2)
-        if via1.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
-            if via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.BUEN_ESTADO.value:
-                via1.aosc_i_s0_04h = 0.1
-            elif via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.MAL_ESTADO.value:
-                via1.aosc_i_s0_04h = 0.2
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_i_s0_04h = 0.1
-        elif via1.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
-            if via1.tipo_via == ETV.BALASTO.value:
-                via1.aosc_i_s0_04h = 0.2
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_i_s0_04h = 0.1
+        via.DhRV = round(50/float(via.Rv), 2)
+        if via.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.BUEN_ESTADO.value:
+                via.aosc_i_s0_04h = 0.1
+            elif via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.MAL_ESTADO.value:
+                via.aosc_i_s0_04h = 0.2
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_i_s0_04h = 0.1
+        elif via.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            if via.tipo_via == ETV.BALASTO.value:
+                via.aosc_i_s0_04h = 0.2
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_i_s0_04h = 0.1
         
-        if via1.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
-            if via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.BUEN_ESTADO.value:
-                via1.aosc_i_s0_03h = 0.08
-            elif via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.MAL_ESTADO.value:
-                via1.aosc_i_s0_03h = 0.15
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_i_s0_03h = 0.08
-        elif via1.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
-            if via1.tipo_via == ETV.BALASTO.value:
-                via1.aosc_i_s0_03h = 0.2
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_i_s0_03h = 0.1
+        if via.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.BUEN_ESTADO.value:
+                via.aosc_i_s0_03h = 0.08
+            elif via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.MAL_ESTADO.value:
+                via.aosc_i_s0_03h = 0.15
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_i_s0_03h = 0.08
+        elif via.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            if via.tipo_via == ETV.BALASTO.value:
+                via.aosc_i_s0_03h = 0.2
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_i_s0_03h = 0.1
 
-        if via1.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
-            if via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.BUEN_ESTADO.value:
-                via1.aosc_a_s0_04h = 0.6
-            elif via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.MAL_ESTADO.value:
-                via1.aosc_a_s0_04h = 1.0
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_a_s0_04h = 0.6
-        elif via1.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
-            if via1.tipo_via == ETV.BALASTO.value:
-                via1.aosc_a_s0_04h = 1.0
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_a_s0_04h = 0.6
+        if via.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.BUEN_ESTADO.value:
+                via.aosc_a_s0_04h = 0.6
+            elif via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.MAL_ESTADO.value:
+                via.aosc_a_s0_04h = 1.0
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_a_s0_04h = 0.6
+        elif via.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            if via.tipo_via == ETV.BALASTO.value:
+                via.aosc_a_s0_04h = 1.0
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_a_s0_04h = 0.6
         
-        if via1.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
-            if via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.BUEN_ESTADO.value:
-                via1.aosc_a_s0_03h = 0.45
-            elif via1.tipo_via == ETV.BALASTO.value and via1.estado_via == EEV.MAL_ESTADO.value:
-                via1.aosc_a_s0_03h = 0.75
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_a_s0_03h = 0.45
-        elif via1.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
-            if via1.tipo_via == ETV.BALASTO.value:
-                via1.aosc_a_s0_03h = 1.0
-            elif via1.tipo_via == ETV.VIA_PLACA.value:
-                via1.aosc_a_s0_03h = 0.6
+        if via.GPA in [EGPA.GHE16.value, EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GEC16.value, EGPA.GA.value, EGPA.GB.value, EGPA.GC.value]:
+            if via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.BUEN_ESTADO.value:
+                via.aosc_a_s0_03h = 0.45
+            elif via.tipo_via == ETV.BALASTO.value and via.estado_via == EEV.MAL_ESTADO.value:
+                via.aosc_a_s0_03h = 0.75
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_a_s0_03h = 0.45
+        elif via.GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value]:
+            if via.tipo_via == ETV.BALASTO.value:
+                via.aosc_a_s0_03h = 1.0
+            elif via.tipo_via == ETV.VIA_PLACA.value:
+                via.aosc_a_s0_03h = 0.6
 
-    def cambiar_elementos(galiboPA):
+    def cambiar_elementos(galiboPA, ftt, fttabla, via):
         def signo(num):
             return 1 if num > 0 else -1
 
         #ACTUALIZACIÓN DE LOS ELEMENTOS DE FLET CON LOS VALORES CALCULADOS ANTERIORMENTE
-        ftt.t_R.value = via1.R
-        ftt.t_RV.value = via1.Rv
-        ftt.t_LN.value = via1.LN
-        ftt.t_DL.value = via1.DL
-        ftt.t_LND.value = via1.LND
-        ftt.t_DhRV.value = via1.DhRV
+        ftt.t_R.value = via.R
+        ftt.t_RV.value = via.Rv
+        ftt.t_LN.value = via.LN
+        ftt.t_DL.value = via.DL
+        ftt.t_LND.value = via.LND
+        ftt.t_DhRV.value = via.DhRV
         
-        ftt.t_D.value = via1.D
-        ftt.t_D0.value = via1.D0
-        ftt.t_heq.value = via1.heq
-        ftt.t_I.value = via1.I
-        ftt.t_I0.value = via1.I0
-        ftt.t_L.value = via1.L
-        ftt.t_hco.value = via1.hco
+        ftt.t_D.value = via.D
+        ftt.t_D0.value = via.D0
+        ftt.t_heq.value = via.heq
+        ftt.t_I.value = via.I
+        ftt.t_I0.value = via.I0
+        ftt.t_L.value = via.L
+        ftt.t_hco.value = via.hco
 
-        ftt.t_tvia.value = via1.TVIA
-        ftt.t_td.value = via1.TD
-        ftt.t_vmax.value = via1.vmax
-        ftt.t_asusp.value = via1.asusp
-        ftt.t_acarga.value = via1.acarga
-        ftt.t_eta0.value = via1.eta0
-        ftt.t_aosc_i_s0_04b.value = via1.aosc_i_s0_04b
-        ftt.t_aosc_i_s0_03b.value = via1.aosc_i_s0_03b
-        ftt.t_aosc_a_s0_04b.value = via1.aosc_a_s0_04b
-        ftt.t_aosc_a_s0_03b.value = via1.aosc_a_s0_03b
+        ftt.t_tvia.value = via.TVIA
+        ftt.t_td.value = via.TD
+        ftt.t_vmax.value = via.vmax
+        ftt.t_asusp.value = via.asusp
+        ftt.t_acarga.value = via.acarga
+        ftt.t_eta0.value = via.eta0
+        ftt.t_aosc_i_s0_04b.value = via.aosc_i_s0_04b
+        ftt.t_aosc_i_s0_03b.value = via.aosc_i_s0_03b
+        ftt.t_aosc_a_s0_04b.value = via.aosc_a_s0_04b
+        ftt.t_aosc_a_s0_03b.value = via.aosc_a_s0_03b
 
         fttabla.actualizar_tabla()
 
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS DE FLET
         for nombre,punto in galiboPA.items():
-            punto.esPT = calc.calcular_esPT(punto.Y, via1.maxY)
-            punto.k = calc.calcular_k(via1.GPA, punto.Y/1000, via1.hquiebroaux, via1.htopeaux, via1.difaux)
-            punto.s0 = calc.calcular_s0(via1.GPA, punto.Y/1000, via1.hquiebroaux, via1.htopeaux, via1.difaux, via1.hotra)
-            punto.Sa = calc.calcular_Sa(via1.GPA, via1.GPB, via1.R, via1.LN, via1.LND, via1.hquiebroaux, punto.Y/1000, punto.k)
-            punto.Si = calc.calcular_Si(via1.GPA, via1.GPB, via1.R, via1.LN, via1.LND, via1.hquiebroaux, punto.Y/1000, punto.k)
-            punto.qsD_ai = calc.calcular_qsD_ai(punto.Y/1000, punto.s0, via1.D, via1.D0, via1.L, via1.hco)
-            punto.qsI_ai = calc.calcular_qsI_ai(punto.Y/1000, punto.s0, via1.I, via1.I0, via1.L, via1.hco)
-            punto.Tvia_ai = via1.TVIA * 1000
-            punto.Dbg_ai = calc.calcular_Dbg_ai(punto.Y/1000, via1.L, via1.TD)
-            punto.Dbc_ai = calc.calcular_Dbc_ai(punto.Y/1000, via1.L, via1.TD, via1.hco, punto.s0)
-            punto.Dbsusp_ai = calc.calcular_Dbsusp_ai(via1.asusp, punto.Y, via1.hco * 1000)
-            punto.Dbcarg_ai = calc.calcular_Dbcarg_ai(via1.acarga, punto.Y, via1.hco * 1000)
-            punto.Dbeta0_ai = calc.calcular_Dbeta0_ai(via1.eta0, punto.Y, via1.hco * 1000)
-            punto.aosc_a = calc.calcular_aosc(punto.s0, via1.aosc_a_s0_03b, via1.aosc_a_s0_04b)
-            punto.aosc_i = calc.calcular_aosc(punto.s0, via1.aosc_i_s0_03b, via1.aosc_i_s0_04b)
-            punto.Dbosc_a = calc.calcular_Dbosc(punto.aosc_a, punto.Y, via1.hco * 1000)
-            punto.Dbosc_i = calc.calcular_Dbosc(punto.aosc_i, punto.Y, via1.hco * 1000)
-            punto.M3b = via1.M3b * 1000
-            punto.DhRv = round(via1.DhRV * 1000, 1)
-            punto.DhPT_D_ai = calc.calcular_DhPT_D_ai(punto.X, punto.s0, via1.D, via1.D0, via1.L)
-            punto.DhPT_I_ai = calc.calcular_DhPT_I_ai(punto.X, punto.s0, via1.I, via1.I0, via1.L)
-            punto.TN = via1.TN * 1000
-            punto.Dhg_a = calc.calcular_Dhg_a(punto.X/1000, via1.L, via1.TD)
-            punto.Dhg_i = calc.calcular_Dhg_i(punto.X/1000, via1.L, via1.TD)
-            punto.Dhc = calc.calcular_Dhc(punto.X/1000, punto.s0, via1.L, via1.TD)
+            punto.esPT = calc.calcular_esPT(punto.Y, via.maxY)
+            punto.k = calc.calcular_k(via.GPA, punto.Y/1000, via.hquiebroaux, via.htopeaux, via.difaux)
+            punto.s0 = calc.calcular_s0(via.GPA, punto.Y/1000, via.hquiebroaux, via.htopeaux, via.difaux, via.hotra)
+            punto.Sa = calc.calcular_Sa(via.GPA, via.GPB, via.R, via.LN, via.LND, via.hquiebroaux, punto.Y/1000, punto.k)
+            punto.Si = calc.calcular_Si(via.GPA, via.GPB, via.R, via.LN, via.LND, via.hquiebroaux, punto.Y/1000, punto.k)
+            punto.qsD_ai = calc.calcular_qsD_ai(punto.Y/1000, punto.s0, via.D, via.D0, via.L, via.hco)
+            punto.qsI_ai = calc.calcular_qsI_ai(punto.Y/1000, punto.s0, via.I, via.I0, via.L, via.hco)
+            punto.Tvia_ai = via.TVIA * 1000
+            punto.Dbg_ai = calc.calcular_Dbg_ai(punto.Y/1000, via.L, via.TD)
+            punto.Dbc_ai = calc.calcular_Dbc_ai(punto.Y/1000, via.L, via.TD, via.hco, punto.s0)
+            punto.Dbsusp_ai = calc.calcular_Dbsusp_ai(via.asusp, punto.Y, via.hco * 1000)
+            punto.Dbcarg_ai = calc.calcular_Dbcarg_ai(via.acarga, punto.Y, via.hco * 1000)
+            punto.Dbeta0_ai = calc.calcular_Dbeta0_ai(via.eta0, punto.Y, via.hco * 1000)
+            punto.aosc_a = calc.calcular_aosc(punto.s0, via.aosc_a_s0_03b, via.aosc_a_s0_04b)
+            punto.aosc_i = calc.calcular_aosc(punto.s0, via.aosc_i_s0_03b, via.aosc_i_s0_04b)
+            punto.Dbosc_a = calc.calcular_Dbosc(punto.aosc_a, punto.Y, via.hco * 1000)
+            punto.Dbosc_i = calc.calcular_Dbosc(punto.aosc_i, punto.Y, via.hco * 1000)
+            punto.M3b = via.M3b * 1000
+            punto.DhRv = round(via.DhRV * 1000, 1)
+            punto.DhPT_D_ai = calc.calcular_DhPT_D_ai(punto.X, punto.s0, via.D, via.D0, via.L)
+            punto.DhPT_I_ai = calc.calcular_DhPT_I_ai(punto.X, punto.s0, via.I, via.I0, via.L)
+            punto.TN = via.TN * 1000
+            punto.Dhg_a = calc.calcular_Dhg_a(punto.X/1000, via.L, via.TD)
+            punto.Dhg_i = calc.calcular_Dhg_i(punto.X/1000, via.L, via.TD)
+            punto.Dhc = calc.calcular_Dhc(punto.X/1000, punto.s0, via.L, via.TD)
             punto.Dhgca = round(punto.Dhg_a + punto.Dhc, 1)
             punto.Dhgci = round(punto.Dhg_i + punto.Dhc, 1)
-            punto.Dhsusp_ai = calc.calcular_Dhsusp_ai(punto.X, via1.asusp)
-            punto.Dhcarg_ai = calc.calcular_Dhcarg_ai(punto.X, via1.acarga)
-            punto.Dheta0_ai = calc.calcular_Dhcarg_ai(punto.X, via1.eta0)
+            punto.Dhsusp_ai = calc.calcular_Dhsusp_ai(punto.X, via.asusp)
+            punto.Dhcarg_ai = calc.calcular_Dhcarg_ai(punto.X, via.acarga)
+            punto.Dheta0_ai = calc.calcular_Dhcarg_ai(punto.X, via.eta0)
             punto.Dhosc_a = calc.calcular_Dhosc(punto.X, punto.aosc_i)                           #Sí, los ángulos están cambiados. Así debe ser.
             punto.Dhosc_i = calc.calcular_Dhosc(punto.X, punto.aosc_a)                           #Sí, los ángulos están cambiados. Así debe ser.
-            punto.M3h = via1.M3h * 1000
+            punto.M3h = via.M3h * 1000
 
-            punto.lim_Sja1 = calc.calcular_lim_Sj1(punto.Y/1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
-            punto.lim_Sji1 = calc.calcular_lim_Sj1(punto.Y/1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
-            punto.lim_Sja2 = calc.calcular_lim_Sj2(punto.Y/1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai)
+            punto.lim_Sja1 = calc.calcular_lim_Sj1(punto.Y/1000, via.hco, via.K, via.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
+            punto.lim_Sji1 = calc.calcular_lim_Sj1(punto.Y/1000, via.hco, via.K, via.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
+            punto.lim_Sja2 = calc.calcular_lim_Sj2(punto.Y/1000, via.hco, via.K, via.Kale_h_0_50, punto.Tvia_ai, punto.Dbg_ai)
             punto.lim_Sji2 = punto.lim_Sja2
             punto.lim_rad_Sja1_ast = calc.calcular_lim_rad_Sj1(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
             punto.lim_rad_Sji1_ast = calc.calcular_lim_rad_Sj1(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
             punto.lim_rad_Sjai2_ast = calc.calcular_lim_rad_Sj2(punto.Tvia_ai, punto.Dbg_ai)
-            punto.lim_Sja1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.lim_rad_Sja1_ast)
-            punto.lim_Sji1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.lim_rad_Sji1_ast)
-            punto.lim_Sja2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
-            punto.lim_Sji2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via1.hco, via1.K, via1.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
+            punto.lim_Sja1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via.hco, via.K, via.Kale_h_0_50, punto.lim_rad_Sja1_ast)
+            punto.lim_Sji1_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via.hco, via.K, via.Kale_h_0_50, punto.lim_rad_Sji1_ast)
+            punto.lim_Sja2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via.hco, via.K, via.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
+            punto.lim_Sji2_ast = calc.calcular_lim_Sj_ast(punto.Y / 1000, via.hco, via.K, via.Kale_h_0_50, punto.lim_rad_Sjai2_ast)
             punto.lim_rad_SVi1 = calc.calcular_lim_rad_SVi1(punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
             punto.lim_rad_SVa1 = calc.calcular_lim_rad_SVa1(punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
-            punto.lim_SVa1 = calc.calcular_lim_SV1(via1.K, punto.lim_rad_SVa1)
-            punto.lim_SVi1 = calc.calcular_lim_SV1(via1.K, punto.lim_rad_SVi1)
+            punto.lim_SVa1 = calc.calcular_lim_SV1(via.K, punto.lim_rad_SVa1)
+            punto.lim_SVi1 = calc.calcular_lim_SV1(via.K, punto.lim_rad_SVi1)
             punto.lim_SVa2 = punto.TN
             punto.lim_SVi2 = punto.TN
-            punto.lim_SVa1_ast = calc.calcular_SVa1_ast(via1.K, punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
-            punto.lim_SVi1_ast = calc.calcular_SVi1_ast(via1.K, punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
+            punto.lim_SVa1_ast = calc.calcular_SVa1_ast(via.K, punto.TN, punto.Dhg_a, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_a)
+            punto.lim_SVi1_ast = calc.calcular_SVi1_ast(via.K, punto.TN, punto.Dhg_i, punto.Dhc, punto.Dhsusp_ai, punto.Dhcarg_ai, punto.Dhosc_i)
             punto.lim_SVa2_ast = punto.TN
             punto.lim_SVi2_ast = punto.TN
             punto.lim_bobstVM_max_i = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Si, -punto.qsI_ai, punto.lim_Sji1, punto.lim_Sji2)
-            punto.lim_hobstVM_con_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_I_ai, punto.lim_SVi1, punto.lim_SVi2)
+            punto.lim_hobstVM_con_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_I_ai, punto.lim_SVi1, punto.lim_SVi2)
             punto.lim_bobstVM_max_a = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Sa, punto.qsI_ai, punto.lim_Sja1, punto.lim_Sja2)
-            punto.lim_hobstVM_con_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.lim_SVa1, punto.lim_SVa2)
+            punto.lim_hobstVM_con_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.lim_SVa1, punto.lim_SVa2)
             punto.lim_bobstVM_con_i = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Si, -punto.qsI_ai, punto.lim_Sji1_ast, punto.lim_Sji2_ast)
-            punto.lim_hobstVM_max_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_I_ai, punto.lim_SVi1_ast, punto.lim_SVi2_ast)
+            punto.lim_hobstVM_max_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_I_ai, punto.lim_SVi1_ast, punto.lim_SVi2_ast)
             punto.lim_bobstVM_con_a = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Sa, punto.qsI_ai, punto.lim_Sja1_ast, punto.lim_Sja2_ast)
-            punto.lim_hobstVM_max_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.lim_SVa1_ast, punto.lim_SVa2_ast)
+            punto.lim_hobstVM_max_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.lim_SVa1_ast, punto.lim_SVa2_ast)
             punto.lim_bobstV0_max_i = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Si, punto.qsD_ai, punto.lim_Sji1, punto.lim_Sji2)
-            punto.lim_hobstV0_con_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.lim_SVi1, punto.lim_SVi2)
+            punto.lim_hobstV0_con_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.lim_SVi1, punto.lim_SVi2)
             punto.lim_bobstV0_max_a = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Sa, -punto.qsD_ai, punto.lim_Sja1, punto.lim_Sja2)
-            punto.lim_hobstV0_con_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_D_ai, punto.lim_SVa1, punto.lim_SVa2)
+            punto.lim_hobstV0_con_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_D_ai, punto.lim_SVa1, punto.lim_SVa2)
             punto.lim_bobstV0_con_i = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Si, punto.qsD_ai, punto.lim_Sji1_ast, punto.lim_Sji2_ast)
-            punto.lim_hobstV0_max_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.lim_SVi1_ast, punto.lim_SVi2_ast)
+            punto.lim_hobstV0_max_i = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.lim_SVi1_ast, punto.lim_SVi2_ast)
             punto.lim_bobstV0_con_a = calc.calcular_lim_bobst(punto.X, punto.Y / 1000, punto.Sa, -punto.qsD_ai, punto.lim_Sja1_ast, punto.lim_Sja2_ast)
-            punto.lim_hobstV0_max_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_D_ai, punto.lim_SVa1_ast, punto.lim_SVa2_ast)
+            punto.lim_hobstV0_max_a = calc.calcular_lim_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_D_ai, punto.lim_SVa1_ast, punto.lim_SVa2_ast)
             punto.lim_ba = signo(punto.X) * max(abs(punto.lim_bobstVM_max_a), abs(punto.lim_bobstVM_con_a), abs(punto.lim_bobstV0_max_a), abs(punto.lim_bobstV0_con_a))
-            punto.lim_ha = calc.calcular_h(punto.Y/1000, via1.hb_max / 1000, punto.lim_hobstVM_con_a, punto.lim_hobstVM_max_a, punto.lim_hobstV0_con_a, punto.lim_hobstV0_max_a)
+            punto.lim_ha = calc.calcular_h(punto.Y/1000, via.hb_max / 1000, punto.lim_hobstVM_con_a, punto.lim_hobstVM_max_a, punto.lim_hobstV0_con_a, punto.lim_hobstV0_max_a)
             punto.lim_bi = signo(punto.X) * max(abs(punto.lim_bobstVM_max_i), abs(punto.lim_bobstVM_con_i), abs(punto.lim_bobstV0_max_i), abs(punto.lim_bobstV0_con_i))
-            punto.lim_hi = calc.calcular_h(punto.Y/1000, via1.hb_max / 1000, punto.lim_hobstVM_con_i, punto.lim_hobstVM_max_i, punto.lim_hobstV0_con_i, punto.lim_hobstV0_max_i)
+            punto.lim_hi = calc.calcular_h(punto.Y/1000, via.hb_max / 1000, punto.lim_hobstVM_con_i, punto.lim_hobstVM_max_i, punto.lim_hobstV0_con_i, punto.lim_hobstV0_max_i)
 
             punto.nom_Sja3 = calc.calcular_nom_Sj3(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
             punto.nom_Sji3 = calc.calcular_nom_Sj3(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
@@ -299,25 +303,25 @@ def galibos(page: ft.Page):
             punto.nom_SVa4_ast = punto.TN
             punto.nom_SVi4_ast = punto.TN
             punto.nom_bobstVM_max_i = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Si, -punto.qsI_ai, punto.nom_Sji3, punto.nom_Sji4, punto.M3b)
-            punto.nom_hobstVM_con_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_I_ai, punto.nom_SVi3, punto.nom_SVi4, punto.M3h)
+            punto.nom_hobstVM_con_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_I_ai, punto.nom_SVi3, punto.nom_SVi4, punto.M3h)
             punto.nom_bobstVM_max_a = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Sa, punto.qsI_ai, punto.nom_Sja3, punto.nom_Sja4, punto.M3b)
-            punto.nom_hobstVM_con_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.nom_SVa3, punto.nom_SVa4, punto.M3h)
+            punto.nom_hobstVM_con_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.nom_SVa3, punto.nom_SVa4, punto.M3h)
             punto.nom_bobstVM_con_i = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Si, -punto.qsI_ai, punto.nom_Sji3_ast, punto.nom_Sji4_ast, punto.M3b)
-            punto.nom_hobstVM_max_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_I_ai, punto.nom_SVi3_ast, punto.nom_SVi4_ast,punto.M3h)
+            punto.nom_hobstVM_max_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_I_ai, punto.nom_SVi3_ast, punto.nom_SVi4_ast,punto.M3h)
             punto.nom_bobstVM_con_a = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Sa, punto.qsI_ai, punto.nom_Sja3_ast, punto.nom_Sja4_ast, punto.M3b)
-            punto.nom_hobstVM_max_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.nom_SVa3_ast, punto.nom_SVa4_ast, punto.M3h)
+            punto.nom_hobstVM_max_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_I_ai, punto.nom_SVa3_ast, punto.nom_SVa4_ast, punto.M3h)
             punto.nom_bobstV0_max_i = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Si, punto.qsD_ai, punto.nom_Sji3, punto.nom_Sji4, punto.M3b)
-            punto.nom_hobstV0_con_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.nom_SVi3, punto.nom_SVi4, punto.M3h)
+            punto.nom_hobstV0_con_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.nom_SVi3, punto.nom_SVi4, punto.M3h)
             punto.nom_bobstV0_max_a = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Sa, -punto.qsD_ai, punto.nom_Sja3, punto.nom_Sja4, punto.M3b)
-            punto.nom_hobstV0_con_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_D_ai, punto.nom_SVa3, punto.nom_SVa4, punto.M3h)
+            punto.nom_hobstV0_con_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_D_ai, punto.nom_SVa3, punto.nom_SVa4, punto.M3h)
             punto.nom_bobstV0_con_i = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Si, punto.qsD_ai, punto.nom_Sji3_ast, punto.nom_Sji4_ast, punto.M3b)
-            punto.nom_hobstV0_max_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.nom_SVi3_ast, punto.nom_SVi4_ast, punto.M3h)
+            punto.nom_hobstV0_max_i = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, -punto.DhPT_D_ai, punto.nom_SVi3_ast, punto.nom_SVi4_ast, punto.M3h)
             punto.nom_bobstV0_con_a = calc.calcular_nom_bobst(punto.X, punto.Y / 1000, punto.Sa, -punto.qsD_ai, punto.nom_Sja3_ast, punto.nom_Sja4_ast, punto.M3b)
-            punto.nom_hobstV0_max_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via1.hb_max, punto.esPT, punto.DhPT_D_ai, punto.nom_SVa3_ast, punto.nom_SVa4_ast, punto.M3h)
+            punto.nom_hobstV0_max_a = calc.calcular_nom_hobst(punto.Y, punto.DhRv, via.hb_max, punto.esPT, punto.DhPT_D_ai, punto.nom_SVa3_ast, punto.nom_SVa4_ast, punto.M3h)
             punto.nom_ba = signo(punto.X) * max(abs(punto.nom_bobstVM_max_a), abs(punto.nom_bobstVM_con_a), abs(punto.nom_bobstV0_max_a), abs(punto.nom_bobstV0_con_a))
-            punto.nom_ha = calc.calcular_h(punto.Y/1000, via1.hb_max / 1000, punto.nom_hobstVM_con_a, punto.nom_hobstVM_max_a, punto.nom_hobstV0_con_a, punto.nom_hobstV0_max_a)
+            punto.nom_ha = calc.calcular_h(punto.Y/1000, via.hb_max / 1000, punto.nom_hobstVM_con_a, punto.nom_hobstVM_max_a, punto.nom_hobstV0_con_a, punto.nom_hobstV0_max_a)
             punto.nom_bi = signo(punto.X) * max(abs(punto.nom_bobstVM_max_i), abs(punto.nom_bobstVM_con_i), abs(punto.nom_bobstV0_max_i), abs(punto.nom_bobstV0_con_i))
-            punto.nom_hi = calc.calcular_h(punto.Y/1000, via1.hb_max / 1000, punto.nom_hobstVM_con_i, punto.nom_hobstVM_max_i, punto.nom_hobstV0_con_i, punto.nom_hobstV0_max_i)
+            punto.nom_hi = calc.calcular_h(punto.Y/1000, via.hb_max / 1000, punto.nom_hobstVM_con_i, punto.nom_hobstVM_max_i, punto.nom_hobstV0_con_i, punto.nom_hobstV0_max_i)
 
             fttabla.tabla_00_Punto_des.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
             fttabla.tabla_00_Punto_lim.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
@@ -425,6 +429,14 @@ def galibos(page: ft.Page):
             fttabla.tabla_97_nom_hobstV0_max_i.controls.append(ft.Text(punto.nom_hobstV0_max_i,size=Tamanyos.TABLA_NORMAL.value))
             fttabla.tabla_98_nom_bobstV0_con_a.controls.append(ft.Text(punto.nom_bobstV0_con_a,size=Tamanyos.TABLA_NORMAL.value))
             fttabla.tabla_99_nom_hobstV0_max_a.controls.append(ft.Text(punto.nom_hobstV0_max_a,size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_100_lim_ba.controls.append(ft.Text(punto.lim_ba, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_101_lim_ha.controls.append(ft.Text(punto.lim_ha, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_102_lim_bi.controls.append(ft.Text(punto.lim_bi, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_103_lim_hi.controls.append(ft.Text(punto.lim_hi, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_104_nom_ba.controls.append(ft.Text(punto.nom_ba, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_105_nom_ha.controls.append(ft.Text(punto.nom_ha, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_106_nom_bi.controls.append(ft.Text(punto.nom_bi, size=Tamanyos.TABLA_NORMAL.value))
+            fttabla.tabla_107_nom_hi.controls.append(ft.Text(punto.nom_hi, size=Tamanyos.TABLA_NORMAL.value))
 
     def cambiar_graficos(galiboPA, galiboPB):
         #ACTUALIZACIÓN DE LOS GRÁFICOS
@@ -447,138 +459,192 @@ def galibos(page: ft.Page):
                 cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
-        datos_grafico_GPA.visible = cb_graf_GPA.value
-        datos_grafico_GPA_lim.visible = cb_graf_GPA_lim.value
-        datos_grafico_GPA_nom.visible = cb_graf_GPA_nom.value
+        datos_grafico_GPA.visible = ftElem_1.cb_graf_GPA.value
+        datos_grafico_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
+        datos_grafico_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
 
         for nombre,punto in galiboPB.items():
             datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.X, punto.Y)))
-        datos_grafico_GPB.visible = cb_graf_GPB.value
+        datos_grafico_GPB.visible = ftElem_1.cb_graf_GPB.value
 
     def cambiar(e):
         
-        via1.GPA = dd_GPA.value
-        via1.GPB = dd_GPB.value
-        galiboPA = datos_GPA[via1.GPA]
-        galiboPB = datos_GPB[via1.GPB]
+        via1.GPA = ftElem_1.dd_GPA.value
+        via1.GPB = ftElem_1.dd_GPB.value
+        via2.GPA = ftElem_2.dd_GPA.value
+        via2.GPB = ftElem_2.dd_GPB.value
+        galiboPA1 = datos_GPA[via1.GPA]
+        galiboPB1 = datos_GPB[via1.GPB]
+        galiboPA2 = datos_GPA[via2.GPA]
+        galiboPB2 = datos_GPB[via2.GPB]
 
-        cambiar_variables(galiboPA)
-        cambiar_elementos(galiboPA)
-        cambiar_graficos(galiboPA, galiboPB)
-        page.update()
+        cambiar_variables(galiboPA1, via1, ftElem_1)
+        cambiar_variables(galiboPA2, via2, ftElem_2)
+        cambiar_elementos(galiboPA1, ftt_1, fttabla_1, via1)
+        cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
+        cambiar_graficos(galiboPA1, galiboPB1)
+        page.update() 
 
     #COMPONENTES INDIVIDUALES CON EVENTOS
-    dd_GPA_1 = ft.Dropdown(
-        label = "Gálibo de partes altas",
-        hint_text = "Introduce el gálibo de las partes altas",
-        options = [
-            ft.dropdown.Option(EGPA.GHE16.value),
-            ft.dropdown.Option(EGPA.GEA16.value),
-            ft.dropdown.Option(EGPA.GEB16.value),
-            ft.dropdown.Option(EGPA.GEC16.value),
-            ft.dropdown.Option(EGPA.GA.value),
-            ft.dropdown.Option(EGPA.GB.value),
-            ft.dropdown.Option(EGPA.GC.value),
-            ft.dropdown.Option(EGPA.GEE10.value),
-            ft.dropdown.Option(EGPA.GED10.value),
-            ft.dropdown.Option(EGPA.PERSONALIZADO.value),
-        ],
-        on_change=cambiar
-    )
-    dd_GPB_1 = ft.Dropdown(
-        label = "Gálibo de partes bajas",
-        hint_text = "Introduce el gálibo de las partes bajas",
-        options = [
-            ft.dropdown.Option(EGPB.GEI1.value),
-            ft.dropdown.Option(EGPB.GEI2.value),
-            ft.dropdown.Option(EGPB.GEI3.value),
-            ft.dropdown.Option(EGPB.GI1.value),
-            ft.dropdown.Option(EGPB.GI2.value),
-            ft.dropdown.Option(EGPB.GI3.value),
-        ],
-        on_change=cambiar,
-    )
-    dd_TV =  ft.Dropdown(
-        label = "Tipo de Vía",
-        hint_text = "Balasto / Vía en placa",
-        options = [
-            ft.dropdown.Option(ETV.BALASTO.value),
-            ft.dropdown.Option(ETV.VIA_PLACA.value),
-        ],
-        on_change=cambiar
-    )
-    dd_EV = ft.Dropdown(
-        label = "Estado de la Vía",
-        hint_text = "Buen / Mal estado",
-        options = [
-            ft.dropdown.Option(EEV.BUEN_ESTADO.value),
-            ft.dropdown.Option(EEV.MAL_ESTADO.value),
-        ],
-        on_change=cambiar,
-    )
+    class ftElementos:
+        def __init__(self):
 
-    tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_submit=cambiar)
-    cb_R = ft.Checkbox(value = False, on_change=cambiar)
-    tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", value = 100, on_submit=cambiar)
-    cb_RV = ft.Checkbox(value = False, on_change=cambiar)
-    tf_DL = ft.TextField(label="Sobreancho máximo (m)",value=0.03,read_only=True, on_submit=cambiar)
-    tf_D = ft.TextField(label="Peralte de la vía (m)", value = 0.11, on_submit=cambiar)
-    tf_I = ft.TextField(label="Insuficiencia de peralte (m)", value = 0.07, on_submit=cambiar)
-    tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_submit=cambiar)
-    tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_submit=cambiar)
-    tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_submit=cambiar)
+            self.dd_GPA = ft.Dropdown(
+                label = "Gálibo de partes altas",
+                hint_text = "Introduce el gálibo de las partes altas",
+                options = [
+                    ft.dropdown.Option(EGPA.GHE16.value),
+                    ft.dropdown.Option(EGPA.GEA16.value),
+                    ft.dropdown.Option(EGPA.GEB16.value),
+                    ft.dropdown.Option(EGPA.GEC16.value),
+                    ft.dropdown.Option(EGPA.GA.value),
+                    ft.dropdown.Option(EGPA.GB.value),
+                    ft.dropdown.Option(EGPA.GC.value),
+                    ft.dropdown.Option(EGPA.GEE10.value),
+                    ft.dropdown.Option(EGPA.GED10.value),
+                    ft.dropdown.Option(EGPA.PERSONALIZADO.value),
+                ],
+                on_change=cambiar
+            )
+            self.dd_GPB = ft.Dropdown(
+                label = "Gálibo de partes bajas",
+                hint_text = "Introduce el gálibo de las partes bajas",
+                options = [
+                    ft.dropdown.Option(EGPB.GEI1.value),
+                    ft.dropdown.Option(EGPB.GEI2.value),
+                    ft.dropdown.Option(EGPB.GEI3.value),
+                    ft.dropdown.Option(EGPB.GI1.value),
+                    ft.dropdown.Option(EGPB.GI2.value),
+                    ft.dropdown.Option(EGPB.GI3.value),
+                ],
+                on_change=cambiar,
+            )
+            self.dd_TV =  ft.Dropdown(
+                label = "Tipo de Vía",
+                hint_text = "Balasto / Vía en placa",
+                options = [
+                    ft.dropdown.Option(ETV.BALASTO.value),
+                    ft.dropdown.Option(ETV.VIA_PLACA.value),
+                ],
+                on_change=cambiar
+            )
+            self.dd_EV = ft.Dropdown(
+                label = "Estado de la Vía",
+                hint_text = "Buen / Mal estado",
+                options = [
+                    ft.dropdown.Option(EEV.BUEN_ESTADO.value),
+                    ft.dropdown.Option(EEV.MAL_ESTADO.value),
+                ],
+                on_change=cambiar,
+            )
 
-    cb_graf_GPA = ft.Checkbox("Mostrar Gálibo superior", value = True, on_change = cambiar)
-    cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar)
-    cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar)
-    cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar)
-    cb_graf_esGirado = ft.Checkbox("Girar gráfico", value = False, on_change = cambiar)
-    cb_graf_inclinacion = ft.RadioGroup(content=ft.Row([
-        ft.Radio(value="A derechas", label="A derechas"),
-        ft.Radio(value="A izquierdas", label="A izquierdas")]),
-        disabled = True,
-        value = "A derechas",
-        on_change=cambiar)
+            self.tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_submit=cambiar)
+            self.cb_R = ft.Checkbox(value = False, on_change=cambiar)
+            self.tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", value = 100, on_submit=cambiar)
+            self.cb_RV = ft.Checkbox(value = False, on_change=cambiar)
+            self.tf_DL = ft.TextField(label="Sobreancho máximo (m)",value=0.03,read_only=True, on_submit=cambiar)
+            self.tf_D = ft.TextField(label="Peralte de la vía (m)", value = 0.11, on_submit=cambiar)
+            self.tf_I = ft.TextField(label="Insuficiencia de peralte (m)", value = 0.07, on_submit=cambiar)
+            self.tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_submit=cambiar)
+            self.tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_submit=cambiar)
+            self.tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_submit=cambiar)
 
-    tabla_var = ft.ResponsiveRow([
+            self.cb_graf_GPA = ft.Checkbox("Mostrar Gálibo superior", value = True, on_change = cambiar)
+            self.cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar)
+            self.cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar)
+            self.cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar)
+            self.cb_graf_esGirado = ft.Checkbox("Girar gráfico", value = False, on_change = cambiar)
+            self.cb_graf_inclinacion = ft.RadioGroup(content=ft.Row([
+                ft.Radio(value="A derechas", label="A derechas"),
+                ft.Radio(value="A izquierdas", label="A izquierdas")]),
+                disabled = True,
+                value = "A derechas",
+            on_change=cambiar)
+
+    ftElem_1 = ftElementos()
+    ftElem_2 = ftElementos()
+
+    tabla_var_1 = ft.ResponsiveRow([
         ft.Column([
             ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt.t_R),
-            MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt.t_RV),
-            MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt.t_LN),
-            MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt.t_DL),
-            MiFilaDatos2("Ancho de vía", "I", "", "m", ftt.t_LND),
-            MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt.t_DhRV),
+            MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt_1.t_R),
+            MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt_1.t_RV),
+            MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt_1.t_LN),
+            MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt_1.t_DL),
+            MiFilaDatos2("Ancho de vía", "I", "", "m", ftt_1.t_LND),
+            MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt_1.t_DhRV),
         ],
         col=1,
         ),
         ft.Column([
             ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt.t_D),
-            MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt.t_D0),
-            MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt.t_heq),
-            MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt.t_I),
-            MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt.t_I0),
-            MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt.t_L),
-            MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt.t_hco),
+            MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt_1.t_D),
+            MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt_1.t_D0),
+            MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt_1.t_heq),
+            MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt_1.t_I),
+            MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt_1.t_I0),
+            MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt_1.t_L),
+            MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt_1.t_hco),
         ],
         col=1
         ),
         ft.Column([
             ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt.t_tvia),
-            MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt.t_td),
-            MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt.t_vmax),
-            MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt.t_asusp),
-            MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt.t_acarga),
-            MiFilaDatos2("Giro total", "η", "0", "º", ftt.t_eta0),
-            MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt.t_aosc_i_s0_04b),
-            MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt.t_aosc_i_s0_03b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt.t_aosc_a_s0_04b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt.t_aosc_a_s0_03b),
+            MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt_1.t_tvia),
+            MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt_1.t_td),
+            MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt_1.t_vmax),
+            MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt_1.t_asusp),
+            MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt_1.t_acarga),
+            MiFilaDatos2("Giro total", "η", "0", "º", ftt_1.t_eta0),
+            MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt_1.t_aosc_i_s0_04b),
+            MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt_1.t_aosc_i_s0_03b),
+            MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt_1.t_aosc_a_s0_04b),
+            MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt_1.t_aosc_a_s0_03b),
+        ],
+        col=1
+        ),
+    ],
+    columns=3
+    )
+    tabla_var_2 = ft.ResponsiveRow([
+        ft.Column([
+            ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
+            MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt_2.t_R),
+            MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt_2.t_RV),
+            MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt_2.t_LN),
+            MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt_2.t_DL),
+            MiFilaDatos2("Ancho de vía", "I", "", "m", ftt_2.t_LND),
+            MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt_2.t_DhRV),
+        ],
+        col=1,
+        ),
+        ft.Column([
+            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
+            MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt_2.t_D),
+            MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt_2.t_D0),
+            MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt_2.t_heq),
+            MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt_2.t_I),
+            MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt_2.t_I0),
+            MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt_2.t_L),
+            MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt_2.t_hco),
+        ],
+        col=1
+        ),
+        ft.Column([
+            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
+            MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt_2.t_tvia),
+            MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt_2.t_td),
+            MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt_2.t_vmax),
+            MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt_2.t_asusp),
+            MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt_2.t_acarga),
+            MiFilaDatos2("Giro total", "η", "0", "º", ftt_2.t_eta0),
+            MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt_2.t_aosc_i_s0_04b),
+            MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt_2.t_aosc_i_s0_03b),
+            MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt_2.t_aosc_a_s0_04b),
+            MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt_2.t_aosc_a_s0_03b),
         ],
         col=1
         ),
@@ -629,86 +695,86 @@ def galibos(page: ft.Page):
                         animation_duration = 50,
                         tabs = [
                             ft.Tab(
-                                text = "Vía única",
+                                text = "Vía 1",
                                 content = ft.Column(
                                     controls = [
                                         ft.Text("", size = 1),      #Espaciador, para que quede bonito
                                         ft.Row([
-                                            dd_GPA,
-                                            dd_GPB,
-                                            dd_TV,
-                                            dd_EV,
+                                            ftElem_1.dd_GPA,
+                                            ftElem_1.dd_GPB,
+                                            ftElem_1.dd_TV,
+                                            ftElem_1.dd_EV,
                                         ]),
                                         ft.Row([
-                                            tf_R,
-                                            cb_R,
+                                            ftElem_1.tf_R,
+                                            ftElem_1.cb_R,
                                             ft.Text("Alineación recta en planta",size=Tamanyos.PEQUENYO.value),
-                                            tf_RV,
-                                            cb_RV,
+                                            ftElem_1.tf_RV,
+                                            ftElem_1.cb_RV,
                                             ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
                                         ]),
                                         ft.Row([
-                                            tf_DL,
-                                            tf_D,
-                                            tf_I,
+                                            ftElem_1.tf_DL,
+                                            ftElem_1.tf_D,
+                                            ftElem_1.tf_I,
                                         ]),
                                         ft.Row([
-                                            tf_tol_sus,
-                                            tf_tol_carga,
+                                            ftElem_1.tf_tol_sus,
+                                            ftElem_1.tf_tol_carga,
                                         ]),
-                                        tf_vmax,
+                                        ftElem_1.tf_vmax,
                                         ft.Row([
-                                            cb_graf_GPA,
-                                            cb_graf_GPB,
-                                            cb_graf_GPA_lim,
-                                            cb_graf_GPA_nom,
+                                            ftElem_1.cb_graf_GPA,
+                                            ftElem_1.cb_graf_GPB,
+                                            ftElem_1.cb_graf_GPA_lim,
+                                            ftElem_1.cb_graf_GPA_nom,
                                         ]),
                                         ft.Row([
-                                            cb_graf_esGirado,
-                                            cb_graf_inclinacion,
+                                            ftElem_1.cb_graf_esGirado,
+                                            ftElem_1.cb_graf_inclinacion,
                                         ])
                                     ],
                                 expand=1),
                                 
                                 ),
                             ft.Tab(
-                                text = "Intereje",
+                                text = "Via 2",
                                 content = ft.Column(
                                     controls = [
                                         ft.Text("", size = 1),      #Espaciador, para que quede bonito
                                         ft.Row([
-                                            dd_GPA,
-                                            dd_GPB,
-                                            dd_TV,
-                                            dd_EV,
+                                            ftElem_2.dd_GPA,
+                                            ftElem_2.dd_GPB,
+                                            ftElem_2.dd_TV,
+                                            ftElem_2.dd_EV,
                                         ]),
                                         ft.Row([
-                                            tf_R,
-                                            cb_R,
+                                            ftElem_2.tf_R,
+                                            ftElem_2.cb_R,
                                             ft.Text("Alineación recta en planta",size=Tamanyos.PEQUENYO.value),
-                                            tf_RV,
-                                            cb_RV,
+                                            ftElem_2.tf_RV,
+                                            ftElem_2.cb_RV,
                                             ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
                                         ]),
                                         ft.Row([
-                                            tf_DL,
-                                            tf_D,
-                                            tf_I,
+                                            ftElem_2.tf_DL,
+                                            ftElem_2.tf_D,
+                                            ftElem_2.tf_I,
                                         ]),
                                         ft.Row([
-                                            tf_tol_sus,
-                                            tf_tol_carga,
+                                            ftElem_2.tf_tol_sus,
+                                            ftElem_2.tf_tol_carga,
                                         ]),
-                                        tf_vmax,
+                                        ftElem_2.tf_vmax,
                                         ft.Row([
-                                            cb_graf_GPA,
-                                            cb_graf_GPB,
-                                            cb_graf_GPA_lim,
-                                            cb_graf_GPA_nom,
+                                            ftElem_2.cb_graf_GPA,
+                                            ftElem_2.cb_graf_GPB,
+                                            ftElem_2.cb_graf_GPA_lim,
+                                            ftElem_2.cb_graf_GPA_nom,
                                         ]),
                                         ft.Row([
-                                            cb_graf_esGirado,
-                                            cb_graf_inclinacion,
+                                            ftElem_2.cb_graf_esGirado,
+                                            ftElem_2.cb_graf_inclinacion,
                                         ])
                                     ],
                                 expand=1),                            ),
@@ -718,65 +784,42 @@ def galibos(page: ft.Page):
                     
                 ],
                 height=425,),
-                # ft.Column(col=8,
-                #     controls = [
-                #         ft.Text("DATOS", size = Tamanyos.MEDIANO.value),
-                #         ft.Row([
-                #             dd_GPA,
-                #             dd_GPB,
-                #             dd_TV,
-                #             dd_EV,
-                #         ]),
-                #         ft.Row([
-                #             tf_R,
-                #             cb_R,
-                #             ft.Text("Alineación recta en planta",size=Tamanyos.PEQUENYO.value),
-                #             tf_RV,
-                #             cb_RV,
-                #             ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
-                #         ]),
-                #         ft.Row([
-                #             tf_DL,
-                #             tf_D,
-                #             tf_I,
-                #         ]),
-                #         ft.Row([
-                #             tf_tol_sus,
-                #             tf_tol_carga,
-                #         ]),
-                #         tf_vmax,
-                #         ft.Row([
-                #             cb_graf_GPA,
-                #             cb_graf_GPB,
-                #             cb_graf_GPA_lim,
-                #             cb_graf_GPA_nom,
-                #         ]),
-                #         ft.Row([
-                #             cb_graf_esGirado,
-                #             cb_graf_inclinacion,
-                #         ])
-
-                # ]),
         ]),
             ft.Tabs(
                 selected_index=0,
                 animation_duration=50,
                 tabs=[
                     ft.Tab(
-                        text = "Variables",
-                        content = tabla_var,
+                        text = "Variables Via 1",
+                        content = tabla_var_1,
                     ),
                     ft.Tab(
-                        text = "Desplazamientos",
-                        content = tabla_des,
+                        text = "Desplazamientos Via 1",
+                        content = tabla_des_1,
                     ), 
                     ft.Tab(
-                        text = "Galibo límite",
-                        content = tabla_lim,
+                        text = "Galibo límite Via 1",
+                        content = tabla_lim_1,
                     ), 
                     ft.Tab(
-                        text = "Galibo nominal",
-                        content = tabla_nom,
+                        text = "Galibo nominal Via 1",
+                        content = tabla_nom_1,
+                    ),
+                    ft.Tab(
+                        text = "Variables Via 2",
+                        content = tabla_var_2,
+                    ), 
+                    ft.Tab(
+                        text = "Desplazamientos Via 2",
+                        content = tabla_des_2,
+                    ), 
+                    ft.Tab(
+                        text = "Galibo límite Via 2",
+                        content = tabla_lim_2,
+                    ), 
+                    ft.Tab(
+                        text = "Galibo nominal Via 2",
+                        content = tabla_nom_2,
                     ), 
                 ],
                 expand = 0

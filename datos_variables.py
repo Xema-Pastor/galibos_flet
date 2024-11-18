@@ -132,68 +132,68 @@ class PuntoI:
     Y: float = 0           # Valor de la coordenada Y, (mm)
 
 class Variables():
+    def __init__(self):
+        #3.1
+        self.GPA = "GA"          # galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
+        self.GPB = "GEI2"        # galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
+        self.maxY = 0            # Valor de la máxima coordenada Y (mm)
+        self.maxX = 0            # valor de la máxima coordenada X (mm)
+        self.hquiebroaux = 0
+        self.htopeaux = 0
+        self.difaux = 0
+        self.hotra = 0
+        self.hb_max = 0
 
-    #3.1
-    GPA = "GA"          # galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
-    GPB = "GEI2"        # galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
-    maxY = 0            # Valor de la máxima coordenada Y (mm)
-    maxX = 0            # valor de la máxima coordenada X (mm)
-    hquiebroaux = 0
-    htopeaux = 0
-    difaux = 0
-    hotra = 0
-    hb_max = 0
+        #3.2.2.1
+        self.R = 100               #Radio de curvatura en planta
+        self.Inclinac = "A derechas"#Inclinación de la curva
+        self.LN = 0              #Ancho de vía nominal
+        self.DL = 0              #Sobreancho máximo
+        self.LND = 0             #Ancho de vía
 
-    #3.2.2.1
-    R = 100               #Radio de curvatura en planta
-    Inclinac = "A derechas"#Inclinación de la curva
-    LN = 0              #Ancho de vía nominal
-    DL = 0              #Sobreancho máximo
-    LND = 0             #Ancho de vía
+        #3.2.2.2
+        self.D = 0               #Peralte de la vía
+        self.D0 = 0              #Peralte por convenio de la vía
+        self.heq = 0             #Peralte de equilibrio
+        self.I = 0               #Insuficiencia de peralte
+        self.I0 = 0              #Insuficiencia de peralte por convenio
+        self.L = 0               #Distancia entre circulos de rodadura
+        self.hco = 0.50          #Altura  del  centro  de  balanceo  del  vehículo, por convenio
 
-    #3.2.2.2
-    D = 0               #Peralte de la vía
-    D0 = 0              #Peralte por convenio de la vía
-    heq = 0             #Peralte de equilibrio
-    I = 0               #Insuficiencia de peralte
-    I0 = 0              #Insuficiencia de peralte por convenio
-    L = 0               #Distancia entre circulos de rodadura
-    hco = 0.50          #Altura  del  centro  de  balanceo  del  vehículo, por convenio
+        #3.2.2.3
+        self.tipo_via = ""       #Tipo de vía (BALASTO|PLACA)
+        self.TVIA = 0            #Desplazaiento lateral de la vía
+        self.TD = 0              #Diferencia entre peralte real y teórico
+        self.vmax = 0            #Velocidad máxima de la vía
+        self.asusp = 0           #Tolerancias en el reglaje de la suspensión
+        self.acarga = 0          #Reparto desigual de cargas
+        self.eta0 = 0              #Giro total
+        self.estado_via = ""     #Estado de la vía (BUEN ESTADO|MAL ESTADO)
+        self.aosc_i_s0_04b = 0    #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos HORIZONTALES
+        self.aosc_i_s0_03b = 0
+        self.aosc_a_s0_04b = 0
+        self.aosc_a_s0_03b = 0
 
-    #3.2.2.3
-    tipo_via = ""       #Tipo de vía (BALASTO|PLACA)
-    TVIA = 0            #Desplazaiento lateral de la vía
-    TD = 0              #Diferencia entre peralte real y teórico
-    vmax = 0            #Velocidad máxima de la vía
-    asusp = 0           #Tolerancias en el reglaje de la suspensión
-    acarga = 0          #Reparto desigual de cargas
-    eta0 = 0              #Giro total
-    estado_via = ""     #Estado de la vía (BUEN ESTADO|MAL ESTADO)
-    aosc_i_s0_04b = 0    #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos HORIZONTALES
-    aosc_i_s0_03b = 0
-    aosc_a_s0_04b = 0
-    aosc_a_s0_03b = 0
+        #3.2.2.4
+        self.M3b = 0.2           #Márgenes horizontales
 
-    #3.2.2.4
-    M3b = 0.2           #Márgenes horizontales
+        #3.2.3.1
+        self.Rv = 0              #Radio del acuerdo vertical
+        self.DhRV = 0            #Desplazamiento por inscripción
+        
+        #3.2.3.3
+        self.TN = 0.02           #Desplazamiento vertical de la vía
+        self.aosc_i_s0_04h = 0   #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos VERTICALES
+        self.aosc_i_s0_03h = 0
+        self.aosc_a_s0_04h = 0
+        self.aosc_a_s0_03h = 0
 
-    #3.2.3.1
-    Rv = 0              #Radio del acuerdo vertical
-    DhRV = 0            #Desplazamiento por inscripción
-    
-    #3.2.3.3
-    TN = 0.02           #Desplazamiento vertical de la vía
-    aosc_i_s0_04h = 0   #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos VERTICALES
-    aosc_i_s0_03h = 0
-    aosc_a_s0_04h = 0
-    aosc_a_s0_03h = 0
+        #3.2.3.4
+        self.M3h = 0.15          #Márgenes verticales   
 
-    #3.2.3.4
-    M3h = 0.15          #Márgenes verticales   
-
-    #3.3
-    K = 1.2             #Factor de seguridad, general
-    Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
+        #3.3
+        self.K = 1.2             #Factor de seguridad, general
+        self.Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
 via1 = Variables()
 via2 = Variables()
