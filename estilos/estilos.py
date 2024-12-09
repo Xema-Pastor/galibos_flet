@@ -1,4 +1,5 @@
 from enum import Enum
+import flet as ft
 
 class Tamanyos(Enum):
     GRANDE = 50
@@ -7,6 +8,9 @@ class Tamanyos(Enum):
     NORMAL = 15
     TABLA_NORMAL = 11
     TABLA_SUBTITULO = 9
+
+'''class Colores(Enum):
+    CYAN = ft.colors.CYAN'''
 
 class EGPA(Enum):
     GHE16 = "GHE16"

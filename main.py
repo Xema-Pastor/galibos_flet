@@ -3,7 +3,7 @@ import configuracion as conf
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import via1, via2
 from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
-from componentes.comp_tablas import tabla_des_1, tabla_lim_1, tabla_nom_1, fttabla_1, tabla_des_2, tabla_lim_2, tabla_nom_2, fttabla_2
+from componentes.comp_tablas import tabla_var_1, tabla_des_1, tabla_lim_1, tabla_nom_1, fttabla_1, tabla_var_2, tabla_des_2, tabla_lim_2, tabla_nom_2, fttabla_2
 from componentes.comp_textos import ftt_1, ftt_2
 from componentes.comp_graficos import *
 from componentes.mis_componentes import *
@@ -438,16 +438,23 @@ def galibos(page: ft.Page):
             fttabla.tabla_106_nom_bi.controls.append(ft.Text(punto.nom_bi, size=Tamanyos.TABLA_NORMAL.value))
             fttabla.tabla_107_nom_hi.controls.append(ft.Text(punto.nom_hi, size=Tamanyos.TABLA_NORMAL.value))
 
-    def cambiar_graficos(galiboPA, galiboPB):
+    def cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2):
         #ACTUALIZACIÓN DE LOS GRÁFICOS
-        datos_grafico_GPA.data_points.clear()
+        datos_grafico_1_GPA.data_points.clear()
         datos_grafico_GPA_lim.data_points.clear()
         datos_grafico_GPA_nom.data_points.clear()
         datos_grafico_GPB.data_points.clear()
         #datos_grafico_GPB_lim.data_points.clear()
 
-        for nombre,punto in galiboPA.items():
-            datos_grafico_GPA.data_points.append(ft.LineChartDataPoint(
+        datos_grafico_2_GPA.data_points.clear()
+        # datos_grafico_GPA_lim.data_points.clear()
+        # datos_grafico_GPA_nom.data_points.clear()
+        # datos_grafico_GPB.data_points.clear()
+        # #datos_grafico_GPB_lim.data_points.clear()
+
+        for nombre,punto in galiboPA1.items():
+            print("entra en g1", len(galiboPA1))
+            datos_grafico_1_GPA.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.X, punto.Y)))
@@ -459,16 +466,46 @@ def galibos(page: ft.Page):
                 cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
-        datos_grafico_GPA.visible = ftElem_1.cb_graf_GPA.value
+            print(datos_grafico_1_GPA.data_points)
+            print("*"*18)
+        datos_grafico_1_GPA.visible = ftElem_1.cb_graf_GPA.value
         datos_grafico_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
         datos_grafico_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
 
-        for nombre,punto in galiboPB.items():
+        for nombre,punto in galiboPB1.items():
             datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.X, punto.Y)))
         datos_grafico_GPB.visible = ftElem_1.cb_graf_GPB.value
+        print("galiboPA2::::::items ",len(galiboPA2.items()))
+        if galiboPA2:
+            print("entra en g2")
+            for nombre,punto in galiboPA2.items():
+                datos_grafico_2_GPA.data_points.append(ft.LineChartDataPoint(
+                    cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + 1000,
+                    - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + 1,
+                    tooltip=(nombre, punto.X, punto.Y)))
+                print(datos_grafico_2_GPA.data_points)
+                print("-"*20)
+                # datos_grafico_GPA_lim.data_points.append(ft.LineChartDataPoint(
+                #     cos(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + 5,
+                #     - sin(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + 1,
+                #     tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
+                # datos_grafico_GPA_nom.data_points.append(ft.LineChartDataPoint(
+                #     cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + 5,
+                #     - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + 1,
+                #     tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+            datos_grafico_2_GPA.visible = ftElem_2.cb_graf_GPA.value
+            # datos_grafico_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
+            # datos_grafico_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
+        # if galiboPB2:
+            # for nombre,punto in galiboPB2.items():
+            #     datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(
+            #         cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
+            #         - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
+            #         tooltip=(nombre, punto.X, punto.Y)))
+            # datos_grafico_GPB.visible = ftElem_1.cb_graf_GPB.value
 
     def cambiar(e):
         
@@ -481,12 +518,15 @@ def galibos(page: ft.Page):
 
         cambiar_variables(galiboPA1, via1, ftElem_1)
         cambiar_elementos(galiboPA1, ftt_1, fttabla_1, via1)
+        galiboPA2 = None
+        galiboPB2 = None
         if cb_via2.value:
             galiboPA2 = datos_GPA[via2.GPA]
             galiboPB2 = datos_GPB[via2.GPB]
             cambiar_variables(galiboPA2, via2, ftElem_2)
             cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
-        cambiar_graficos(galiboPA1, galiboPB1)
+        print("galiboPA2", galiboPA2)
+        cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2)
 
         page.update()
 
@@ -511,13 +551,15 @@ def galibos(page: ft.Page):
         ftElem_2.cb_graf_GPA_lim.disabled = not cb_via2.value
         ftElem_2.cb_graf_GPA_nom.disabled = not cb_via2.value
         ftElem_2.cb_graf_esGirado.disabled = not cb_via2.value
+        ftElem_2.tf_separacion_h.disabled = not cb_via2.value
+        ftElem_2.tf_separacion_v.disabled = not cb_via2.value
         print(ftElem_2.dd_GPA.disabled)
 
         page.update()
 
     #COMPONENTES INDIVIDUALES CON EVENTOS
     class ftElementos:
-        def __init__(self, inhabilitado = False):
+        def __init__(self, inhabilitado = False, es2via = False):
 
             self.dd_GPA = ft.Dropdown(
                 label = "Gálibo de partes altas",
@@ -595,145 +637,14 @@ def galibos(page: ft.Page):
                 value = "A derechas",
                 on_change=cambiar,
             )
+            if es2via:
+                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias", value=10, on_submit=cambiar, disabled = inhabilitado)
+                self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias", value=1, on_submit=cambiar, disabled = inhabilitado)
 
     ftElem_1 = ftElementos()
-    ftElem_2 = ftElementos(inhabilitado=True)
+    ftElem_2 = ftElementos(inhabilitado=True, es2via = True)
 
     cb_via2 = ft.Checkbox(value = False, on_change=habilitar_via2)
-
-    class Tabla_Var(ft.ResponsiveRow):
-        def __init__(self, ftt):
-            super().__init__()
-            self.tabla = ft.ResponsiveRow([
-                ft.Column([
-                    ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
-                    MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt.t_R),
-                    MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt.t_RV),
-                    MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt.t_LN),
-                    MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt.t_DL),
-                    MiFilaDatos2("Ancho de vía", "I", "", "m", ftt.t_LND),
-                    MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt.t_DhRV),
-                ],
-                col=1,
-                ),
-                ft.Column([
-                    ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-                    MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt.t_D),
-                    MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt.t_D0),
-                    MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt.t_heq),
-                    MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt.t_I),
-                    MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt.t_I0),
-                    MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt.t_L),
-                    MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt.t_hco),
-                ],
-                col=1
-                ),
-                ft.Column([
-                    ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-                    MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt.t_tvia),
-                    MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt.t_td),
-                    MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt.t_vmax),
-                    MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt.t_asusp),
-                    MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt.t_acarga),
-                    MiFilaDatos2("Giro total", "η", "0", "º", ftt.t_eta0),
-                    MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt.t_aosc_i_s0_04b),
-                    MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt.t_aosc_i_s0_03b),
-                    MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt.t_aosc_a_s0_04b),
-                    MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt.t_aosc_a_s0_03b),
-                ],
-                col=1
-                ),
-            ],
-            columns=3
-            )
-    tabla_var_1 = Tabla_Var(ftt_1)
-    tabla_var_2 = Tabla_Var(ftt_2)
-    '''
-    tabla_var_1 = ft.ResponsiveRow([
-        ft.Column([
-            ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt_1.t_R),
-            MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt_1.t_RV),
-            MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt_1.t_LN),
-            MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt_1.t_DL),
-            MiFilaDatos2("Ancho de vía", "I", "", "m", ftt_1.t_LND),
-            MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt_1.t_DhRV),
-        ],
-        col=1,
-        ),
-        ft.Column([
-            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt_1.t_D),
-            MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt_1.t_D0),
-            MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt_1.t_heq),
-            MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt_1.t_I),
-            MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt_1.t_I0),
-            MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt_1.t_L),
-            MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt_1.t_hco),
-        ],
-        col=1
-        ),
-        ft.Column([
-            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt_1.t_tvia),
-            MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt_1.t_td),
-            MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt_1.t_vmax),
-            MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt_1.t_asusp),
-            MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt_1.t_acarga),
-            MiFilaDatos2("Giro total", "η", "0", "º", ftt_1.t_eta0),
-            MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt_1.t_aosc_i_s0_04b),
-            MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt_1.t_aosc_i_s0_03b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt_1.t_aosc_a_s0_04b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt_1.t_aosc_a_s0_03b),
-        ],
-        col=1
-        ),
-    ],
-    columns=3
-    )
-    tabla_var_2 = ft.ResponsiveRow([
-        ft.Column([
-            ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt_2.t_R),
-            MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt_2.t_RV),
-            MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt_2.t_LN),
-            MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt_2.t_DL),
-            MiFilaDatos2("Ancho de vía", "I", "", "m", ftt_2.t_LND),
-            MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt_2.t_DhRV),
-        ],
-        col=1,
-        ),
-        ft.Column([
-            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt_2.t_D),
-            MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt_2.t_D0),
-            MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt_2.t_heq),
-            MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt_2.t_I),
-            MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt_2.t_I0),
-            MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt_2.t_L),
-            MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt_2.t_hco),
-        ],
-        col=1
-        ),
-        ft.Column([
-            ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
-            MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt_2.t_tvia),
-            MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt_2.t_td),
-            MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt_2.t_vmax),
-            MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt_2.t_asusp),
-            MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt_2.t_acarga),
-            MiFilaDatos2("Giro total", "η", "0", "º", ftt_2.t_eta0),
-            MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt_2.t_aosc_i_s0_04b),
-            MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt_2.t_aosc_i_s0_03b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt_2.t_aosc_a_s0_04b),
-            MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt_2.t_aosc_a_s0_03b),
-        ],
-        col=1
-        ),
-    ],
-    columns=3
-    )
-    '''
 
     page.add(
         ft.Column([
@@ -821,7 +732,6 @@ def galibos(page: ft.Page):
                                 
                                 ),
                             ft.Tab(
-                                #text = "Via 2",
                                 tab_content=ft.Row([cb_via2,ft.Text("Vía 2")]),
                                 content = ft.Column(
                                     controls = [
@@ -849,7 +759,11 @@ def galibos(page: ft.Page):
                                             ftElem_2.tf_tol_sus,
                                             ftElem_2.tf_tol_carga,
                                         ]),
-                                        ftElem_2.tf_vmax,
+                                        ft.Row([
+                                            ftElem_2.tf_vmax,
+                                            ftElem_2.tf_separacion_h,
+                                            ftElem_2.tf_separacion_v,
+                                        ]),
                                         ft.Row([
                                             ftElem_2.cb_graf_GPA,
                                             ftElem_2.cb_graf_GPB,
@@ -876,7 +790,7 @@ def galibos(page: ft.Page):
                 tabs=[
                     ft.Tab(
                         text = "Variables Via 1",
-                        content = tabla_var_1.tabla,
+                        content = tabla_var_1,
                     ),
                     ft.Tab(
                         text = "Desplazamientos Via 1",
@@ -892,7 +806,7 @@ def galibos(page: ft.Page):
                     ),
                     ft.Tab(
                         text = "Variables Via 2",
-                        content = tabla_var_2.tabla,
+                        content = tabla_var_2,
                     ), 
                     ft.Tab(
                         text = "Desplazamientos Via 2",
