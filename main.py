@@ -478,19 +478,46 @@ def galibos(page: ft.Page):
         via2.GPB = ftElem_2.dd_GPB.value
         galiboPA1 = datos_GPA[via1.GPA]
         galiboPB1 = datos_GPB[via1.GPB]
-        galiboPA2 = datos_GPA[via2.GPA]
-        galiboPB2 = datos_GPB[via2.GPB]
 
         cambiar_variables(galiboPA1, via1, ftElem_1)
-        cambiar_variables(galiboPA2, via2, ftElem_2)
         cambiar_elementos(galiboPA1, ftt_1, fttabla_1, via1)
-        cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
+        if cb_via2.value:
+            galiboPA2 = datos_GPA[via2.GPA]
+            galiboPB2 = datos_GPB[via2.GPB]
+            cambiar_variables(galiboPA2, via2, ftElem_2)
+            cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
         cambiar_graficos(galiboPA1, galiboPB1)
-        page.update() 
+
+        page.update()
+
+    def habilitar_via2(e):
+        print(cb_via2.value)
+        ftElem_2.dd_GPA.disabled = not cb_via2.value
+        ftElem_2.dd_GPB.disabled = not cb_via2.value
+        ftElem_2.dd_EV.disabled = not cb_via2.value
+        ftElem_2.dd_TV.disabled = not cb_via2.value
+        ftElem_2.tf_R.disabled = not cb_via2.value
+        ftElem_2.cb_R.disabled = not cb_via2.value
+        ftElem_2.tf_RV.disabled = not cb_via2.value
+        ftElem_2.cb_RV.disabled = not cb_via2.value
+        ftElem_2.tf_DL.disabled = not cb_via2.value
+        ftElem_2.tf_D.disabled = not cb_via2.value
+        ftElem_2.tf_I.disabled = not cb_via2.value
+        ftElem_2.tf_tol_sus.disabled = not cb_via2.value
+        ftElem_2.tf_tol_carga.disabled = not cb_via2.value
+        ftElem_2.tf_vmax.disabled = not cb_via2.value
+        ftElem_2.cb_graf_GPA.disabled = not cb_via2.value
+        ftElem_2.cb_graf_GPB.disabled = not cb_via2.value
+        ftElem_2.cb_graf_GPA_lim.disabled = not cb_via2.value
+        ftElem_2.cb_graf_GPA_nom.disabled = not cb_via2.value
+        ftElem_2.cb_graf_esGirado.disabled = not cb_via2.value
+        print(ftElem_2.dd_GPA.disabled)
+
+        page.update()
 
     #COMPONENTES INDIVIDUALES CON EVENTOS
     class ftElementos:
-        def __init__(self):
+        def __init__(self, inhabilitado = False):
 
             self.dd_GPA = ft.Dropdown(
                 label = "Gálibo de partes altas",
@@ -507,7 +534,8 @@ def galibos(page: ft.Page):
                     ft.dropdown.Option(EGPA.GED10.value),
                     ft.dropdown.Option(EGPA.PERSONALIZADO.value),
                 ],
-                on_change=cambiar
+                on_change=cambiar,
+                disabled = inhabilitado
             )
             self.dd_GPB = ft.Dropdown(
                 label = "Gálibo de partes bajas",
@@ -521,6 +549,7 @@ def galibos(page: ft.Page):
                     ft.dropdown.Option(EGPB.GI3.value),
                 ],
                 on_change=cambiar,
+                disabled = inhabilitado
             )
             self.dd_TV =  ft.Dropdown(
                 label = "Tipo de Vía",
@@ -529,7 +558,8 @@ def galibos(page: ft.Page):
                     ft.dropdown.Option(ETV.BALASTO.value),
                     ft.dropdown.Option(ETV.VIA_PLACA.value),
                 ],
-                on_change=cambiar
+                on_change=cambiar,
+                disabled = inhabilitado
             )
             self.dd_EV = ft.Dropdown(
                 label = "Estado de la Vía",
@@ -539,34 +569,86 @@ def galibos(page: ft.Page):
                     ft.dropdown.Option(EEV.MAL_ESTADO.value),
                 ],
                 on_change=cambiar,
+                disabled = inhabilitado
             )
 
-            self.tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_submit=cambiar)
-            self.cb_R = ft.Checkbox(value = False, on_change=cambiar)
-            self.tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", value = 100, on_submit=cambiar)
-            self.cb_RV = ft.Checkbox(value = False, on_change=cambiar)
-            self.tf_DL = ft.TextField(label="Sobreancho máximo (m)",value=0.03,read_only=True, on_submit=cambiar)
-            self.tf_D = ft.TextField(label="Peralte de la vía (m)", value = 0.11, on_submit=cambiar)
-            self.tf_I = ft.TextField(label="Insuficiencia de peralte (m)", value = 0.07, on_submit=cambiar)
-            self.tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_submit=cambiar)
-            self.tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_submit=cambiar)
-            self.tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_submit=cambiar)
+            self.tf_R = ft.TextField(label="Radio de curvatura en planta (m)",value = 100, on_submit=cambiar, disabled = inhabilitado)
+            self.cb_R = ft.Checkbox(value = False, on_change=cambiar, disabled = inhabilitado)
+            self.tf_RV = ft.TextField(label="Radio del acuerdo vertical (m)", value = 100, on_submit=cambiar, disabled = inhabilitado)
+            self.cb_RV = ft.Checkbox(value = False, on_change=cambiar, disabled = inhabilitado)
+            self.tf_DL = ft.TextField(label="Sobreancho máximo (m)",value=0.03,read_only=True, on_submit=cambiar, disabled = inhabilitado)
+            self.tf_D = ft.TextField(label="Peralte de la vía (m)", value = 0.11, on_submit=cambiar, disabled = inhabilitado)
+            self.tf_I = ft.TextField(label="Insuficiencia de peralte (m)", value = 0.07, on_submit=cambiar, disabled = inhabilitado)
+            self.tf_tol_sus = ft.TextField(label="Tolerancias en el reglaje de la suspensión (º)", value = 0.23, on_submit=cambiar, disabled = inhabilitado)
+            self.tf_tol_carga = ft.TextField(label="Reparto desigual de cargas (º)", value = 0.77, on_submit=cambiar, disabled = inhabilitado)
+            self.tf_vmax = ft.TextField(label="Velocidad máxima de la vía (km/h)", value=100, on_submit=cambiar, disabled = inhabilitado)
 
-            self.cb_graf_GPA = ft.Checkbox("Mostrar Gálibo superior", value = True, on_change = cambiar)
-            self.cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar)
-            self.cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar)
-            self.cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar)
-            self.cb_graf_esGirado = ft.Checkbox("Girar gráfico", value = False, on_change = cambiar)
+            self.cb_graf_GPA = ft.Checkbox("Mostrar Gálibo superior", value = True, on_change = cambiar, disabled = inhabilitado)
+            self.cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar, disabled = inhabilitado)
+            self.cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar, disabled = inhabilitado)
+            self.cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar, disabled = inhabilitado)
+            self.cb_graf_esGirado = ft.Checkbox("Girar gráfico", value = False, on_change = cambiar, disabled = inhabilitado)
             self.cb_graf_inclinacion = ft.RadioGroup(content=ft.Row([
                 ft.Radio(value="A derechas", label="A derechas"),
                 ft.Radio(value="A izquierdas", label="A izquierdas")]),
                 disabled = True,
                 value = "A derechas",
-            on_change=cambiar)
+                on_change=cambiar,
+            )
 
     ftElem_1 = ftElementos()
-    ftElem_2 = ftElementos()
+    ftElem_2 = ftElementos(inhabilitado=True)
 
+    cb_via2 = ft.Checkbox(value = False, on_change=habilitar_via2)
+
+    class Tabla_Var(ft.ResponsiveRow):
+        def __init__(self, ftt):
+            super().__init__()
+            self.tabla = ft.ResponsiveRow([
+                ft.Column([
+                    ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
+                    MiFilaDatos2("Radio de curvatura, planta", "R", "",  "m", ftt.t_R),
+                    MiFilaDatos2("Radio de curvatura, alzado", "R", "V",  "m", ftt.t_RV),
+                    MiFilaDatos2("Ancho de vía nominal", "l", "N", "m", ftt.t_LN),
+                    MiFilaDatos2("Sobreancho máximo", "D", "l", "m", ftt.t_DL),
+                    MiFilaDatos2("Ancho de vía", "I", "", "m", ftt.t_LND),
+                    MiFilaDatos2("Desplazamiento por inscripción en acuerdos vert.", "D", "hRV", "m", ftt.t_DhRV),
+                ],
+                col=1,
+                ),
+                ft.Column([
+                    ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
+                    MiFilaDatos2("Peralte de la vía", "D", "", "m", ftt.t_D),
+                    MiFilaDatos2("Peralte por convenio de la vía", "D", "0", "m", ftt.t_D0),
+                    MiFilaDatos2("Peralte de equilibrio", "h", "eq", "m", ftt.t_heq),
+                    MiFilaDatos2("Insuficiencia de peralte", "I", "", "m", ftt.t_I),
+                    MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt.t_I0),
+                    MiFilaDatos2("Distancia entre círculos de rodadura", "L", "", "m", ftt.t_L),
+                    MiFilaDatos2("Altura del centro de balanceo, por convenio", "h", "co", "m", ftt.t_hco),
+                ],
+                col=1
+                ),
+                ft.Column([
+                    ft.Text("Desplazamientos cuasiestáticos laterales", size = Tamanyos.MEDIANO.value),
+                    MiFilaDatos2("Desplazaiento lateral de la vía", "T", "via", "m", ftt.t_tvia),
+                    MiFilaDatos2("Diferencia entre peralte real y teórico", "T", "D", "m", ftt.t_td),
+                    MiFilaDatos2("Velocidad máxima de la vía", "V", "max", "km/h", ftt.t_vmax),
+                    MiFilaDatos2("Tolerancias en el reglaje de la suspensión", "α", "susp", "º", ftt.t_asusp),
+                    MiFilaDatos2("Reparto desigual de cargas", "α", "carga", "º", ftt.t_acarga),
+                    MiFilaDatos2("Giro total", "η", "0", "º", ftt.t_eta0),
+                    MiFilaDatos2("Giro por oscilaciones aleatorias por irreg. de la vía", "α", "osc,i,s0=0,4", "º", ftt.t_aosc_i_s0_04b),
+                    MiFilaDatos2("", "α", "osc,i,s0=0,3", "º", ftt.t_aosc_i_s0_03b),
+                    MiFilaDatos2("", "α", "osc,a,s0=0,4", "º", ftt.t_aosc_a_s0_04b),
+                    MiFilaDatos2("", "α", "osc,a,s0=0,3", "º", ftt.t_aosc_a_s0_03b),
+                ],
+                col=1
+                ),
+            ],
+            columns=3
+            )
+    tabla_var_1 = Tabla_Var(ftt_1)
+    tabla_var_2 = Tabla_Var(ftt_2)
+    '''
     tabla_var_1 = ft.ResponsiveRow([
         ft.Column([
             ft.Text("Salientes", size = Tamanyos.MEDIANO.value),
@@ -651,6 +733,7 @@ def galibos(page: ft.Page):
     ],
     columns=3
     )
+    '''
 
     page.add(
         ft.Column([
@@ -738,7 +821,8 @@ def galibos(page: ft.Page):
                                 
                                 ),
                             ft.Tab(
-                                text = "Via 2",
+                                #text = "Via 2",
+                                tab_content=ft.Row([cb_via2,ft.Text("Vía 2")]),
                                 content = ft.Column(
                                     controls = [
                                         ft.Text("", size = 1),      #Espaciador, para que quede bonito
@@ -777,7 +861,8 @@ def galibos(page: ft.Page):
                                             ftElem_2.cb_graf_inclinacion,
                                         ])
                                     ],
-                                expand=1),                            ),
+                                expand=1),
+                                ),
                         ],
                         #expand= 0,
                     ),
@@ -791,7 +876,7 @@ def galibos(page: ft.Page):
                 tabs=[
                     ft.Tab(
                         text = "Variables Via 1",
-                        content = tabla_var_1,
+                        content = tabla_var_1.tabla,
                     ),
                     ft.Tab(
                         text = "Desplazamientos Via 1",
@@ -807,7 +892,7 @@ def galibos(page: ft.Page):
                     ),
                     ft.Tab(
                         text = "Variables Via 2",
-                        content = tabla_var_2,
+                        content = tabla_var_2.tabla,
                     ), 
                     ft.Tab(
                         text = "Desplazamientos Via 2",
