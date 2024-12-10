@@ -7,3 +7,7 @@ Nombre del proyecto IDI: DI0835
 Todos las cotas, distancias y demás están en mm
 Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser convertidos a _int_ o _float_ cuanto antes. Los valores que se guardanen var.* son todos del tipo número (salvo los que, evidentemente, son del tipo texto).
 
+## TAREAS A HACER
+* Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exteriroes
+* Que los gráficos girados no incrementen la an chura doblemente (porque lo dicen las fórmulas y porque lo giramos artificialmente)
+* Pintar los pantógrafos
