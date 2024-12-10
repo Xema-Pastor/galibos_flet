@@ -441,74 +441,74 @@ def galibos(page: ft.Page):
     def cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2):
         #ACTUALIZACIÓN DE LOS GRÁFICOS
         datos_grafico_1_GPA.data_points.clear()
-        datos_grafico_GPA_lim.data_points.clear()
-        datos_grafico_GPA_nom.data_points.clear()
-        datos_grafico_GPB.data_points.clear()
+        datos_grafico_1_GPA_lim.data_points.clear()
+        datos_grafico_1_GPA_nom.data_points.clear()
+        datos_grafico_1_GPB.data_points.clear()
         #datos_grafico_GPB_lim.data_points.clear()
 
         datos_grafico_2_GPA.data_points.clear()
-        # datos_grafico_GPA_lim.data_points.clear()
-        # datos_grafico_GPA_nom.data_points.clear()
-        # datos_grafico_GPB.data_points.clear()
-        # #datos_grafico_GPB_lim.data_points.clear()
+        datos_grafico_2_GPA_lim.data_points.clear()
+        datos_grafico_2_GPA_nom.data_points.clear()
+        datos_grafico_2_GPB.data_points.clear()
+        #datos_grafico_GPB_lim.data_points.clear()
 
         for nombre,punto in galiboPA1.items():
-            print("entra en g1", len(galiboPA1))
             datos_grafico_1_GPA.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.X, punto.Y)))
-            datos_grafico_GPA_lim.data_points.append(ft.LineChartDataPoint(
+            datos_grafico_1_GPA_lim.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
-            datos_grafico_GPA_nom.data_points.append(ft.LineChartDataPoint(
+            datos_grafico_1_GPA_nom.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
-            print(datos_grafico_1_GPA.data_points)
-            print("*"*18)
         datos_grafico_1_GPA.visible = ftElem_1.cb_graf_GPA.value
-        datos_grafico_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
-        datos_grafico_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
+        datos_grafico_1_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
+        datos_grafico_1_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
 
         for nombre,punto in galiboPB1.items():
-            datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(
+            datos_grafico_1_GPB.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.X, punto.Y)))
-        datos_grafico_GPB.visible = ftElem_1.cb_graf_GPB.value
-        print("galiboPA2::::::items ",len(galiboPA2.items()))
-        if galiboPA2:
-            print("entra en g2")
+        datos_grafico_1_GPB.visible = ftElem_1.cb_graf_GPB.value
+
+        separacion_h = float(ftElem_2.tf_separacion_h.value) * 1000
+        separacion_v = float(ftElem_2.tf_separacion_v.value) * 1000
+        if cb_via2.value:
             for nombre,punto in galiboPA2.items():
                 datos_grafico_2_GPA.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + 1000,
-                    - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + 1,
+                    cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_v,
                     tooltip=(nombre, punto.X, punto.Y)))
-                print(datos_grafico_2_GPA.data_points)
-                print("-"*20)
-                # datos_grafico_GPA_lim.data_points.append(ft.LineChartDataPoint(
-                #     cos(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + 5,
-                #     - sin(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + 1,
-                #     tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
-                # datos_grafico_GPA_nom.data_points.append(ft.LineChartDataPoint(
-                #     cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + 5,
-                #     - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + 1,
-                #     tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                datos_grafico_2_GPA_lim.data_points.append(ft.LineChartDataPoint(
+                    cos(radians(via2.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
+                datos_grafico_2_GPA_nom.data_points.append(ft.LineChartDataPoint(
+                    cos(radians(via2.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
             datos_grafico_2_GPA.visible = ftElem_2.cb_graf_GPA.value
-            # datos_grafico_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
-            # datos_grafico_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
-        # if galiboPB2:
-            # for nombre,punto in galiboPB2.items():
-            #     datos_grafico_GPB.data_points.append(ft.LineChartDataPoint(
-            #         cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
-            #         - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
-            #         tooltip=(nombre, punto.X, punto.Y)))
-            # datos_grafico_GPB.visible = ftElem_1.cb_graf_GPB.value
+            datos_grafico_2_GPA_lim.visible = ftElem_2.cb_graf_GPA_lim.value
+            datos_grafico_2_GPA_nom.visible = ftElem_2.cb_graf_GPA_nom.value
+        
+        if cb_via2.value:
+            for nombre,punto in galiboPB2.items():
+                datos_grafico_2_GPB.data_points.append(ft.LineChartDataPoint(
+                    cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.X, punto.Y)))
+            datos_grafico_2_GPB.visible = ftElem_2.cb_graf_GPB.value
+        
+        ft_grafico.max_x = 2000 + separacion_h if galiboPA2 else 2000
 
     def cambiar(e):
-        
+        habilitar_via2()
+
         via1.GPA = ftElem_1.dd_GPA.value
         via1.GPB = ftElem_1.dd_GPB.value
         via2.GPA = ftElem_2.dd_GPA.value
@@ -525,13 +525,11 @@ def galibos(page: ft.Page):
             galiboPB2 = datos_GPB[via2.GPB]
             cambiar_variables(galiboPA2, via2, ftElem_2)
             cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
-        print("galiboPA2", galiboPA2)
         cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2)
 
         page.update()
 
-    def habilitar_via2(e):
-        print(cb_via2.value)
+    def habilitar_via2():
         ftElem_2.dd_GPA.disabled = not cb_via2.value
         ftElem_2.dd_GPB.disabled = not cb_via2.value
         ftElem_2.dd_EV.disabled = not cb_via2.value
@@ -553,8 +551,6 @@ def galibos(page: ft.Page):
         ftElem_2.cb_graf_esGirado.disabled = not cb_via2.value
         ftElem_2.tf_separacion_h.disabled = not cb_via2.value
         ftElem_2.tf_separacion_v.disabled = not cb_via2.value
-        print(ftElem_2.dd_GPA.disabled)
-
         page.update()
 
     #COMPONENTES INDIVIDUALES CON EVENTOS
@@ -638,49 +634,20 @@ def galibos(page: ft.Page):
                 on_change=cambiar,
             )
             if es2via:
-                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias", value=10, on_submit=cambiar, disabled = inhabilitado)
-                self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias", value=1, on_submit=cambiar, disabled = inhabilitado)
+                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias (m)", value=2, on_submit=cambiar, disabled = inhabilitado)
+                self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias (m)", value=0.2, on_submit=cambiar, disabled = inhabilitado)
 
     ftElem_1 = ftElementos()
     ftElem_2 = ftElementos(inhabilitado=True, es2via = True)
 
-    cb_via2 = ft.Checkbox(value = False, on_change=habilitar_via2)
+    cb_via2 = ft.Checkbox(value = False, on_change=cambiar)
 
     page.add(
         ft.Column([
             ft.ResponsiveRow([
                 ft.Column(
                     col=4,
-                    controls = [
-                        ft.LineChart(
-                            data_series=datos_grafico,
-                            border=ft.border.all(3, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE)),
-                            horizontal_grid_lines=ft.ChartGridLines(
-                                interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
-                            ),
-                            vertical_grid_lines=ft.ChartGridLines(
-                                interval=1000, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
-                            ),
-                            left_axis=ft.ChartAxis(
-                                show_labels = False,
-                                labels=[],
-                                labels_size=20,
-                            ),
-                            bottom_axis=ft.ChartAxis(
-                                show_labels = False,
-                                labels=[],
-                                labels_size=20,
-                            ),
-                            tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
-                            min_y=-1000,
-                            max_y=2000,
-                            min_x=-2000,
-                            max_x=2000,
-                            animate = 0,
-                            #expand=True,
-                            height=425,
-                        ),
-                        ]
+                    controls = [ft_grafico,]
                     ),
                 ft.Column(
                     col=8,
