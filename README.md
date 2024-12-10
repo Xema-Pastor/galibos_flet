@@ -11,3 +11,5 @@ Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser
 * Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exteriroes
 * Que los gráficos girados no incrementen la an chura doblemente (porque lo dicen las fórmulas y porque lo giramos artificialmente)
 * Pintar los pantógrafos
+* Unificar los objetos ftt y fttabla, pues en esencia son lo mismo
+* Optimizar el rendimiento, haciendo que no recalcule lo que no hace falta
