@@ -180,7 +180,7 @@ def galibos(page: ft.Page):
         via.tipo_cat =  ft_elem.dd_TIPOCAT
         via.tipo_lin =  ft_elem.dd_TIPOLIN
         via.ten_cat =  ft_elem.dd_TENCAT
-        via.hf = ft_elem.tf_hpant
+        via.hf = ft_elem.tf_hpant.value
 
         match via.tipo_pant:
             case TIPO_PANT.ANCHO_1600.value:
