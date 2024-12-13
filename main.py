@@ -2,7 +2,7 @@ import flet as ft
 import configuracion as conf
 from datos_galibos import datos_GPA, datos_GPB
 from datos_variables import via1, via2
-from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV
+from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV, TIPO_PANT, TIPO_LINEA, TENSION_CAT, TIPO_CAT
 from componentes.comp_tablas import tabla_var_1, tabla_des_1, tabla_lim_1, tabla_nom_1, fttabla_1, tabla_var_2, tabla_des_2, tabla_lim_2, tabla_nom_2, fttabla_2
 from componentes.comp_textos import ftt_1, ftt_2
 from componentes.comp_graficos import *
@@ -16,7 +16,7 @@ def galibos(page: ft.Page):
     page.window.height = 600
     page.window.width = 1800
 
-    def cambiar_variables(galibo, via, ft_elem):
+    def cambiar_via(galibo, via, ft_elem):
         
         #CÁLCULO DE LAS VARIABLES GENERALES DEL PROGRAMA
         via.maxY = 0
@@ -175,9 +175,83 @@ def galibos(page: ft.Page):
             elif via.tipo_via == ETV.VIA_PLACA.value:
                 via.aosc_a_s0_03h = 0.6
 
+        #CÁLCULOS RELATIVOS AL PANTÓGRAFO
+        via.tipo_pant = ft_elem.dd_TIPOPAN
+        via.tipo_cat =  ft_elem.dd_TIPOCAT
+        via.tipo_lin =  ft_elem.dd_TIPOLIN
+        via.ten_cat =  ft_elem.dd_TENCAT
+        via.hf = ft_elem.tf_hpant
+
+        match via.tipo_pant:
+            case TIPO_PANT.ANCHO_1600.value:
+                via.bp = 1.6
+                via.bw = 0.8
+                via.epo = 0.17
+                via.epu = 0.11
+                via.D0p = 0.067
+                via.I0p = 0.067
+            case TIPO_PANT.ANCHO_1700.value:
+                via.bp = 1.7
+                via.bw = 0.85
+                via.epo = 0.15
+                via.epu = 0.082
+                via.D0p = 0.07
+                via.I0p = 0.07
+            case TIPO_PANT.ANCHO_1950.value:
+                via.bp = 1.9
+                via.bw = 0.975
+                via.epo = 0.17
+                via.epu = 0.11
+                via.D0p = 0.067
+                via.I0p = 0.067
+
+        match via.ten_cat:
+            case TENSION_CAT.CC_1500.value:
+                via.belec_estat = 0.1
+                via.belec_dinam = 0.05
+            case TENSION_CAT.CC_3000.value:
+                via.belec_estat = 0.15
+                via.belec_dinam = 0.05
+            case TENSION_CAT.CA_25000.value:
+                via.belec_estat = 0.27
+                via.belec_dinam = 0.15
+
+        match via.tipo_lin:
+            case TIPO_LINEA.EXISTENTES.value:
+                via.cw = 0.2
+            case TIPO_LINEA.NUEVAS.value:
+                via.cw = 0.0
+        
+        match via.tipo_cat:
+            case TIPO_CAT.CA160.value:
+                via.fsvmax = 0.195
+                via.fsvmin = 0.078
+            case TIPO_CAT.CA220.value:
+                via.fsvmax = 0.148
+                via.fsvmin = 0.045
+            case TIPO_CAT.CAU220.value:
+                via.fsvmax = 0.152
+                via.fsvmin = 0.046
+            case TIPO_CAT.SICAT.value:
+                via.fsvmax = 0.154
+                via.fsvmin = 0.04
+            case TIPO_CAT.EAC350.value:
+                via.fsvmax = 0.162
+                via.fsvmin = 0.041
+            case TIPO_CAT.RIGIDA.value:
+                via.fsvmax = 0.015
+                via.fsvmin = 0.015
+
+        via.heffvmax = via.hf + via.fsvmax + via.fwswa
+        via.heffvmin = via.hf + via.fsvmin + via.fwswa
+        via.heffelecvmax = via.heffvmax + via.belec_dinam
+        via.heffelecvmin = via.heffvmin + via.belec_estat
+        via.heff = max(via.heffvmax, via.heffvmin)
+        via.heffelec = max(via.heffelecvmax, via.heffelecvmin)
+
     def cambiar_elementos(galiboPA, ftt, fttabla, via):
         def signo(num):
-            return 1 if num > 0 else -1
+            return 1 if num >= 0 else -1
 
         #ACTUALIZACIÓN DE LOS ELEMENTOS DE FLET CON LOS VALORES CALCULADOS ANTERIORMENTE
         ftt.t_R.value = via.R
@@ -511,19 +585,23 @@ def galibos(page: ft.Page):
 
         via1.GPA = ftElem_1.dd_GPA.value
         via1.GPB = ftElem_1.dd_GPB.value
+        # via1.tipo_pant = ftElem_1.dd_TIPOPAN
+        # via1.tipo_cat =  ftElem_1.dd_TIPOCAT
+        # via1.tipo_lin =  ftElem_1.dd_TIPOLIN
+        # via1.ten_cat =  ftElem_1.dd_TENCAT
         via2.GPA = ftElem_2.dd_GPA.value
         via2.GPB = ftElem_2.dd_GPB.value
         galiboPA1 = datos_GPA[via1.GPA]
         galiboPB1 = datos_GPB[via1.GPB]
 
-        cambiar_variables(galiboPA1, via1, ftElem_1)
+        cambiar_via(galiboPA1, via1, ftElem_1)
         cambiar_elementos(galiboPA1, ftt_1, fttabla_1, via1)
         galiboPA2 = None
         galiboPB2 = None
         if cb_via2.value:
             galiboPA2 = datos_GPA[via2.GPA]
             galiboPB2 = datos_GPB[via2.GPB]
-            cambiar_variables(galiboPA2, via2, ftElem_2)
+            cambiar_via(galiboPA2, via2, ftElem_2)
             cambiar_elementos(galiboPA2, ftt_2, fttabla_2, via2)
         cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2)
 
@@ -551,6 +629,12 @@ def galibos(page: ft.Page):
         ftElem_2.cb_graf_esGirado.disabled = not cb_via2.value
         ftElem_2.tf_separacion_h.disabled = not cb_via2.value
         ftElem_2.tf_separacion_v.disabled = not cb_via2.value
+        ftElem_2.tf_hpant.disabled = not cb_via2.value
+        ftElem_2.dd_TIPOPAN.disabled = not cb_via2.value
+        ftElem_2.dd_TIPOLIN.disabled = not cb_via2.value
+        ftElem_2.dd_TIPOCAT.disabled = not cb_via2.value
+        ftElem_2.dd_TENCAT.disabled = not cb_via2.value
+
         page.update()
 
     #COMPONENTES INDIVIDUALES CON EVENTOS
@@ -573,7 +657,7 @@ def galibos(page: ft.Page):
                     ft.dropdown.Option(EGPA.PERSONALIZADO.value),
                 ],
                 on_change=cambiar,
-                disabled = inhabilitado
+                disabled = inhabilitado,
             )
             self.dd_GPB = ft.Dropdown(
                 label = "Gálibo de partes bajas",
@@ -633,9 +717,61 @@ def galibos(page: ft.Page):
                 value = "A derechas",
                 on_change=cambiar,
             )
+            self.tf_hpant = ft.TextField(label="Altura del hilo de contacto (m)",value = 5, on_submit=cambiar, disabled = inhabilitado, width = 150)
+            self.dd_TIPOPAN = ft.Dropdown(
+                label = "Tipo de pantógrafo",
+                hint_text = "Introduce el tipo de pantógrafo",
+                options = [
+                    ft.dropdown.Option(TIPO_PANT.ANCHO_1600.value),
+                    ft.dropdown.Option(TIPO_PANT.ANCHO_1700.value),
+                    ft.dropdown.Option(TIPO_PANT.ANCHO_1950.value),
+                    ],
+                on_change=cambiar,
+                disabled = inhabilitado,
+                width = 300,
+                #max_menu_height=40
+            )
+            self.dd_TIPOLIN = ft.Dropdown(
+                label = "Tipo de línea",
+                hint_text = "Introduce el tipo de línea",
+                options = [
+                    ft.dropdown.Option(TIPO_LINEA.EXISTENTES.value),
+                    ft.dropdown.Option(TIPO_LINEA.NUEVAS.value),
+                    ],
+                on_change=cambiar,
+                disabled = inhabilitado,
+                width = 250 
+            )
+            self.dd_TIPOCAT = ft.Dropdown(
+                label = "Tipo de catenaria",
+                hint_text = "Introduce el tipo de catenaria",
+                options = [
+                    ft.dropdown.Option(TIPO_CAT.CA160.value),
+                    ft.dropdown.Option(TIPO_CAT.CA220.value),
+                    ft.dropdown.Option(TIPO_CAT.CAU220.value),
+                    ft.dropdown.Option(TIPO_CAT.EAC350.value),
+                    ft.dropdown.Option(TIPO_CAT.SICAT.value),
+                    ft.dropdown.Option(TIPO_CAT.RIGIDA.value),
+                    ],
+                on_change=cambiar,
+                disabled = inhabilitado,
+                width = 250
+            )
+            self.dd_TENCAT = ft.Dropdown(
+                label = "Tensión de la catenaria",
+                hint_text = "Introduce la tensión de la catenaria",
+                options = [
+                    ft.dropdown.Option(TENSION_CAT.CC_1500.value),
+                    ft.dropdown.Option(TENSION_CAT.CC_3000.value),
+                    ft.dropdown.Option(TENSION_CAT.CA_25000.value),
+                    ],
+                on_change=cambiar,
+                disabled = inhabilitado,
+                width = 300
+            )
             if es2via:
-                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias (m)", value=2, on_submit=cambiar, disabled = inhabilitado)
-                self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias (m)", value=0.2, on_submit=cambiar, disabled = inhabilitado)
+                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias (m)", value=2, on_submit=cambiar, disabled = inhabilitado, border_color= ft.colors.AMBER)
+                self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias (m)", value=0.2, on_submit=cambiar, disabled = inhabilitado, border_color= ft.colors.AMBER)
 
     ftElem_1 = ftElementos()
     ftElem_2 = ftElementos(inhabilitado=True, es2via = True)
@@ -673,6 +809,7 @@ def galibos(page: ft.Page):
                                             ftElem_1.tf_RV,
                                             ftElem_1.cb_RV,
                                             ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
+                                            ftElem_1.tf_vmax,
                                         ]),
                                         ft.Row([
                                             ftElem_1.tf_DL,
@@ -683,7 +820,13 @@ def galibos(page: ft.Page):
                                             ftElem_1.tf_tol_sus,
                                             ftElem_1.tf_tol_carga,
                                         ]),
-                                        ftElem_1.tf_vmax,
+                                        ft.Row([
+                                            ftElem_1.tf_hpant,
+                                            ftElem_1.dd_TIPOPAN,
+                                            ftElem_1.dd_TIPOLIN,
+                                            ftElem_1.dd_TIPOCAT,
+                                            ftElem_1.dd_TENCAT,
+                                        ]),                                        
                                         ft.Row([
                                             ftElem_1.cb_graf_GPA,
                                             ftElem_1.cb_graf_GPB,
@@ -716,6 +859,7 @@ def galibos(page: ft.Page):
                                             ftElem_2.tf_RV,
                                             ftElem_2.cb_RV,
                                             ft.Text("Alineación recta en alzado",size=Tamanyos.PEQUENYO.value),
+                                            ftElem_2.tf_vmax,
                                         ]),
                                         ft.Row([
                                             ftElem_2.tf_DL,
@@ -725,11 +869,15 @@ def galibos(page: ft.Page):
                                         ft.Row([
                                             ftElem_2.tf_tol_sus,
                                             ftElem_2.tf_tol_carga,
-                                        ]),
-                                        ft.Row([
-                                            ftElem_2.tf_vmax,
                                             ftElem_2.tf_separacion_h,
                                             ftElem_2.tf_separacion_v,
+                                        ]),
+                                        ft.Row([
+                                            ftElem_2.tf_hpant,
+                                            ftElem_2.dd_TIPOPAN,
+                                            ftElem_2.dd_TIPOLIN,
+                                            ftElem_2.dd_TIPOCAT,
+                                            ftElem_2.dd_TENCAT,
                                         ]),
                                         ft.Row([
                                             ftElem_2.cb_graf_GPA,

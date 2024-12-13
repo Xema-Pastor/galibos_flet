@@ -76,3 +76,26 @@ class ETV(Enum):
 class EEV(Enum):
     BUEN_ESTADO = "Buen estado"
     MAL_ESTADO = "Mal estado"
+
+class TIPO_PANT(Enum):
+    ANCHO_1950 = "Ancho 1950 (ibérico e internacional)"
+    ANCHO_1600 = "Ancho 1600 (ibérico e internacional)"
+    ANCHO_1700 = "Ancho 1700 (métrico)"
+
+class TENSION_CAT(Enum):
+    
+    CC_1500 = "1.5 kV, c.c."
+    CC_3000 = "3.0 kV, c.c."
+    CA_25000 = "25 kV, c.a."
+
+class TIPO_LINEA(Enum):
+    EXISTENTES = "Existentes"
+    NUEVAS = "Nuevas o acondicionadas"
+
+class TIPO_CAT(Enum):
+    CA160 = "CA-160"
+    CAU220 = "CAU-220"
+    CA220 = "CA-220"
+    SICAT = "SICAT H 1.0"
+    EAC350 = "EAC-350"
+    RIGIDA = "RIGIDA"

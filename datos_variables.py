@@ -131,7 +131,7 @@ class PuntoI:
     X: float = 0           # Valor de la coordenada X, (mm)
     Y: float = 0           # Valor de la coordenada Y, (mm)
 
-class Variables():
+class Via():
     def __init__(self):
         #3.1
         self.GPA = "GA"          # galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
@@ -195,5 +195,31 @@ class Variables():
         self.K = 1.2             #Factor de seguridad, general
         self.Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
-via1 = Variables()
-via2 = Variables()
+        #Pantógrafo
+        self.tipo_pant = ""          #Tipo de pantógrafo
+        self.tipo_cat = ""           #Tipo de catenaria
+        self.tipo_lin = ""          #Tipo de línea
+        self.ten_cat = ""           #Tensión en la catenaria
+        self.hf = 5.00              #Altura del hilo de contacto (m)
+        self.bp = 1.7               #Anchura del pantógrafo (m)
+        self.bw = 0.85              #Semiancho de la mesilla del pantógrafo (m)
+        self.epo = 0.15             #Desplazamieno lateral máximo del pantógrafo (1) (m)
+        self.epu = 0.82             #Desplazamieno lateral máximo del pantógrafo (2) (m)
+        self.D0p = 0.07             #Peralte por convenio de la vía, para el pantógrafo (m)
+        self.I0p = 0.07             #Insuficiencia de peralte por convenio de la vía, para el pantógrafo (m)
+        self.s0p = 0.225            #Coeficiente de flexibilidad del vehículo, para el pantógrafo
+        self.cw = 0.0               #Proyección del ancho del trocador (m)
+        self.belec_estat = 0.27     #Aislamiento elétrctrico estático (m)
+        self.belec_dinam = 0.27     #Aislamiento elétrctrico dinámico (m)
+        self.fsvmax = 0.162         #Elevación del hilo de contacto debido a la fuerza del pantógrafo, vmax (m)
+        self.fsvmin = 0.041         #Elevación del hilo de contacto debido a la fuerza del pantógrafo, vmin (m)
+        self.fwswa = 0.07           #Elevación del pantógrafo debido al desgaste de la pletina y a flexibilidad del pantógrado (m)
+        self.heffvmax = 0           #Altura máxima del gálibo mecánico, vmax (m)
+        self.heffelecvmax = 0       #Altura del gálibo eléctrico, vmax (m)
+        self.heffvmin = 0           #Altura máxima del gálibo mecánico, vmin (m)
+        self.heffelecvmin = 0       #Altura del gálibo eléctrico, vmin (m)
+        self.heff = 0               #Altura máxima del gálibo mecánico (m)
+        self.heffelec = 0           #Altura máxima del gálibo eléctrico (m)
+
+via1 = Via()
+via2 = Via()
