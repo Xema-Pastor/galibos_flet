@@ -1,5 +1,5 @@
 from math import tan, radians
-from estilos.estilos import EGPA, EGPB
+from estilos.estilos import EGPA, EGPB, TIPO_PANT
 
 def calcular_esPT(Y: float, maximo: float) -> bool:
     return Y == maximo
@@ -297,3 +297,95 @@ def calcular_nom_hobst(Y: float, DhRV: float, hb_max: float, esPT: bool, DhPT: f
 
     res = Y + (DhRV + M3h) * signo_Y + cond1 * (DhPT + SV1) + cond2 * signo_Y * SV2
     return round(res , 1)
+
+
+
+def calcular_pant_Sai(galibo_GPA: str, R: float, LN: float, L: float) -> float:
+    if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GA.value, EGPA.GB.value,]:
+        aux = 2.5 / R
+    elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
+        aux = 1.5/R
+    else:
+        aux = 999
+    
+    aux += (L - LN) / 2
+
+    return round(aux*1000,1)         #para pasar a milímetros
+
+def calcular_pant_qsa(galibo_GPA: str, Y: float, I: float, hco: float) -> float:
+    if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GEA16.value, EGPA.GEB16.value,]:
+        return round(1000 * 0.225 / 1.733 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
+    elif galibo_GPA in [EGPA.GA.value, EGPA.GB.value,EGPA.GC.value,]:
+        return round(1000 * 0.225 / 1.5 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
+    elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
+        return round(1000 * 0.225 / 1.055 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
+    else:
+        return 999
+
+def calcular_pant_qsi(galibo_GPA: str, Y: float, D: float, hco: float) -> float:
+    if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GEA16.value, EGPA.GEB16.value,]:
+        return round(1000 * 0.225 / 1.733 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
+    elif galibo_GPA in [EGPA.GA.value, EGPA.GB.value,EGPA.GC.value,]:
+        return round(1000 * 0.225 / 1.5 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
+    elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
+        return round(1000 * 0.225 / 1.055 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
+    else:
+        return 999
+
+def calcular_pant_Dbg_ai(Y: float, L: float, TD: float) -> float:
+    return round(Y * 1000 * TD / L, 1)
+
+def calcular_pant_Dbc_ai(Y: float, L: float, TD: float, hco: float, s0: float) -> float:
+    return round(0.225 * TD * max(0, Y - hco) / L * 1000, 1)
+
+def calcular_pant_Sj(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, dbcarg: float, dbosc: float) -> float:
+    res = (Tvia**2 + (Dbgai + Dbcai)**2 + (Dbsusp**2 + dbcarg**2 + dbosc**2))**0.5
+    return round(res,1)
+
+def calcular_pant_bobst(nombre: str, bw: float, epo: float, epu: float, S_ai: float, qs_a: float, Sj: float) -> float:
+    if nombre in ["P1", "P4",]:
+        ep = epu
+    elif nombre in ["P2", "P3",]:
+        ep = epo
+    else:
+        ep = 999
+    return round(bw + ep + S_ai + qs_a + Sj, 1)
+
+def calcular_pant_bobst_hmax(nombre: str, bobst: float, Dbobst_i_12: float, Dbobst_i_34: float, dy: float, hf: float, tipo_pant: dict) -> float:
+    if nombre in ["P1", "P4",]:
+        return bobst
+    elif nombre in ["P2", "P3",]:
+        if nombre == "P2":
+            dx = Dbobst_i_12
+            aux1 = (hf - tipo_pant["P1"].Y_ref)
+            aux2 = tipo_pant["P1"].bobst
+        elif nombre == "P3":
+            dx = Dbobst_i_34
+            aux1 = (hf - tipo_pant["P4"].Y_ref)
+            aux2 = tipo_pant["P4"].bobst
+        else:
+            return None
+        return dx * aux1 / dy + aux2
+    else:
+        return None
+
+def calcular_pant_elec(bheff: float, belec: float, cw: float) -> float:
+    return bheff + belec + cw
+
+def calcular_pant_pant_mec_X(x_ref: float, bobst_i: float, bobst_a: float, lado: int) -> float:
+    signo = 1 if x_ref > 0 else -1
+    if (lado == 1 and signo ==1) or (lado == 2 and signo ==-1):
+        res = bobst_i
+    elif (lado == 1 and signo ==-1) or (lado == 2 and signo ==1):
+        res = bobst_a
+    else:
+        res = 999
+    return res
+
+def calcular_pant_pant_mec_Y(nombre: str, Y: float, h: float) -> float:
+    if nombre in ["P1", "P4",]:
+        return Y
+    elif nombre in ["P2", "P3",]:
+        return h
+    else:
+        return res

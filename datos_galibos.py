@@ -1,4 +1,4 @@
-from datos_variables import Punto, PuntoI
+from datos_variables import Punto, PuntoI, PuntoP
 
 #GALIBOS PARTES ALTAS
 datos_GPA = {
@@ -300,5 +300,22 @@ datos_GPB = {
 
 #PANTÓGRAFO
 datos_Pantografo = {
-
+    'Ancho 1950 (ibérico e internacional)': {
+        'P1': PuntoP(X_ref= -975, Y_ref = 5000,),
+        'P2': PuntoP(X_ref= -975, Y_ref = 6500,),
+        'P3': PuntoP(X_ref= 975, Y_ref = 6500,),
+        'P4': PuntoP(X_ref= 975, Y_ref = 5000,),
+    },
+    'Ancho 1700 (métrico)': {
+        'P1': PuntoP(X_ref= -850, Y_ref = 4300,),
+        'P2': PuntoP(X_ref= -850, Y_ref = 5500,),
+        'P3': PuntoP(X_ref= 850, Y_ref = 5500,),
+        'P4': PuntoP(X_ref= 850, Y_ref = 4300,),
+    },
+    'Ancho 1600 (ibérico e internacional)': {
+        'P1': PuntoP(X_ref= -800, Y_ref = 5000,),
+        'P2': PuntoP(X_ref= -800, Y_ref = 6500,),
+        'P3': PuntoP(X_ref= 800, Y_ref = 6500,),
+        'P4': PuntoP(X_ref= 800, Y_ref = 5000,),
+    },
 }

@@ -245,8 +245,81 @@ class ftTabla:
         self.limpiar_tabla(self.tabla_106_nom_bi, "b", "nom,i", "(mm)")
         self.limpiar_tabla(self.tabla_107_nom_hi, "h", "nom,i", "(mm)")
 
+@dataclass
+class ftTablaPant:
+    def __init__(self):
+        self.tablaPant_00_Punto = MiColumnaTabla()
+        self.tablaPant_01_X_ref = MiColumnaTabla()
+        self.tablaPant_02_Y_ref = MiColumnaTabla()
+        self.tablaPant_03_Sai = MiColumnaTabla()
+        self.tablaPant_04_qsa = MiColumnaTabla()
+        self.tablaPant_05_qsi = MiColumnaTabla()
+        self.tablaPant_06_Dbgai = MiColumnaTabla()
+        self.tablaPant_07_Dbcai = MiColumnaTabla()
+        self.tablaPant_08_Dbsuspai = MiColumnaTabla()
+        self.tablaPant_09_Dbcargaai = MiColumnaTabla()
+        self.tablaPant_10_Dbetaai = MiColumnaTabla()
+        self.tablaPant_11_aosca = MiColumnaTabla()
+        self.tablaPant_12_aosci = MiColumnaTabla()
+        self.tablaPant_13_Dbosca = MiColumnaTabla()
+        self.tablaPant_14_Dbosci = MiColumnaTabla()
+        self.tablaPant_15_TVia = MiColumnaTabla()
+        self.tablaPant_16_Sja = MiColumnaTabla()
+        self.tablaPant_17_Sji = MiColumnaTabla()
+        self.tablaPant_18_bobst_a = MiColumnaTabla()
+        self.tablaPant_19_bobst_i = MiColumnaTabla()
+        self.tablaPant_20_bobst_a_hmax = MiColumnaTabla()
+        self.tablaPant_21_bobst_i_hmax = MiColumnaTabla()
+        self.tablaPant_22_bobst_a_hmax_heff_elec = MiColumnaTabla()
+        self.tablaPant_23_bobst_i_hmax_heff_elec = MiColumnaTabla()
+        self.tablaPant_24_bobst_a_hmax_elec = MiColumnaTabla()
+        self.tablaPant_25_bobst_i_hmax_elec = MiColumnaTabla()
+        self.tablaPant_26_X_mec = MiColumnaTabla()
+        self.tablaPant_27_Y_mec = MiColumnaTabla()
+        self.tablaPant_28_X_elec = MiColumnaTabla()
+        self.tablaPant_29_Y_elec = MiColumnaTabla()
+
+    def limpiar_tabla(self, elemento: ft.Column, text1: str, text2: str, unidades: str):
+            elemento.controls.clear()
+            elemento.controls.append(MiText(text1, text2))
+            elemento.controls.append(ft.Text(unidades,size=Tamanyos.TABLA_NORMAL.value))
+    
+    def actualizar_tabla(self):
+        self.limpiar_tabla(self.tablaPant_00_Punto, "Punto", "", "()")
+        self.limpiar_tabla(self.tablaPant_01_X_ref, "X", "ref", "(mm)")
+        self.limpiar_tabla(self.tablaPant_02_Y_ref, "Y", "ref", "(mm)")
+        self.limpiar_tabla(self.tablaPant_03_Sai, "S", "ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_04_qsa, "qs", "a", "(mm)")
+        self.limpiar_tabla(self.tablaPant_05_qsi, "qs", "i", "(mm)")
+        self.limpiar_tabla(self.tablaPant_06_Dbgai, "Δb", "g,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_07_Dbcai, "Δb", "c,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_08_Dbsuspai, "Δb", "susp,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_09_Dbcargaai, "Δb", "carg,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_10_Dbetaai, "Δb", "η,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_11_aosca, "α", "osc,a", "(º)")
+        self.limpiar_tabla(self.tablaPant_12_aosci, "α", "osc,i", "(º)")
+        self.limpiar_tabla(self.tablaPant_13_Dbosca, "Δb", "osc,a", "(mm)")
+        self.limpiar_tabla(self.tablaPant_14_Dbosci, "Δb", "osc,i", "(mm)")
+        self.limpiar_tabla(self.tablaPant_15_TVia, "T", "via", "(mm)")
+        self.limpiar_tabla(self.tablaPant_16_Sja, "Σj", "a", "(mm)")
+        self.limpiar_tabla(self.tablaPant_17_Sji, "Σj", "i", "(mm)")
+        self.limpiar_tabla(self.tablaPant_18_bobst_a, "b", "obst,a", "(mm)")
+        self.limpiar_tabla(self.tablaPant_19_bobst_i, "b", "obst,a", "mm")
+        self.limpiar_tabla(self.tablaPant_20_bobst_a_hmax, "b", "obst,a,hmax", "(mm)")
+        self.limpiar_tabla(self.tablaPant_21_bobst_i_hmax, "b", "obst,i,hmax", "(mm)")
+        self.limpiar_tabla(self.tablaPant_22_bobst_a_hmax_heff_elec, "b", "obst,a,heff,hmax", "(mm)")
+        self.limpiar_tabla(self.tablaPant_23_bobst_i_hmax_heff_elec, "b", "obst,i,heff,hmax", "(mm)")
+        self.limpiar_tabla(self.tablaPant_24_bobst_a_hmax_elec, "b", "obst,a,hmax,elec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_25_bobst_i_hmax_elec, "b", "obst,i,hmax,elec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_26_X_mec, "X", "mec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_27_Y_mec, "Y", "mec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_28_X_elec, "X", "elec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_29_Y_elec, "Y", "elec", "(mm)")
+
 fttabla_1 = ftTabla()
 fttabla_2 = ftTabla()
+fttablaPant_1 = ftTablaPant()
+fttablaPant_2 = ftTablaPant()
 
 class Tabla_Var(ft.ResponsiveRow):
     def __init__(self, ftt):
@@ -428,6 +501,43 @@ class Tabla_Nom(ft.ResponsiveRow):
             ]
             self.columns = 39
 
+class Tabla_Pant(ft.ResponsiveRow):
+        def __init__(self, fttablaPant):
+            super().__init__()
+            self.controls = [
+                fttablaPant.tablaPant_00_Punto,
+                fttablaPant.tablaPant_01_X_ref,
+                fttablaPant.tablaPant_02_Y_ref,
+                fttablaPant.tablaPant_03_Sai,
+                fttablaPant.tablaPant_04_qsa,
+                fttablaPant.tablaPant_05_qsi,
+                fttablaPant.tablaPant_06_Dbgai,
+                fttablaPant.tablaPant_07_Dbcai,
+                fttablaPant.tablaPant_08_Dbsuspai,
+                fttablaPant.tablaPant_09_Dbcargaai,
+                fttablaPant.tablaPant_10_Dbetaai,
+                fttablaPant.tablaPant_11_aosca,
+                fttablaPant.tablaPant_12_aosci,
+                fttablaPant.tablaPant_13_Dbosca,
+                fttablaPant.tablaPant_14_Dbosci,
+                fttablaPant.tablaPant_15_TVia,
+                fttablaPant.tablaPant_16_Sja,
+                fttablaPant.tablaPant_17_Sji,
+                fttablaPant.tablaPant_18_bobst_a,
+                fttablaPant.tablaPant_19_bobst_i,
+                fttablaPant.tablaPant_20_bobst_a_hmax,
+                fttablaPant.tablaPant_21_bobst_i_hmax,
+                fttablaPant.tablaPant_22_bobst_a_hmax_heff_elec,
+                fttablaPant.tablaPant_23_bobst_i_hmax_heff_elec,
+                fttablaPant.tablaPant_24_bobst_a_hmax_elec,
+                fttablaPant.tablaPant_25_bobst_i_hmax_elec,
+                fttablaPant.tablaPant_26_X_mec,
+                fttablaPant.tablaPant_27_Y_mec,
+                fttablaPant.tablaPant_28_X_elec,
+                fttablaPant.tablaPant_29_Y_elec,
+            ]
+            self.columns = 29
+
 tabla_var_1 = Tabla_Var(ftt_1)
 tabla_var_2 = Tabla_Var(ftt_2)
 tabla_des_1 = Tabla_Des(fttabla_1)
@@ -436,3 +546,5 @@ tabla_lim_1 = Tabla_Lim(fttabla_1)
 tabla_lim_2 = Tabla_Lim(fttabla_2)
 tabla_nom_1 = Tabla_Nom(fttabla_1)
 tabla_nom_2 = Tabla_Nom(fttabla_2)
+tabla_pant_1 = Tabla_Pant(fttablaPant_1)
+tabla_pant_2 = Tabla_Pant(fttablaPant_2)

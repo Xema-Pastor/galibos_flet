@@ -131,6 +131,42 @@ class PuntoI:
     X: float = 0           # Valor de la coordenada X, (mm)
     Y: float = 0           # Valor de la coordenada Y, (mm)
 
+@dataclass
+class PuntoP:
+    X_ref: float = 0           # Valor de la coordenada X del pantógrafo de referencia, (mm)
+    Y_ref: float = 0           # Valor de la coordenada Y del pantógrafo de referencia, (mm)
+    X_mec: float = 0           # Valor de la coordenada X del controrno mecánico, (mm)
+    Y_mec: float = 0           # Valor de la coordenada Y del controrno mecánico, (mm)
+    X_elec: float = 0          # Valor de la coordenada X del controrno eléctrico, (mm)
+    Y_elec: float = 0          # Valor de la coordenada Y del controrno eléctrico, (mm)
+
+    S_ai: float = 0            # Salientes (mm)
+    qs_a: float = 0            # Desplazamientos cuasiestáticos horizontales, lado exterior (mm)
+    qs_i: float = 0            # Desplazamientos cuasiestáticos horizontales, lado interior (mm)
+    Dbg_ai: float = 0      #
+    Dbc_ai: float = 0      #
+    Dbsusp_ai: float = 0   #
+    Dbcarg_ai: float = 0  #
+    Dbeta0_ai: float = 0     #
+    aosc_a: float = 0      # (º)
+    aosc_i: float = 0      # (º)
+    Dbosc_a: float = 0     #
+    Dbosc_i: float = 0     #
+    Tvia_ai: float = 0     #
+    Sja: float = 0        # Suma de desplazamientos aleatorios laterales
+    Sji: float = 0        # idem
+
+    bobst_a: float = 0
+    bobst_i: float = 0
+    bobst_a_hmax: float = 0
+    bobst_i_hmax: float = 0
+    bobst_a_hmax_heff_elec: float = 0
+    bobst_i_hmax_heff_elec: float = 0
+    bobst_a_hmax_elec: float = 0
+    bobst_i_hmax_elec: float = 0
+
+
+
 class Via():
     def __init__(self):
         #3.1
