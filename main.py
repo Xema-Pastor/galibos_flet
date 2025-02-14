@@ -180,7 +180,7 @@ def galibos(page: ft.Page):
         # via.tipo_cat =  ft_elem.dd_TIPOCAT
         # via.tipo_lin =  ft_elem.dd_TIPOLIN
         # via.ten_cat =  ft_elem.dd_TENCAT
-        via.hf = ft_elem.tf_hpant.value
+        via.hf = float(ft_elem.tf_hpant.value)
 
         match via.tipo_pant:
             case TIPO_PANT.ANCHO_1600.value:
@@ -513,24 +513,27 @@ def galibos(page: ft.Page):
             fttabla.tabla_107_nom_hi.controls.append(ft.Text(punto.nom_hi, size=Tamanyos.TABLA_NORMAL.value))
 
         #Cálculos relativos al pantógrafo
+
+        fttablaPant.actualizar_tabla()
+
         for nombre,punto in galiboPant.items():
             punto.S_ai = calc.calcular_pant_Sai(via.GPA, via.R, via.LN, via.LND)
-            punto.qs_a = calc.calcular_pant_qsa(via.GPA, punto.Y/1000, via.I, via.hco)
-            punto.qs_i = calc.calcular_pant_qsi(via.GPA, punto.Y/1000, via.D, via.hco)
-            punto.Dbg_ai = calc.calcular_pant_Dbg_ai(punto.Y/1000, via.L, via.TD)            #Se usa la fórmula general porque es igual en los pantografos que en los galibos normales
-            punto.Dbc_ai = calc.calcular_pant_Dbc_ai(punto.Y/1000, via.L, via.TD, via.hco, punto.s0)
-            punto.Dbsusp_ai = calc.calcular_Dbsusp_ai(via.asusp, punto.Y, via.hco * 1000)    #Se usa la ....
-            punto.Dbcarg_ai = calc.calcular_Dbcarg_ai(via.acarga, punto.Y, via.hco * 1000)
-            punto.Dbeta0_ai = calc.calcular_Dbeta0_ai(via.eta0, punto.Y, via.hco * 1000)
-            punto.aosc_a = calc.calcular_aosc(0.225, via.aosc_a_s0_03b, via.aosc_a_s0_04b)    #Se usa la ....
-            punto.aosc_i = calc.calcular_aosc(0.225, via.aosc_i_s0_03b, via.aosc_i_s0_04b)    #Se usa la ....
-            punto.Dbosc_a = calc.calcular_Dbosc(punto.aosc_a, punto.Y, via.hco * 1000)
-            punto.Dbosc_i = calc.calcular_Dbosc(punto.aosc_i, punto.Y, via.hco * 1000)
-            punto.Tvia_ai = via.TVIA
-            punto.Sja = calc.calcular_lim_Sj(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
-            punto.Sji = calc.calcular_lim_Sj(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
-            punto.bobst_a = calc.calcular_pant_bobst(nombre, via.bw, via.epo, via.epu, punto.S_ai, punto.qs_a, punto.Sja)
-            punto.bobst_i = calc.calcular_pant_bobst(nombre, via.bw, via.epo, via.epu, punto.S_ai, punto.qs_i, punto.Sji)
+            punto.qs_a = calc.calcular_pant_qsa(via.GPA, punto.Y_ref/1000, via.I, via.hco)
+            punto.qs_i = calc.calcular_pant_qsi(via.GPA, punto.Y_ref/1000, via.D, via.hco)
+            punto.Dbg_ai = calc.calcular_pant_Dbg_ai(punto.Y_ref/1000, via.L, via.TD)            #Se usa la fórmula general porque es igual en los pantografos que en los galibos normales
+            punto.Dbc_ai = calc.calcular_pant_Dbc_ai(punto.Y_ref/1000, via.L, via.TD, via.hco)
+            punto.Dbsusp_ai = calc.calcular_Dbsusp_ai(via.asusp, punto.Y_ref, via.hco * 1000)    #Se usa la ....
+            punto.Dbcarg_ai = calc.calcular_Dbcarg_ai(via.acarga, punto.Y_ref, via.hco * 1000)
+            punto.Dbeta0_ai = calc.calcular_Dbeta0_ai(via.eta0, punto.Y_ref, via.hco * 1000)
+            punto.aosc_a = calc.calcular_pant_aosc(via.tipo_via, via.estado_via, via.LN, "a")
+            punto.aosc_i = calc.calcular_pant_aosc(via.tipo_via, via.estado_via, via.LN, "i")
+            punto.Dbosc_a = calc.calcular_Dbosc(punto.aosc_a, punto.Y_ref, via.hco * 1000)
+            punto.Dbosc_i = calc.calcular_Dbosc(punto.aosc_i, punto.Y_ref, via.hco * 1000)
+            punto.Tvia_ai = via.TVIA * 1000
+            punto.Sja = calc.calcular_pant_Sj(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_a)
+            punto.Sji = calc.calcular_pant_Sj(punto.Tvia_ai, punto.Dbg_ai, punto.Dbc_ai, punto.Dbsusp_ai, punto.Dbcarg_ai, punto.Dbosc_i)
+            punto.bobst_a = calc.calcular_pant_bobst(nombre, via.bw * 1000, via.epo * 1000, via.epu * 1000, punto.S_ai, punto.qs_a, punto.Sja)
+            punto.bobst_i = calc.calcular_pant_bobst(nombre, via.bw * 1000, via.epo * 1000, via.epu * 1000, punto.S_ai, punto.qs_i, punto.Sji)
 
         #Debo parar el bucle porque tengo que calcular las diferencias de bobst entre distintos puntos del bucle
         #Alternativamente a esto, podría hacer que los gálibos iniciales de 
@@ -539,7 +542,6 @@ def galibos(page: ft.Page):
         Dbobst_i_12 = galiboPant["P2"].bobst_i - galiboPant["P1"].bobst_i
         Dbobst_i_34 = galiboPant["P3"].bobst_i - galiboPant["P4"].bobst_i
         Dy = galiboPant["P3"].Y_ref - galiboPant["P4"].Y_ref             #Da igual coger el 2 que el 3, porque son iguales. Idem con 1 y 4
-
         BLA_BLA_BLA = "A derechas"
         if BLA_BLA_BLA == "A derechas":
             lado = 1
@@ -550,14 +552,13 @@ def galibos(page: ft.Page):
         IMPORTANTE
         Tengo que hacer esto del lado dinámico. lo tiene que leer de ftElem_1.cb_graf_inclinacion o ftElem_2.cb_graf_inclinacion
         '''
-
         for nombre,punto in galiboPant.items():
-            punto.bobst_a_hmax = calc.calcular_pant_bobst_hmax(nombre, punto.bobst_a, Dbobst_a_12, Dbobst_a_34, Dy, via.hf, via.tipo_pant)
-            punto.bobst_i_hmax = calc.calcular_pant_bobst_hmax(nombre, punto.bobst_i, Dbobst_i_12, Dbobst_i_34, Dy, via.hf, via.tipo_pant)
-            punto.bobst_a_hmax_heff_elec = calc.calcular_pant_bobst_hmax(nombre, punto.bobst_a, Dbobst_a_12, Dbobst_a_34, Dy, via.heff, via.tipo_pant)
-            punto.bobst_i_hmax_heff_elec = calc.calcular_pant_bobst_hmax(nombre, punto.bobst_i, Dbobst_i_12, Dbobst_i_34, Dy, via.heff, via.tipo_pant)
-            punto.bobst_a_hmax_elec = calc.calcular_pant_elec(punto.bobst_a_hmax_heff_elec, via.belec_dinam, via.cw)
-            punto.bobst_i_hmax_elec = calc.calcular_pant_elec(punto.bobst_i_hmax_heff_elec, via.belec_estat, via.cw)
+            punto.bobst_a_hmax = calc.calcular_pant_bobst_hmax_a(nombre, punto.bobst_a, Dbobst_a_12, Dbobst_a_34, Dy, via.heff * 1000,  datos_Pantografo[via.tipo_pant])
+            punto.bobst_i_hmax = calc.calcular_pant_bobst_hmax_i(nombre, punto.bobst_i, Dbobst_i_12, Dbobst_i_34, Dy, via.heff * 1000, datos_Pantografo[via.tipo_pant])
+            punto.bobst_a_hmax_heff_elec = calc.calcular_pant_bobst_hmax_a(nombre, punto.bobst_a, Dbobst_a_12, Dbobst_a_34, Dy, via.heffelec * 1000, datos_Pantografo[via.tipo_pant])
+            punto.bobst_i_hmax_heff_elec = calc.calcular_pant_bobst_hmax_i(nombre, punto.bobst_i, Dbobst_i_12, Dbobst_i_34, Dy, via.heffelec * 1000, datos_Pantografo[via.tipo_pant])
+            punto.bobst_a_hmax_elec = calc.calcular_pant_elec(punto.bobst_a_hmax_heff_elec, via.belec_dinam * 1000, via.cw * 1000)
+            punto.bobst_i_hmax_elec = calc.calcular_pant_elec(punto.bobst_i_hmax_heff_elec, via.belec_estat * 1000, via.cw * 1000)
 
             punto.X_mec = calc.calcular_pant_pant_mec_X(punto.X_ref, punto.bobst_a, punto.bobst_i, lado)
             punto.Y_mec = calc.calcular_pant_pant_mec_Y(nombre, punto.Y_ref, 1000 * via.heff)
@@ -567,19 +568,19 @@ def galibos(page: ft.Page):
             fttablaPant.tablaPant_00_Punto.controls.append(ft.Text(nombre,size=Tamanyos.TABLA_NORMAL.value))
             fttablaPant.tablaPant_01_X_ref.controls.append(ft.Text(punto.X_ref,size=Tamanyos.TABLA_NORMAL.value))
             fttablaPant.tablaPant_02_Y_ref.controls.append(ft.Text(punto.Y_ref,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_03_Sai.controls.append(ft.Text(punto.Sai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_04_qsa.controls.append(ft.Text(punto.qsa,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_05_qsi.controls.append(ft.Text(punto.qsi,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_06_Dbgai.controls.append(ft.Text(punto.Dbgai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_07_Dbcai.controls.append(ft.Text(punto.Dbcai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_08_Dbsuspai.controls.append(ft.Text(punto.Dbsuspai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_09_Dbcargaai.controls.append(ft.Text(punto.Dbcargaai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_10_Dbetaai.controls.append(ft.Text(punto.Dbetaai,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_11_aosca.controls.append(ft.Text(punto.aosca,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_12_aosci.controls.append(ft.Text(punto.aosci,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_13_Dbosca.controls.append(ft.Text(punto.Dbosca,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_14_Dbosci.controls.append(ft.Text(punto.Dbosci,size=Tamanyos.TABLA_NORMAL.value))
-            fttablaPant.tablaPant_15_TVia.controls.append(ft.Text(punto.TVia,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_03_Sai.controls.append(ft.Text(punto.S_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_04_qsa.controls.append(ft.Text(punto.qs_a,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_05_qsi.controls.append(ft.Text(punto.qs_i,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_06_Dbgai.controls.append(ft.Text(punto.Dbg_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_07_Dbcai.controls.append(ft.Text(punto.Dbc_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_08_Dbsuspai.controls.append(ft.Text(punto.Dbsusp_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_09_Dbcargai.controls.append(ft.Text(punto.Dbcarg_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_10_Dbetaai.controls.append(ft.Text(punto.Dbeta0_ai,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_11_aosca.controls.append(ft.Text(punto.aosc_a,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_12_aosci.controls.append(ft.Text(punto.aosc_i,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_13_Dbosca.controls.append(ft.Text(punto.Dbosc_a,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_14_Dbosci.controls.append(ft.Text(punto.Dbosc_i,size=Tamanyos.TABLA_NORMAL.value))
+            fttablaPant.tablaPant_15_TVia.controls.append(ft.Text(punto.Tvia_ai,size=Tamanyos.TABLA_NORMAL.value))
             fttablaPant.tablaPant_16_Sja.controls.append(ft.Text(punto.Sja,size=Tamanyos.TABLA_NORMAL.value))
             fttablaPant.tablaPant_17_Sji.controls.append(ft.Text(punto.Sji,size=Tamanyos.TABLA_NORMAL.value))
             fttablaPant.tablaPant_18_bobst_a.controls.append(ft.Text(punto.bobst_a,size=Tamanyos.TABLA_NORMAL.value))
@@ -629,19 +630,19 @@ def galibos(page: ft.Page):
                 - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
         
-        for nombre, punto in galiboPant1:
+        for nombre, punto in galiboPant1.items():
             datos_grafico_1_Pant_ref.data_points.append(ft.LineChartDataPoint(
-                cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO,
-                - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                cos(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
+                - sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
+                tooltip=(nombre, punto.X_ref, punto.Y_ref)))
             datos_grafico_1_Pant_mec.data_points.append(ft.LineChartDataPoint(
-                cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO,
-                - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                cos(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
+                - sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
+                tooltip=(nombre, punto.X_mec, punto.Y_mec)))
             datos_grafico_1_Pant_elec.data_points.append(ft.LineChartDataPoint(
-                cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO,
-                - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO,
+                - sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO,
+                tooltip=(nombre, punto.X_elec, punto.Y_elec)))
             
         datos_grafico_1_GPA.visible = ftElem_1.cb_graf_GPA.value
         datos_grafico_1_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
@@ -674,19 +675,19 @@ def galibos(page: ft.Page):
                     - sin(radians(via2.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + separacion_v,
                     tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
             
-            for nombre, punto in galiboPant1:
+            for nombre, punto in galiboPant2.items():
                 datos_grafico_2_Pant_ref.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO,
-                    - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
-                    tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                    cos(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.X_ref, punto.Y_ref)))
                 datos_grafico_2_Pant_mec.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO,
-                    - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
-                    tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                    cos(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.X_mec, punto.Y_mec)))
                 datos_grafico_2_Pant_elec.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO,
-                    - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO,
-                    tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                    cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_v,
+                    tooltip=(nombre, punto.X_elec, punto.Y_elec)))
             
             datos_grafico_2_GPA.visible = ftElem_2.cb_graf_GPA.value
             datos_grafico_2_GPA_lim.visible = ftElem_2.cb_graf_GPA_lim.value
@@ -711,35 +712,35 @@ def galibos(page: ft.Page):
 
         via1.GPA = ftElem_1.dd_GPA.value
         via1.GPB = ftElem_1.dd_GPB.value
-        via1.tipo_pant = ftElem_1.dd_TIPOPAN
-        via1.tipo_cat =  ftElem_1.dd_TIPOCAT
-        via1.tipo_lin =  ftElem_1.dd_TIPOLIN
-        via1.ten_cat =  ftElem_1.dd_TENCAT
+        via1.tipo_pant = ftElem_1.dd_TIPOPAN.value
+        via1.tipo_cat =  ftElem_1.dd_TIPOCAT.value
+        via1.tipo_lin =  ftElem_1.dd_TIPOLIN.value
+        via1.ten_cat =  ftElem_1.dd_TENCAT.value
 
         via2.GPA = ftElem_2.dd_GPA.value
         via2.GPB = ftElem_2.dd_GPB.value
-        via2.tipo_pant = ftElem_2.dd_TIPOPAN
-        via2.tipo_cat =  ftElem_2.dd_TIPOCAT
-        via2.tipo_lin =  ftElem_2.dd_TIPOLIN
-        via2.ten_cat =  ftElem_2.dd_TENCAT
+        via2.tipo_pant = ftElem_2.dd_TIPOPAN.value
+        via2.tipo_cat =  ftElem_2.dd_TIPOCAT.value
+        via2.tipo_lin =  ftElem_2.dd_TIPOLIN.value
+        via2.ten_cat =  ftElem_2.dd_TENCAT.value
 
         galiboPA1 = datos_GPA[via1.GPA]
         galiboPB1 = datos_GPB[via1.GPB]
-        galiboPan1 = datos_Pantografo[via1.tipo_pant]
+        galiboPant1 = datos_Pantografo[via1.tipo_pant]
 
         cambiar_via(galiboPA1, via1, ftElem_1)
-        cambiar_elementos(galiboPA1, galiboPan1, ftt_1, fttabla_1, fttablaPant_1, via1)
+        cambiar_elementos(galiboPA1, galiboPant1, ftt_1, fttabla_1, fttablaPant_1, via1)
 
         galiboPA2 = None
         galiboPB2 = None
-        galiboPan2 = None
+        galiboPant2 = None
         if cb_via2.value:
             galiboPA2 = datos_GPA[via2.GPA]
             galiboPB2 = datos_GPB[via2.GPB]
-            galiboPan2 = datos_Pantografo[via2.tipo_pant]
+            galiboPant2 = datos_Pantografo[via2.tipo_pant]
             cambiar_via(galiboPA2, via2, ftElem_2)
-            cambiar_elementos(galiboPA2, galiboPan2, ftt_2, fttabla_2, fttablaPant_2, via2)
-        cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2, galiboPan1, galiboPan2)
+            cambiar_elementos(galiboPA2, galiboPant2, ftt_2, fttabla_2, fttablaPant_2, via2)
+        cambiar_graficos(galiboPA1, galiboPB1, galiboPA2, galiboPB2, galiboPant1, galiboPant2)
 
         page.update()
 

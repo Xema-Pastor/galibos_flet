@@ -232,7 +232,7 @@ class Via():
         self.Kale_h_0_50 = 1.0   #Factor de seguridad, para desplazamientos aleatorios laterales (h<0,50)
 
         #Pantógrafo
-        self.tipo_pant = ""          #Tipo de pantógrafo
+        self.tipo_pant = "Ancho 1600 (ibérico e internacional)"          #Tipo de pantógrafo
         self.tipo_cat = ""           #Tipo de catenaria
         self.tipo_lin = ""          #Tipo de línea
         self.ten_cat = ""           #Tensión en la catenaria

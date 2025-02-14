@@ -257,7 +257,7 @@ class ftTablaPant:
         self.tablaPant_06_Dbgai = MiColumnaTabla()
         self.tablaPant_07_Dbcai = MiColumnaTabla()
         self.tablaPant_08_Dbsuspai = MiColumnaTabla()
-        self.tablaPant_09_Dbcargaai = MiColumnaTabla()
+        self.tablaPant_09_Dbcargai = MiColumnaTabla()
         self.tablaPant_10_Dbetaai = MiColumnaTabla()
         self.tablaPant_11_aosca = MiColumnaTabla()
         self.tablaPant_12_aosci = MiColumnaTabla()
@@ -294,7 +294,7 @@ class ftTablaPant:
         self.limpiar_tabla(self.tablaPant_06_Dbgai, "Δb", "g,ai", "(mm)")
         self.limpiar_tabla(self.tablaPant_07_Dbcai, "Δb", "c,ai", "(mm)")
         self.limpiar_tabla(self.tablaPant_08_Dbsuspai, "Δb", "susp,ai", "(mm)")
-        self.limpiar_tabla(self.tablaPant_09_Dbcargaai, "Δb", "carg,ai", "(mm)")
+        self.limpiar_tabla(self.tablaPant_09_Dbcargai, "Δb", "carg,ai", "(mm)")
         self.limpiar_tabla(self.tablaPant_10_Dbetaai, "Δb", "η,ai", "(mm)")
         self.limpiar_tabla(self.tablaPant_11_aosca, "α", "osc,a", "(º)")
         self.limpiar_tabla(self.tablaPant_12_aosci, "α", "osc,i", "(º)")
@@ -303,14 +303,14 @@ class ftTablaPant:
         self.limpiar_tabla(self.tablaPant_15_TVia, "T", "via", "(mm)")
         self.limpiar_tabla(self.tablaPant_16_Sja, "Σj", "a", "(mm)")
         self.limpiar_tabla(self.tablaPant_17_Sji, "Σj", "i", "(mm)")
-        self.limpiar_tabla(self.tablaPant_18_bobst_a, "b", "obst,a", "(mm)")
-        self.limpiar_tabla(self.tablaPant_19_bobst_i, "b", "obst,a", "mm")
-        self.limpiar_tabla(self.tablaPant_20_bobst_a_hmax, "b", "obst,a,hmax", "(mm)")
-        self.limpiar_tabla(self.tablaPant_21_bobst_i_hmax, "b", "obst,i,hmax", "(mm)")
-        self.limpiar_tabla(self.tablaPant_22_bobst_a_hmax_heff_elec, "b", "obst,a,heff,hmax", "(mm)")
-        self.limpiar_tabla(self.tablaPant_23_bobst_i_hmax_heff_elec, "b", "obst,i,heff,hmax", "(mm)")
-        self.limpiar_tabla(self.tablaPant_24_bobst_a_hmax_elec, "b", "obst,a,hmax,elec", "(mm)")
-        self.limpiar_tabla(self.tablaPant_25_bobst_i_hmax_elec, "b", "obst,i,hmax,elec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_18_bobst_a, "b", "obst,a,ref", "(mm)")
+        self.limpiar_tabla(self.tablaPant_19_bobst_i, "b", "obst,i,ref", "mm")
+        self.limpiar_tabla(self.tablaPant_20_bobst_a_hmax, "b", "obst,a", "(mm)")
+        self.limpiar_tabla(self.tablaPant_21_bobst_i_hmax, "b", "obst,i", "(mm)")
+        self.limpiar_tabla(self.tablaPant_22_bobst_a_hmax_heff_elec, "b", "obst,a,heff", "(mm)")
+        self.limpiar_tabla(self.tablaPant_23_bobst_i_hmax_heff_elec, "b", "obst,i,heff", "(mm)")
+        self.limpiar_tabla(self.tablaPant_24_bobst_a_hmax_elec, "b", "obst,a,elec", "(mm)")
+        self.limpiar_tabla(self.tablaPant_25_bobst_i_hmax_elec, "b", "obst,i,elec", "(mm)")
         self.limpiar_tabla(self.tablaPant_26_X_mec, "X", "mec", "(mm)")
         self.limpiar_tabla(self.tablaPant_27_Y_mec, "Y", "mec", "(mm)")
         self.limpiar_tabla(self.tablaPant_28_X_elec, "X", "elec", "(mm)")
@@ -514,7 +514,7 @@ class Tabla_Pant(ft.ResponsiveRow):
                 fttablaPant.tablaPant_06_Dbgai,
                 fttablaPant.tablaPant_07_Dbcai,
                 fttablaPant.tablaPant_08_Dbsuspai,
-                fttablaPant.tablaPant_09_Dbcargaai,
+                fttablaPant.tablaPant_09_Dbcargai,
                 fttablaPant.tablaPant_10_Dbetaai,
                 fttablaPant.tablaPant_11_aosca,
                 fttablaPant.tablaPant_12_aosci,
@@ -536,7 +536,7 @@ class Tabla_Pant(ft.ResponsiveRow):
                 fttablaPant.tablaPant_28_X_elec,
                 fttablaPant.tablaPant_29_Y_elec,
             ]
-            self.columns = 29
+            self.columns = 30
 
 tabla_var_1 = Tabla_Var(ftt_1)
 tabla_var_2 = Tabla_Var(ftt_2)

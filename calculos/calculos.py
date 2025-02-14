@@ -1,5 +1,5 @@
 from math import tan, radians
-from estilos.estilos import EGPA, EGPB, TIPO_PANT
+from estilos.estilos import EGPA, EGPB, TIPO_PANT, ETV, EEV
 
 def calcular_esPT(Y: float, maximo: float) -> bool:
     return Y == maximo
@@ -335,11 +335,50 @@ def calcular_pant_qsi(galibo_GPA: str, Y: float, D: float, hco: float) -> float:
 def calcular_pant_Dbg_ai(Y: float, L: float, TD: float) -> float:
     return round(Y * 1000 * TD / L, 1)
 
-def calcular_pant_Dbc_ai(Y: float, L: float, TD: float, hco: float, s0: float) -> float:
+def calcular_pant_Dbc_ai(Y: float, L: float, TD: float, hco: float) -> float:
     return round(0.225 * TD * max(0, Y - hco) / L * 1000, 1)
 
-def calcular_pant_Sj(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, dbcarg: float, dbosc: float) -> float:
-    res = (Tvia**2 + (Dbgai + Dbcai)**2 + (Dbsusp**2 + dbcarg**2 + dbosc**2))**0.5
+def calcular_pant_aosc(tipo_via: str, estado_via: str, LN: float, tipo: str) -> float:
+    if LN in [1.668, 1.435]:
+        if tipo_via == ETV.BALASTO.value:
+            if tipo == "i":
+                if estado_via == EEV.BUEN_ESTADO.value:
+                    return 0.06
+                elif estado_via == EEV.MAL_ESTADO.value:
+                    return 0.11
+                else: return 999
+            elif tipo == "a":
+                if estado_via == EEV.BUEN_ESTADO.value:
+                    return 0.34
+                elif estado_via == EEV.MAL_ESTADO.value:
+                    return 0.6
+                else: return 999
+            else: return 999
+        elif tipo_via == ETV.VIA_PLACA.value:
+            if tipo == "i":
+                return 0.06
+            elif tipo == "a":
+                return 0.34
+            else: return 999
+        else: return 999
+    elif LN == 1:
+        if tipo_via == ETV.BALASTO.value:
+            if tipo == "i":
+                return 0.11
+            elif tipo == "a":
+                return 0.6
+            else: return 999
+        elif tipo_via == ETV.VIA_PLACA.value:
+            if tipo == "i":
+                return 0.06
+            elif tipo == "a":
+                return 0.34
+            else: return 999
+        else: return 999
+    else: return 999
+        
+def calcular_pant_Sj(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
+    res = (Tvia**2 + (Dbgai + Dbcai)**2 + (Dbsusp**2 + Dbcarg**2 + Dbosc**2))**0.5
     return round(res,1)
 
 def calcular_pant_bobst(nombre: str, bw: float, epo: float, epu: float, S_ai: float, qs_a: float, Sj: float) -> float:
@@ -351,26 +390,44 @@ def calcular_pant_bobst(nombre: str, bw: float, epo: float, epu: float, S_ai: fl
         ep = 999
     return round(bw + ep + S_ai + qs_a + Sj, 1)
 
-def calcular_pant_bobst_hmax(nombre: str, bobst: float, Dbobst_i_12: float, Dbobst_i_34: float, dy: float, hf: float, tipo_pant: dict) -> float:
+def calcular_pant_bobst_hmax_a(nombre: str, bobst: float, Dbobst_a_12: float, Dbobst_a_34: float, dy: float, heff: float, tipo_pant: dict) -> float:
+    if nombre in ["P1", "P4",]:
+        return bobst
+    elif nombre in ["P2", "P3",]:
+        if nombre == "P2":
+            dx = Dbobst_a_12
+            aux1 = (heff - tipo_pant["P1"].Y_ref)
+            aux2 = tipo_pant["P1"].bobst_a
+        elif nombre == "P3":
+            dx = Dbobst_a_34
+            aux1 = (heff - tipo_pant["P4"].Y_ref)
+            aux2 = tipo_pant["P4"].bobst_a
+        else:
+            return None
+        return round(dx * aux1 / dy + aux2, 1)
+    else:
+        return None
+    
+def calcular_pant_bobst_hmax_i(nombre: str, bobst: float, Dbobst_i_12: float, Dbobst_i_34: float, dy: float, heff: float, tipo_pant: dict) -> float:
     if nombre in ["P1", "P4",]:
         return bobst
     elif nombre in ["P2", "P3",]:
         if nombre == "P2":
             dx = Dbobst_i_12
-            aux1 = (hf - tipo_pant["P1"].Y_ref)
-            aux2 = tipo_pant["P1"].bobst
+            aux1 = (heff - tipo_pant["P1"].Y_ref)
+            aux2 = tipo_pant["P1"].bobst_i
         elif nombre == "P3":
             dx = Dbobst_i_34
-            aux1 = (hf - tipo_pant["P4"].Y_ref)
-            aux2 = tipo_pant["P4"].bobst
+            aux1 = (heff - tipo_pant["P4"].Y_ref)
+            aux2 = tipo_pant["P4"].bobst_i
         else:
             return None
-        return dx * aux1 / dy + aux2
+        return round(dx * aux1 / dy + aux2, 1)
     else:
         return None
 
 def calcular_pant_elec(bheff: float, belec: float, cw: float) -> float:
-    return bheff + belec + cw
+    return round(bheff + belec - cw, 1)
 
 def calcular_pant_pant_mec_X(x_ref: float, bobst_i: float, bobst_a: float, lado: int) -> float:
     signo = 1 if x_ref > 0 else -1
@@ -380,12 +437,12 @@ def calcular_pant_pant_mec_X(x_ref: float, bobst_i: float, bobst_a: float, lado:
         res = bobst_a
     else:
         res = 999
-    return res
+    return round(signo * res, 1)
 
 def calcular_pant_pant_mec_Y(nombre: str, Y: float, h: float) -> float:
     if nombre in ["P1", "P4",]:
-        return Y
+        return round(Y, 1)
     elif nombre in ["P2", "P3",]:
-        return h
+        return round(h, 1)
     else:
-        return res
+        return 999
