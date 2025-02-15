@@ -9,7 +9,8 @@ Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser
 
 ## TAREAS A HACER
 * Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exterioes
-* Pintar los pantógrafos
 * Unificar los objetos ftt y fttabla, pues en esencia son lo mismo
 * Optimizar el rendimiento, haciendo que no recalcule lo que no hace falta
 * Que pueda copiar datos y ponerlos en el portapapeles
+* Poner controles propios para los pantógrafos
+* Añadir los datos generales de los pantógrafos que se guardan en VIA en las pestañas de Descripción

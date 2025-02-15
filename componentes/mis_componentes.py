@@ -47,10 +47,10 @@ class MiFilaDatos2(ft.Row):
         mitext =  MiText(abreviatura, abreviatura_sub, Tamanyos.NORMAL.value, Tamanyos.TABLA_SUBTITULO.value)
         mitext.width = 50
         self.controls = [
-            ft.Text(texto,width=350),
+            ft.Text(texto,width=300),
             mitext,
             #ft.Text(abreviatura,width=100),
             ft.Text("="),
             componente,
-            ft.Text(unidades,width=60),
+            ft.Text(unidades,width=40),
         ]

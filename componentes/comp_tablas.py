@@ -363,8 +363,31 @@ class Tabla_Var(ft.ResponsiveRow):
             ],
             col=1
             ),
+            ft.Column([
+                ft.Text("Pantógrafo", size = Tamanyos.MEDIANO.value),
+                MiFilaDatos2("Semiancho de la mesilla", "b", "w", "m", ftt.t_bw),
+                MiFilaDatos2("Desplazamiento lateral máximo", "e", "po", "m", ftt.t_epo),
+                MiFilaDatos2("", "e", "pu", "m", ftt.t_epu),
+                MiFilaDatos2("Peralte por convenio de la vía", "D'", "0", "m", ftt.t_D0p),
+                MiFilaDatos2("Insuficiencia de peralte por convenio", "I", "0", "m", ftt.t_I0p),
+                MiFilaDatos2("Coeficiente de flexibilidad del vehículo", "s'", "0", "m", ftt.t_s0p),
+                MiFilaDatos2("Proyección del ancho del trocador", "c", "w", "m", ftt.t_cw),
+                MiFilaDatos2("Aislamiento eléctrico estático", "b", "elec,estat,i", "m", ftt.t_belec_estat),
+                MiFilaDatos2("Aislamiento eléctrico dinámico", "α", "elec,dinam,a", "m", ftt.t_belec_dinam),
+                MiFilaDatos2("Elevación del hilo de contacto, vmax", "f", "s,vmax", "m", ftt.t_fsvmax),
+                MiFilaDatos2("Elevación del hilo de contacto, vmin", "f", "s,vmin", "m", ftt.t_fsvmin),
+                MiFilaDatos2("Elevación por desgaste de pletina y flexibilidad", "f", "wswa", "m", ftt.t_fwswa),
+                # MiFilaDatos2("Altura máxima del gálibo mecánico, vmax", "h", "eff,vmax", "m", ftt.t_heffvmax),
+                # MiFilaDatos2("Altura del gálibo eléctrico, vmax", "h", "eff,elec,vmax", "m", ftt.t_heffelecvmax),
+                # MiFilaDatos2("Altura máxima del gálibo mecánico, vmin", "h", "eff,vmin", "m", ftt.t_heffvmin),
+                # MiFilaDatos2("Altura del gálibo eléctrico, vmin", "h", "eff,elec,vmin", "m", ftt.t_heffelecvmin),
+                MiFilaDatos2("Altura máxima del gálibo mecánico", "h", "eff", "m", ftt.t_heff),
+                MiFilaDatos2("Altura máxima del gálibo eléctrico", "h", "eff,elec", "m", ftt.t_heffelec),
+            ],
+            col=1
+            ),
         ]
-        self.columns=3
+        self.columns=4
         
 class Tabla_Des(ft.ResponsiveRow):
         def __init__(self, fttabla):
