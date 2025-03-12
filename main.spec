@@ -35,5 +35,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    version='C:\\Users\\jmpastor\\AppData\\Local\\Temp\\be96593c-f444-40cd-b2b0-ca573ebd8059',
 )

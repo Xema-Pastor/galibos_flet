@@ -620,29 +620,29 @@ def galibos(page: ft.Page):
             datos_grafico_1_GPA.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.X, punto.Y)))
+                tooltip=(nombre, f'x={punto.X}', f'y={punto.Y}')))
             datos_grafico_1_GPA_lim.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
+                tooltip=(nombre, f'x={punto.lim_bi}', f'y={punto.lim_hi}')))
             datos_grafico_1_GPA_nom.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                tooltip=(nombre, f'x={punto.nom_bi}', f'y={punto.nom_hi}')))
         
         for nombre, punto in galiboPant1.items():
             datos_grafico_1_Pant_ref.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.X_ref, punto.Y_ref)))
+                tooltip=(nombre, f'x={punto.X_ref}', f'y={punto.Y_ref}')))
             datos_grafico_1_Pant_mec.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.X_mec, punto.Y_mec)))
+                tooltip=(nombre, f'x={punto.X_mec}', f'y={punto.Y_mec}')))
             datos_grafico_1_Pant_elec.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.X_elec, punto.Y_elec)))
+                tooltip=(nombre, f'x={punto.X_elec}', f'y={punto.Y_elec}')))
             
         datos_grafico_1_GPA.visible = ftElem_1.cb_graf_GPA.value
         datos_grafico_1_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
@@ -655,39 +655,39 @@ def galibos(page: ft.Page):
             datos_grafico_1_GPB.data_points.append(ft.LineChartDataPoint(
                 cos(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
                 - sin(radians(via1.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO,
-                tooltip=(nombre, punto.X, punto.Y)))
+                tooltip=(nombre, f'x={punto.X}', f'x={punto.Y}')))
         datos_grafico_1_GPB.visible = ftElem_1.cb_graf_GPB.value
 
-        separacion_h = float(ftElem_2.tf_separacion_h.value) * 1000
-        separacion_v = float(ftElem_2.tf_separacion_v.value) * 1000
+        separacion_h = float(ftElem_2.tf_separacion_h.value) * 1000 / conf.ESCALA_GRAFICO
+        separacion_v = float(ftElem_2.tf_separacion_v.value) * 1000 / conf.ESCALA_GRAFICO
         if cb_via2.value:
             for nombre,punto in galiboPA2.items():
                 datos_grafico_2_GPA.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.X, punto.Y)))
+                    tooltip=(nombre, f'x={punto.X}', f'y={punto.Y}')))
                 datos_grafico_2_GPA_lim.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via2.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via2.Inclinac)) * punto.lim_bi/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.lim_hi/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.lim_bi, punto.lim_hi)))
+                    tooltip=(nombre, f'x={punto.lim_bi}', f'y={punto.lim_hi}')))
                 datos_grafico_2_GPA_nom.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via2.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via2.Inclinac)) * punto.nom_bi/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.nom_hi/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.nom_bi, punto.nom_hi)))
+                    tooltip=(nombre, f'x={punto.nom_bi}', f'y={punto.nom_hi}')))
             
             for nombre, punto in galiboPant2.items():
                 datos_grafico_2_Pant_ref.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.X_ref, punto.Y_ref)))
+                    tooltip=(nombre, f'x={punto.X_ref}', f'y={punto.Y_ref}')))
                 datos_grafico_2_Pant_mec.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.X_mec, punto.Y_mec)))
+                    tooltip=(nombre, f'x={punto.X_mec}', f'y={punto.Y_mec}')))
                 datos_grafico_2_Pant_elec.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.X_elec, punto.Y_elec)))
+                    tooltip=(nombre, f'x={punto.X_elec}', f'y={punto.Y_elec}')))
             
             datos_grafico_2_GPA.visible = ftElem_2.cb_graf_GPA.value
             datos_grafico_2_GPA_lim.visible = ftElem_2.cb_graf_GPA_lim.value
@@ -701,7 +701,7 @@ def galibos(page: ft.Page):
                 datos_grafico_2_GPB.data_points.append(ft.LineChartDataPoint(
                     cos(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_h,
                     - sin(radians(via2.Inclinac)) * punto.X/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y/conf.ESCALA_GRAFICO + separacion_v,
-                    tooltip=(nombre, punto.X, punto.Y)))
+                    tooltip=(nombre, f'x={punto.X}', f'y={punto.Y}')))
             datos_grafico_2_GPB.visible = ftElem_2.cb_graf_GPB.value
         
         ft_grafico.max_x = 2000 + separacion_h if galiboPA2 else 2000
@@ -906,7 +906,7 @@ def galibos(page: ft.Page):
                 width = 300
             )
             if es2via:
-                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias (m)", value=2, on_submit=cambiar, disabled = inhabilitado, border_color= ft.colors.AMBER)
+                self.tf_separacion_h = ft.TextField(label="Separación horizontal entre vias (m)", value=4, on_submit=cambiar, disabled = inhabilitado, border_color= ft.colors.AMBER)
                 self.tf_separacion_v = ft.TextField(label="Separación vertical entre vias (m)", value=0.2, on_submit=cambiar, disabled = inhabilitado, border_color= ft.colors.AMBER)
 
     ftElem_1 = ftElementos()

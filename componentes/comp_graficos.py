@@ -133,6 +133,7 @@ ft_grafico = ft.LineChart(
         title_size = 20,
     ),
     tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
+    tooltip_fit_inside_horizontally = True,
     min_y=-250,
     max_y=2500,
     min_x=-2000,
