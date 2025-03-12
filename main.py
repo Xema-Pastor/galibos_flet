@@ -3,8 +3,7 @@ import configuracion as conf
 from datos_galibos import datos_GPA, datos_GPB, datos_Pantografo
 from datos_variables import via1, via2
 from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV, TIPO_PANT, TIPO_LINEA, TENSION_CAT, TIPO_CAT
-from componentes.comp_tablas import tabla_var_1, tabla_des_1, tabla_lim_1, tabla_nom_1, tabla_pant_1, fttabla_1, tabla_var_2, tabla_des_2, tabla_lim_2, tabla_nom_2, tabla_pant_2, fttabla_2, fttablaPant_1, fttablaPant_2
-from componentes.comp_textos import ftt_1, ftt_2
+from componentes.comp_tablas import ftt_1, ftt_2, tabla_var_1, tabla_des_1, tabla_lim_1, tabla_nom_1, tabla_pant_1, fttabla_1, tabla_var_2, tabla_des_2, tabla_lim_2, tabla_nom_2, tabla_pant_2, fttabla_2, fttablaPant_1, fttablaPant_2
 from componentes.comp_graficos import *
 from componentes.mis_componentes import *
 import calculos.calculos as calc
@@ -605,7 +604,6 @@ def galibos(page: ft.Page):
         datos_grafico_1_Pant_ref.data_points.clear()
         datos_grafico_1_Pant_mec.data_points.clear()
         datos_grafico_1_Pant_elec.data_points.clear()
-        #datos_grafico_GPB_lim.data_points.clear()
 
         datos_grafico_2_GPA.data_points.clear()
         datos_grafico_2_GPA_lim.data_points.clear()
@@ -614,7 +612,6 @@ def galibos(page: ft.Page):
         datos_grafico_2_Pant_ref.data_points.clear()
         datos_grafico_2_Pant_mec.data_points.clear()
         datos_grafico_2_Pant_elec.data_points.clear()
-        #datos_grafico_GPB_lim.data_points.clear()
 
         for nombre,punto in galiboPA1.items():
             datos_grafico_1_GPA.data_points.append(ft.LineChartDataPoint(
@@ -647,9 +644,9 @@ def galibos(page: ft.Page):
         datos_grafico_1_GPA.visible = ftElem_1.cb_graf_GPA.value
         datos_grafico_1_GPA_lim.visible = ftElem_1.cb_graf_GPA_lim.value
         datos_grafico_1_GPA_nom.visible = ftElem_1.cb_graf_GPA_nom.value
-        datos_grafico_1_Pant_ref.visible = ftElem_1.cb_graf_GPA.value
-        datos_grafico_1_Pant_mec.visible = ftElem_1.cb_graf_GPA.value               #Tengo que cambiar esto, y ponerle un check propio
-        datos_grafico_1_Pant_elec.visible = ftElem_1.cb_graf_GPA.value               #Tengo que cambiar esto, y ponerle un check propio
+        datos_grafico_1_Pant_ref.visible = ftElem_1.cb_graf_pant.value
+        datos_grafico_1_Pant_mec.visible = ftElem_1.cb_graf_pant.value               #Tengo que cambiar esto, y ponerle un check propio
+        datos_grafico_1_Pant_elec.visible = ftElem_1.cb_graf_pant.value               #Tengo que cambiar esto, y ponerle un check propio
 
         for nombre,punto in galiboPB1.items():
             datos_grafico_1_GPB.data_points.append(ft.LineChartDataPoint(
@@ -677,24 +674,24 @@ def galibos(page: ft.Page):
             
             for nombre, punto in galiboPant2.items():
                 datos_grafico_2_Pant_ref.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_h,
-                    - sin(radians(via1.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_v,
+                    cos(radians(via2.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.X_ref/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y_ref/conf.ESCALA_GRAFICO + separacion_v,
                     tooltip=(nombre, f'x={punto.X_ref}', f'y={punto.Y_ref}')))
                 datos_grafico_2_Pant_mec.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_h,
-                    - sin(radians(via1.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_v,
+                    cos(radians(via2.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.X_mec/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y_mec/conf.ESCALA_GRAFICO + separacion_v,
                     tooltip=(nombre, f'x={punto.X_mec}', f'y={punto.Y_mec}')))
                 datos_grafico_2_Pant_elec.data_points.append(ft.LineChartDataPoint(
-                    cos(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_h,
-                    - sin(radians(via1.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via1.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_v,
+                    cos(radians(via2.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + sin(radians(via2.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_h,
+                    - sin(radians(via2.Inclinac)) * punto.X_elec/conf.ESCALA_GRAFICO + cos(radians(via2.Inclinac)) * punto.Y_elec/conf.ESCALA_GRAFICO + separacion_v,
                     tooltip=(nombre, f'x={punto.X_elec}', f'y={punto.Y_elec}')))
             
             datos_grafico_2_GPA.visible = ftElem_2.cb_graf_GPA.value
             datos_grafico_2_GPA_lim.visible = ftElem_2.cb_graf_GPA_lim.value
             datos_grafico_2_GPA_nom.visible = ftElem_2.cb_graf_GPA_nom.value
-            datos_grafico_2_Pant_ref.visible = ftElem_2.cb_graf_GPA.value
-            datos_grafico_2_Pant_mec.visible = ftElem_2.cb_graf_GPA.value               #Tengo que cambiar esto, y ponerle un check propio
-            datos_grafico_2_Pant_elec.visible = ftElem_2.cb_graf_GPA.value               #Tengo que cambiar esto, y ponerle un check propio
+            datos_grafico_2_Pant_ref.visible = ftElem_2.cb_graf_pant.value
+            datos_grafico_2_Pant_mec.visible = ftElem_2.cb_graf_pant.value               #Tengo que cambiar esto, y ponerle un check propio
+            datos_grafico_2_Pant_elec.visible = ftElem_2.cb_graf_pant.value               #Tengo que cambiar esto, y ponerle un check propio
 
         if cb_via2.value:
             for nombre,punto in galiboPB2.items():
@@ -763,6 +760,7 @@ def galibos(page: ft.Page):
         ftElem_2.cb_graf_GPB.disabled = not cb_via2.value
         ftElem_2.cb_graf_GPA_lim.disabled = not cb_via2.value
         ftElem_2.cb_graf_GPA_nom.disabled = not cb_via2.value
+        ftElem_2.cb_graf_pant.disabled = not cb_via2.value
         ftElem_2.cb_graf_esGirado.disabled = not cb_via2.value
         ftElem_2.tf_separacion_h.disabled = not cb_via2.value
         ftElem_2.tf_separacion_v.disabled = not cb_via2.value
@@ -845,6 +843,7 @@ def galibos(page: ft.Page):
             self.cb_graf_GPB = ft.Checkbox("Mostrar Gálibo inferior", value = True, on_change = cambiar, disabled = inhabilitado)
             self.cb_graf_GPA_lim = ft.Checkbox("Mostrar Gálibo límite", value = True, on_change = cambiar, disabled = inhabilitado)
             self.cb_graf_GPA_nom = ft.Checkbox("Mostrar Gálibo nominal", value = True, on_change = cambiar, disabled = inhabilitado)
+            self.cb_graf_pant = ft.Checkbox("Mostrar Pantógrafos", value = True, on_change = cambiar, disabled = inhabilitado)
             self.cb_graf_esGirado = ft.Checkbox("Girar gráfico", value = False, on_change = cambiar, disabled = inhabilitado)
             self.cb_graf_inclinacion = ft.RadioGroup(content=ft.Row([
                 ft.Radio(value="A derechas", label="A derechas"),
@@ -968,6 +967,7 @@ def galibos(page: ft.Page):
                                             ftElem_1.cb_graf_GPB,
                                             ftElem_1.cb_graf_GPA_lim,
                                             ftElem_1.cb_graf_GPA_nom,
+                                            ftElem_1.cb_graf_pant,
                                         ]),
                                         ft.Row([
                                             ftElem_1.cb_graf_esGirado,
@@ -1020,6 +1020,7 @@ def galibos(page: ft.Page):
                                             ftElem_2.cb_graf_GPB,
                                             ftElem_2.cb_graf_GPA_lim,
                                             ftElem_2.cb_graf_GPA_nom,
+                                            ftElem_2.cb_graf_pant,
                                         ]),
                                         ft.Row([
                                             ftElem_2.cb_graf_esGirado,

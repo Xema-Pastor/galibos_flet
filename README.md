@@ -8,9 +8,10 @@ Todos las cotas, distancias y demás están en mm
 Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser convertidos a _int_ o _float_ cuanto antes. Los valores que se guardanen var.* son todos del tipo número (salvo los que, evidentemente, son del tipo texto).
 
 ## TAREAS A HACER
-* Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exterioes
-* Unificar los objetos ftt y fttabla, pues en esencia son lo mismo
-* Optimizar el rendimiento, haciendo que no recalcule lo que no hace falta
+* Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exteriores
+* ~~Unificar los objetos ftt y fttabla, pues en esencia son lo mismo. No se ha podido unificar, pero se han agrupado la creación de las entidades~~
+* ~~Optimizar el rendimiento, haciendo que no recalcule lo que no hace falta~~
 * Que pueda copiar datos y ponerlos en el portapapeles
-* Poner controles propios para los pantógrafos
-* Añadir los datos generales de los pantógrafos que se guardan en VIA en las pestañas de Descripción
+* ~~Poner controles propios para los pantógrafos~~
+* ~~Añadir los datos generales de los pantógrafos que se guardan en VIA en las pestañas de Descripción~~
+* ~~Corregir que la separación entre vías también se vea afectada por el factor de escala~~

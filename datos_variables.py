@@ -165,8 +165,6 @@ class PuntoP:
     bobst_a_hmax_elec: float = 0
     bobst_i_hmax_elec: float = 0
 
-
-
 class Via():
     def __init__(self):
         #3.1
