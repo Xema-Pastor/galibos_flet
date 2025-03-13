@@ -1,5 +1,4 @@
 from enum import Enum
-import flet as ft
 
 class Tamanyos(Enum):
     GRANDE = 50
@@ -99,3 +98,15 @@ class TIPO_CAT(Enum):
     SICAT = "SICAT H 1.0"
     EAC350 = "EAC-350"
     RIGIDA = "RIGIDA"
+
+class PEST_TAB(Enum):
+    VAR_VIA_1 = "Variables Via 1"
+    VAR_VIA_2 = "Variables Via 2"
+    DESP_VIA_1 = "Desplazamientos Via 1"
+    DESP_VIA_2 = "Desplazamientos Via 2"
+    GAL_LIM_1 = "Galibo límite Via 1"
+    GAL_LIM_2 = "Galibo límite Via 2"
+    GAL_NOM_1 = "Galibo nominal Via 1"
+    GAL_NOM_2 = "Galibo nominal Via 2"
+    PANT_1 = "Pantógrafo Via 1"
+    PANT_2 = "Pantógrafo Via 2"

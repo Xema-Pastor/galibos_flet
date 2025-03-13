@@ -54,3 +54,18 @@ class MiFilaDatos2(ft.Row):
             componente,
             ft.Text(unidades,width=40),
         ]
+
+class MiEtiquetaPestanya(ft.Row):
+    def __init__(self, texto, accion):
+        super().__init__()
+        mitext = ft.Text(texto)
+        self.controls = [
+            mitext,
+            ft.IconButton(
+                            icon = ft.icons.CONTENT_COPY,
+                            icon_size = 15,
+                            tooltip = f"Copiar {texto}",
+                            data = texto,
+                            on_click = accion)
+            ]
+        

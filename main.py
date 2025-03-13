@@ -1,19 +1,117 @@
 import flet as ft
 import configuracion as conf
-from datos_galibos import datos_GPA, datos_GPB, datos_Pantografo
+from datos_galibos import datos_GPA, datos_GPB, datos_Pantografo, dic_datos_via
 from datos_variables import via1, via2
-from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV, TIPO_PANT, TIPO_LINEA, TENSION_CAT, TIPO_CAT
+from estilos.estilos import Tamanyos, EGPA, EGPB, ETV, EEV, TIPO_PANT, TIPO_LINEA, TENSION_CAT, TIPO_CAT, PEST_TAB
 from componentes.comp_tablas import ftt_1, ftt_2, tabla_var_1, tabla_des_1, tabla_lim_1, tabla_nom_1, tabla_pant_1, fttabla_1, tabla_var_2, tabla_des_2, tabla_lim_2, tabla_nom_2, tabla_pant_2, fttabla_2, fttablaPant_1, fttablaPant_2
 from componentes.comp_graficos import *
 from componentes.mis_componentes import *
 import calculos.calculos as calc
 from math import sin, cos, atan, degrees, radians
+import pyperclip
 
 def galibos(page: ft.Page):
 
     page.title = "Determinación de gálibos de material rodante de acuerdo a la Orden FOM/1630/2015 "
     page.window.height = 600
     page.window.width = 1800
+
+    def copiar_portapapeles(e):
+        portapapeles = e.control.data + "\n"
+        if e.control.data in [PEST_TAB.VAR_VIA_1.value, PEST_TAB.VAR_VIA_2.value, ]:
+            if e.control.data == PEST_TAB.VAR_VIA_1.value:
+                datos = via1
+            elif e.control.data == PEST_TAB.VAR_VIA_2.value:
+                datos = via1
+            for attr, value in datos.__dict__.items():
+                if attr in ["hquiebroaux", "htopeaux", "difaux", "hotra", "aosc_i_s0_04b", "aosc_i_s0_03b", "aosc_a_s0_04b", "aosc_a_s0_03b", "aosc_i_s0_04h", "aosc_i_s0_03h", "aosc_a_s0_04h", "aosc_a_s0_03h", ]:
+                    continue
+                portapapeles += dic_datos_via[attr] + "\t" + str(value) + "\n"
+
+        elif e.control.data in [PEST_TAB.DESP_VIA_1.value, PEST_TAB.DESP_VIA_2.value, PEST_TAB.GAL_LIM_1.value, PEST_TAB.GAL_LIM_2.value, PEST_TAB.GAL_NOM_1.value, PEST_TAB.GAL_NOM_2.value]:
+            if e.control.data[-1] == "1":
+                datos = datos_GPA[via1.GPA]     #galiboPA1
+            elif e.control.data[-1] == "2":
+                datos = datos_GPA[via2.GPA]     #galiboPA1
+            if e.control.data in [PEST_TAB.DESP_VIA_1.value, PEST_TAB.DESP_VIA_2.value,]:
+                portapapeles += "Punto" + "\t" + "X" + "\t" + "Y" + "\t" + "esPT" + "\t" + "k" + "\t" + "s0" + "\t" + "Sa" + "\t" + "Si" + "\t" + "qsD_ai" + "\t" + "qsI_ai" + "\t"
+                portapapeles += "Tvia_ai" + "\t" + "Dbg_ai" + "\t" + "Dbc_ai" + "\t" "Dbsusp_ai" + "\t" + "Dbcarg_ai" + "\t" + "Dbeta0_ai" + "\t"
+                portapapeles += "aosc_a" + "\t" + "aosc_i" + "\t" + "Dbosc_a" + "\t" + "Dbosc_i" + "\t" + "M3b" + "\t" + "DhRv" + "\t"
+                portapapeles += "DhPT_D_ai" + "\t" + "DhPT_I_ai" + "\t" + "TN" + "\t" + "Dhg_a" + "\t" + "Dhg_i" + "\t" + "Dhc" + "\t"
+                portapapeles += "Dhgca" + "\t" + "Dhgci" + "\t" + "Dhsusp_ai" + "\t" + "Dhcarg_ai" + "\t" + "Dheta0_ai" + "\t" + "Dhosc_a" + "\t"
+                portapapeles += "Dhosc_i" + "\t" + "M3h" + "\n"
+                portapapeles += "()" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(S/N)" + "\t" + "()" + "\t" + "()" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t"
+                portapapeles += "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t"
+                portapapeles += "(º)" + "\t" + "(º)" + "\t" + "(mm)" "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t"
+                portapapeles += "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t"
+                portapapeles += "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t" + "(mm)" + "\t"
+                portapapeles += "(mm)" + "\t" + "(mm)" + "\n"
+
+                for nombre,punto in datos.items():
+                    portapapeles += nombre + "\t" + str(punto.X) + "\t" + str(punto.Y) + "\t"
+                    portapapeles += str(punto.esPT) + "\t" + str(punto.k) + "\t" + str(punto.s0) + "\t" + str(punto.Sa) + "\t" + str(punto.Si) + "\t" + str(punto.qsD_ai) + "\t" + str( punto.qsI_ai) + "\t"
+                    portapapeles += str(punto.Tvia_ai) + "\t" + str(punto.Dbg_ai) + "\t" + str(punto.Dbc_ai) + "\t" + str(punto.Dbsusp_ai) + "\t" + str(punto.Dbcarg_ai) + "\t" + str(punto.Dbeta0_ai) + "\t"
+                    portapapeles += str(punto.aosc_a) + "\t" + str(punto.aosc_i) + "\t" + str(punto.Dbosc_a) + "\t" + str(punto.Dbosc_i) + "\t" + str(punto.M3b) + "\t" + str(punto.DhRv) + "\t"
+                    portapapeles += str(punto.DhPT_D_ai) + "\t" + str(punto.DhPT_I_ai) + "\t" + str(punto.TN) + "\t" + str(punto.Dhg_a) + "\t" + str(punto.Dhg_i) + "\t" + str(punto.Dhc) + "\t"
+                    portapapeles += str(punto.Dhgca) + "\t" + str(punto.Dhgci) + "\t" + str(punto.Dhsusp_ai) + "\t" + str(punto.Dhcarg_ai) + "\t" + str(punto.Dheta0_ai) + "\t" + str(punto.Dhosc_a) + "\t"
+                    portapapeles += str(punto.Dhosc_i) + "\t" + str(punto.M3h) + "\n"
+
+            elif e.control.data in [PEST_TAB.GAL_LIM_1.value, PEST_TAB.GAL_LIM_2.value,]:
+                portapapeles += "Punto" + "\t" + "X" + "\t" + "Y" + "\t"
+                portapapeles += "lim_Sja1" + "\t" + "lim_Sji1" + "\t" + "lim_Sja2" + "\t" + "lim_Sji2" + "\t" + "lim_Sja1_ast" + "\t" + "lim_Sji1_ast" + "\t" + "lim_Sja2_ast" + "\t" + "lim_Sji2_ast" + "\t"
+                portapapeles += "lim_SVa1" + "\t" + "lim_SVi1" + "\t" + "lim_SVa2" + "\t" + "lim_SVi2" + "\t" + "lim_SVa1_ast" + "\t" + "lim_SVi1_ast" + "\t" + "lim_SVa2_ast" + "\t" + "lim_SVi2_ast" + "\t"
+                portapapeles += "lim_bobstVM_max_i" + "\t" + "lim_hobstVM_con_i" + "\t" + "lim_bobstVM_max_a" + "\t" + "lim_hobstVM_con_a" + "\t" + "lim_bobstVM_con_i" + "\t" + "lim_hobstVM_max_i" + "\t" + "lim_bobstVM_con_a" + "\t" + "lim_hobstVM_max_a" + "\t"
+                portapapeles += "lim_bobstV0_max_i" + "\t" + "lim_hobstV0_con_i" + "\t" + "lim_bobstV0_max_a" + "\t" + "lim_hobstV0_con_a" + "\t" + "lim_bobstV0_con_i" + "\t" + "lim_hobstV0_max_i" + "\t" + "lim_bobstV0_con_a" + "\t" + "lim_hobstV0_max_a" + "\t"
+                portapapeles += "lim_ba" + "\t" + "lim_ha" + "\t" + "lim_bi" + "\t" + "lim_hi" + "\n"
+                portapapeles += "()" + ("\t" + "(mm)") * 38 + "\n" 
+                for nombre,punto in datos.items():
+                    portapapeles += nombre + "\t" + str(punto.X) + "\t" + str(punto.Y) + "\t"
+                    portapapeles += str(punto.lim_Sja1) + "\t" + str(punto.lim_Sji1) + "\t" + str(punto.lim_Sja2) + "\t" + str(punto.lim_Sji2) + "\t" + str(punto.lim_Sja1_ast) + "\t" + str(punto.lim_Sji1_ast) + "\t" + str(punto.lim_Sja2_ast) + "\t" + str(punto.lim_Sji2_ast) + "\t"
+                    portapapeles += str(punto.lim_SVa1) + "\t" + str(punto.lim_SVi1) + "\t" + str(punto.lim_SVa2) + "\t" + str(punto.lim_SVi2) + "\t" + str(punto.lim_SVa1_ast) + "\t" + str(punto.lim_SVi1_ast) + "\t" + str(punto.lim_SVa2_ast) + "\t" + str(punto.lim_SVi2_ast) + "\t"
+                    portapapeles += str(punto.lim_bobstVM_max_i) + "\t" + str(punto.lim_hobstVM_con_i) + "\t" + str(punto.lim_bobstVM_max_a) + "\t" + str(punto.lim_hobstVM_con_a) + "\t"
+                    portapapeles += str(punto.lim_bobstVM_con_i) + "\t" + str(punto.lim_hobstVM_max_i) + "\t" + str(punto.lim_bobstVM_con_a) + "\t" + str(punto.lim_hobstVM_max_a) + "\t"
+                    portapapeles += str(punto.lim_bobstV0_max_i) + "\t" + str(punto.lim_hobstV0_con_i) + "\t" + str(punto.lim_bobstV0_max_a) + "\t" + str(punto.lim_hobstV0_con_a) + "\t"
+                    portapapeles += str(punto.lim_bobstV0_con_i) + "\t" + str(punto.lim_hobstV0_max_i) + "\t" + str(punto.lim_bobstV0_con_a) + "\t" + str(punto.lim_hobstV0_max_a) + "\t" 
+                    portapapeles += str(punto.lim_ba) + "\t" + str(punto.lim_ha) + "\t" + str(punto.lim_bi) + "\t" + str(punto.lim_hi) + "\n"
+
+            elif e.control.data in [PEST_TAB.GAL_NOM_1.value, PEST_TAB.GAL_NOM_2.value,]:
+                portapapeles += "Punto" + "\t" + "X" + "\t" + "Y" + "\t"
+                portapapeles += "nom_Sja1" + "\t" + "nom_Sji1" + "\t" + "nom_Sja2" + "\t" + "nom_Sji2" + "\t" + "nom_Sja1_ast" + "\t" + "nom_Sji1_ast" + "\t" + "nom_Sja2_ast" + "\t" + "nom_Sji2_ast" + "\t"
+                portapapeles += "nom_SVa1" + "\t" + "nom_SVi1" + "\t" + "nom_SVa2" + "\t" + "nom_SVi2" + "\t" + "nom_SVa1_ast" + "\t" + "nom_SVi1_ast" + "\t" + "nom_SVa2_ast" + "\t" + "nom_SVi2_ast" + "\t"
+                portapapeles += "nom_bobstVM_max_i" + "\t" + "nom_hobstVM_con_i" + "\t" + "nom_bobstVM_max_a" + "\t" + "nom_hobstVM_con_a" + "\t" + "nom_bobstVM_con_i" + "\t" + "nom_hobstVM_max_i" + "\t" + "nom_bobstVM_con_a" + "\t" + "nom_hobstVM_max_a" + "\t"
+                portapapeles += "nom_bobstV0_max_i" + "\t" + "nom_hobstV0_con_i" + "\t" + "nom_bobstV0_max_a" + "\t" + "nom_hobstV0_con_a" + "\t" + "nom_bobstV0_con_i" + "\t" + "nom_hobstV0_max_i" + "\t" + "nom_bobstV0_con_a" + "\t" + "nom_hobstV0_max_a" + "\t"
+                portapapeles += "nom_ba" + "\t" + "nom_ha" + "\t" + "nom_bi" + "\t" + "nom_hi" + "\n"
+                portapapeles += "()" + ("\t" + "(mm)") * 38 + "\n" 
+                for nombre,punto in datos.items():
+                    portapapeles += nombre + "\t" + str(punto.X) + "\t" + str(punto.Y) + "\t"
+                    portapapeles += str(punto.nom_Sja3) + "\t" + str(punto.nom_Sji3) + "\t" + str(punto.nom_Sja4) + "\t" + str(punto.nom_Sji4) + "\t" + str(punto.nom_Sja3_ast) + "\t" + str(punto.nom_Sji3_ast) + "\t" + str(punto.nom_Sja4_ast) + "\t" + str(punto.nom_Sji4_ast) + "\t"
+                    portapapeles += str(punto.nom_SVa3) + "\t" + str(punto.nom_SVi3) + "\t" + str(punto.nom_SVa4) + "\t" + str(punto.nom_SVi4) + "\t" + str(punto.nom_SVa3_ast) + "\t" + str(punto.nom_SVi3_ast) + "\t" + str(punto.nom_SVa4_ast) + "\t" + str(punto.nom_SVi4_ast) + "\t"
+                    portapapeles += str(punto.nom_bobstVM_max_i) + "\t" + str(punto.nom_hobstVM_con_i) + "\t" + str(punto.nom_bobstVM_max_a) + "\t" + str(punto.nom_hobstVM_con_a) + "\t"
+                    portapapeles += str(punto.nom_bobstVM_con_i) + "\t" + str(punto.nom_hobstVM_max_i) + "\t" + str(punto.nom_bobstVM_con_a) + "\t" + str(punto.nom_hobstVM_max_a) + "\t"
+                    portapapeles += str(punto.nom_bobstV0_max_i) + "\t" + str(punto.nom_hobstV0_con_i) + "\t" + str(punto.nom_bobstV0_max_a) + "\t" + str(punto.nom_hobstV0_con_a) + "\t"
+                    portapapeles += str(punto.nom_bobstV0_con_i) + "\t" + str(punto.nom_hobstV0_max_i) + "\t" + str(punto.nom_bobstV0_con_a) + "\t" + str(punto.nom_hobstV0_max_a) + "\t" 
+                    portapapeles += str(punto.nom_ba) + "\t" + str(punto.nom_ha) + "\t" + str(punto.nom_bi) + "\t" + str(punto.nom_hi) + "\n"
+
+        elif e.control.data in [PEST_TAB.PANT_1.value, PEST_TAB.PANT_2.value,]:
+            if e.control.data[-1] == "1":
+                datos = datos_Pantografo[via1.tipo_pant]    #Pantografo 1
+            elif e.control.data[-1] == "2":
+                datos = datos_Pantografo[via2.tipo_pant]     #Pantógrafo 2
+            portapapeles += "Punto" + "\t" + "X" + "\t" + "Y" + "\t"
+            portapapeles += "S_ai" + "\t" + "qs_a" + "\t" + "qs_i" + "\t" + "Dbg_ai" + "\t" + "Dbc_ai" + "\t" + "Dbsusp_ai" + "\t" + "Dbcarg_ai" + "\t" + "Dbeta0_ai" + "\t"
+            portapapeles += "aosc_a" + "\t" + "aosc_i" + "\t" + "Dbosc_a" + "\t" + "Dbosc_i" + "\t" + "Tvia_ai" + "\t" + "Sja" + "\t" + "Sji" + "\t" + "bobst_a" + "\t"
+            portapapeles += "bobst_i" + "\t" + "bobst_a_hmax" + "\t" + "bobst_i_hmax" + "\t" + "bobst_a_hmax_heff_elec" + "\t" + "bobst_i_hmax_heff_elec" + "\t" + "bobst_a_hmax_elec" + "\t" + "bobst_i_hmax_elec" + "\t"
+            portapapeles += "X_mec" + "\t" + "Y_mec" + "\t" + "X_elec" + "\t" + "Y_elec" + "\n"
+            portapapeles += "()" + ("\t" + "(mm)") * 10 + ("\t" + "(º)") * 2 +("\t" + "(mm)") * 17 + "\n"
+            for nombre,punto in datos.items():
+                portapapeles += nombre + "\t" + str(punto.X_ref) + "\t" + str(punto.Y_ref) + "\t"
+                portapapeles += str(punto.S_ai) + "\t" + str(punto.qs_a) + "\t" + str(punto.qs_i) + "\t" + str(punto.Dbg_ai) + "\t" + str(punto.Dbc_ai) + "\t" + str(punto.Dbsusp_ai) + "\t" + str(punto.Dbcarg_ai) + "\t" + str(punto.Dbeta0_ai) + "\t"
+                portapapeles += str(punto.aosc_a) + "\t" + str(punto.aosc_i) + "\t" + str(punto.Dbosc_a) + "\t" + str(punto.Dbosc_i) + "\t" + str(punto.Tvia_ai) + "\t" + str(punto.Sja) + "\t" + str(punto.Sji) + "\t" + str(punto.bobst_a) + "\t"
+                portapapeles += str(punto.bobst_i) + "\t" + str(punto.bobst_a_hmax) + "\t" + str(punto.bobst_i_hmax) + "\t" + str(punto.bobst_a_hmax_heff_elec) + "\t" + str(punto.bobst_i_hmax_heff_elec) + "\t" + str(punto.bobst_a_hmax_elec) + "\t" + str(punto.bobst_i_hmax_elec) + "\t"
+                portapapeles += str(punto.X_mec) + "\t" + str(punto.Y_mec) + "\t" + str(punto.X_elec) + "\t" + str(punto.Y_elec) + "\n"
+        
+        pyperclip.copy(portapapeles)
+        del portapapeles
 
     def cambiar_via(galibo, via, ft_elem):
         
@@ -174,11 +272,6 @@ def galibos(page: ft.Page):
             elif via.tipo_via == ETV.VIA_PLACA.value:
                 via.aosc_a_s0_03h = 0.6
 
-        #CÁLCULOS RELATIVOS AL PANTÓGRAFO
-        # via.tipo_pant = ft_elem.dd_TIPOPAN
-        # via.tipo_cat =  ft_elem.dd_TIPOCAT
-        # via.tipo_lin =  ft_elem.dd_TIPOLIN
-        # via.ten_cat =  ft_elem.dd_TENCAT
         via.hf = float(ft_elem.tf_hpant.value)
 
         match via.tipo_pant:
@@ -1041,43 +1134,43 @@ def galibos(page: ft.Page):
                 animation_duration=50,
                 tabs=[
                     ft.Tab(
-                        text = "Variables Via 1",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.VAR_VIA_1.value, copiar_portapapeles),
                         content = tabla_var_1,
                     ),
                     ft.Tab(
-                        text = "Desplazamientos Via 1",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.DESP_VIA_1.value, copiar_portapapeles),
                         content = tabla_des_1,
                     ), 
                     ft.Tab(
-                        text = "Galibo límite Via 1",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.GAL_LIM_1.value, copiar_portapapeles),
                         content = tabla_lim_1,
                     ), 
                     ft.Tab(
-                        text = "Galibo nominal Via 1",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.GAL_NOM_1.value, copiar_portapapeles),
                         content = tabla_nom_1,
                     ),
                     ft.Tab(
-                        text = "Pantógrafo Via 1",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.PANT_1.value, copiar_portapapeles),
                         content = tabla_pant_1,
                     ),
                     ft.Tab(
-                        text = "Variables Via 2",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.VAR_VIA_2.value, copiar_portapapeles),
                         content = tabla_var_2,
                     ), 
                     ft.Tab(
-                        text = "Desplazamientos Via 2",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.DESP_VIA_2.value, copiar_portapapeles),
                         content = tabla_des_2,
                     ), 
                     ft.Tab(
-                        text = "Galibo límite Via 2",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.GAL_LIM_2.value, copiar_portapapeles),
                         content = tabla_lim_2,
                     ), 
                     ft.Tab(
-                        text = "Galibo nominal Via 2",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.GAL_NOM_2.value, copiar_portapapeles),
                         content = tabla_nom_2,
                     ), 
                     ft.Tab(
-                        text = "Pantógrafo Via 2",
+                        tab_content = MiEtiquetaPestanya(PEST_TAB.PANT_2.value, copiar_portapapeles),
                         content = tabla_pant_2,
                     ),
                 ],
