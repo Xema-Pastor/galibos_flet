@@ -16,6 +16,52 @@ def galibos(page: ft.Page):
     page.window.height = 600
     page.window.width = 1800
 
+    def generar_DXF(e):
+
+        lista_puntos = []
+        
+        if ft_dxf.value[-1] == "1":
+            galibo = datos_GPA[via1.GPA]
+        if ft_dxf.value[-1] == "2":
+            galibo = datos_GPA[via2.GPA]
+            
+        if "Referencia" in ft_dxf.value:
+            for nombre,punto in galibo.items():
+                lista_puntos.append((punto.X/1000, punto.Y/1000))
+
+        if "Limite" in ft_dxf.value:
+            for nombre,punto in galibo.items():
+                lista_puntos.append((punto.lim_ba/1000, punto.lim_ha/1000))
+
+        if "Nominal" in ft_dxf.value:
+            for nombre,punto in galibo.items():
+                lista_puntos.append((punto.nom_ba/1000, punto.nom_ha/1000))
+
+        def write_dxf(filename, point_list):
+  
+            with open(filename, "w") as f:
+                f.write("0\nSECTION\n2\nHEADER\n0\nENDSEC\n")
+                f.write("0\nSECTION\n2\nTABLES\n0\nENDSEC\n")
+                f.write("0\nSECTION\n2\nBLOCKS\n0\nENDSEC\n")
+                f.write("0\nSECTION\n2\nENTITIES\n")
+
+                # Start polyline
+                f.write("0\nPOLYLINE\n8\nPolylineLayer\n66\n1\n")
+
+                # Write points as VERTEX entries
+                for x, y in point_list:
+                    f.write(f"0\nVERTEX\n8\nPolylineLayer\n10\n{x}\n20\n{y}\n30\n0.0\n")
+
+                # End polyline
+                f.write("0\nSEQEND\n")
+
+                # DXF Footer
+                f.write("0\nENDSEC\n0\nEOF\n")
+
+        file_path = "c:/Autodesk/nomsalida.dxf"
+        write_dxf(file_path, lista_puntos)
+
+
     def copiar_portapapeles(e):
         portapapeles = e.control.data + "\n"
         if e.control.data in [PEST_TAB.VAR_VIA_1.value, PEST_TAB.VAR_VIA_2.value, ]:
@@ -1006,6 +1052,17 @@ def galibos(page: ft.Page):
 
     cb_via2 = ft.Checkbox(value = False, on_change=cambiar)
 
+    ft_dxf = ft.RadioGroup(
+        content = ft.Column([
+            ft.Radio(value = "Referencia_1", label = "Contorno de referencia via 1"),
+            ft.Radio(value = "Limite_1", label = "Gálibo límite vía 1"),
+            ft.Radio(value = "Nominal_1", label = "Gálibo nominal vía 1"),
+            ft.Radio(value = "Referencia_2", label = "Contorno de referencia via 2"),
+            ft.Radio(value = "Limite_2", label = "Gálibo límite vía 2"),
+            ft.Radio(value = "Nominal_2", label = "Gálibo nominal vía 2"),
+        ])
+    )
+
     page.add(
         ft.Column([
             ft.ResponsiveRow([
@@ -1122,6 +1179,18 @@ def galibos(page: ft.Page):
                                     ],
                                 expand=1),
                                 ),
+                            ft.Tab(
+                                    text = "DXF",
+                                    content = ft.Column(
+                                        controls = [
+                                            ft.Column([
+                                                ft.TextButton("Exportar Galibo Límite",on_click=generar_DXF),
+                                                ft_dxf,
+                                            ]),
+                                        ],
+                                    expand=1),
+                                    
+                                    ),
                         ],
                         #expand= 0,
                     ),
