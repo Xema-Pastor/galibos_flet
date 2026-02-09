@@ -61,7 +61,6 @@ def galibos(page: ft.Page):
         file_path = "c:/Autodesk/nomsalida.dxf"
         write_dxf(file_path, lista_puntos)
 
-
     def copiar_portapapeles(e):
         portapapeles = e.control.data + "\n"
         if e.control.data in [PEST_TAB.VAR_VIA_1.value, PEST_TAB.VAR_VIA_2.value, ]:
@@ -417,7 +416,7 @@ def galibos(page: ft.Page):
         ftt.t_aosc_i_s0_03b.value = via.aosc_i_s0_03b
         ftt.t_aosc_a_s0_04b.value = via.aosc_a_s0_04b
         ftt.t_aosc_a_s0_03b.value = via.aosc_a_s0_03b
-
+        
         fttabla.actualizar_tabla()
 
         #ACTUALIZACIÓN DE LAS TABLAS DE DATOS DE FLET
@@ -1189,7 +1188,6 @@ def galibos(page: ft.Page):
                                             ]),
                                         ],
                                     expand=1),
-                                    
                                     ),
                         ],
                         #expand= 0,

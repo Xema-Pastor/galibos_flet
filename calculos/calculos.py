@@ -33,7 +33,7 @@ def calcular_s0(galibo: str, Y: float, hquierbroaux: float, htopeaux: float, dif
         return 0.4
 
 def calcular_Sa(galibo_GPA: str, galibo_GPB: str, R: float, LN: float, L: float, hquiebroaux: float, Y: float, k: float) -> float:
-    if Y <= 0.4:
+    if Y <= 0.4: # Cálculo de Sa en partes bajas
 
         if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GA.value, EGPA.GB.value,]:
             if galibo_GPB in [EGPB.GEI1.value, EGPB.GEI2.value, EGPB.GI1.value, EGPB.GI2.value,]:
@@ -48,13 +48,13 @@ def calcular_Sa(galibo_GPA: str, galibo_GPB: str, R: float, LN: float, L: float,
                     aux = 60 / R - 0.225 + k * (0.065 - 20 / R)
         elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
             if R >= 100:
-                aux = 1.5/R
+                aux = 1/R       #Ojo, en algún sitio ví que era 1.5/R, pero en el documento de cálculo de gálibos pone 1/R
             else:
                 aux = 24 / R - 0.225
         else:
             aux = 999
 
-    else:
+    else:       # Cálculo de Sa en partes altas
 
         if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,]:
             if R >= 250:
@@ -83,7 +83,7 @@ def calcular_Sa(galibo_GPA: str, galibo_GPB: str, R: float, LN: float, L: float,
     return round(aux*1000,1)         #para pasar a milímetros
 
 def calcular_Si(galibo_GPA: str, galibo_GPB: str, R: float, LN: float, L: float, hquiebroaux: float, Y: float, k: float) -> float:
-    if Y <= 0.4:
+    if Y <= 0.4: # Cálculo de Si en partes bajas
 
         if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GA.value, EGPA.GB.value,]:
             if galibo_GPB in [EGPB.GEI1.value, EGPB.GEI2.value, EGPB.GI1.value, EGPB.GI2.value,]:
@@ -98,13 +98,13 @@ def calcular_Si(galibo_GPA: str, galibo_GPB: str, R: float, LN: float, L: float,
                     aux = 50 / R - 0.185 + k * (0.05 - 12.5 / R)
         elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
             if R >= 100:
-                aux = 1.5/R
+                aux = 1/R               #Ojo, en algún sitio ví que era 1.5/R, pero en el documento de cálculo de gálibos pone 1/R
             else:
                 aux = 20 / R - 0.185
         else:
             aux = 999
 
-    else:
+    else:    # Cálculo de Si en partes altas
 
         if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,]:
             if R >= 250:
@@ -304,7 +304,7 @@ def calcular_pant_Sai(galibo_GPA: str, R: float, LN: float, L: float) -> float:
     if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GC.value,EGPA.GEA16.value, EGPA.GEB16.value, EGPA.GA.value, EGPA.GB.value,]:
         aux = 2.5 / R
     elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
-        aux = 1.5/R
+        aux = 1.5/R     #Ojo, en algún sitio ví que era 1.5/R, pero en el documento de cálculo de gálibos pone 1/R
     else:
         aux = 999
     
@@ -316,7 +316,7 @@ def calcular_pant_qsa(galibo_GPA: str, Y: float, I: float, hco: float) -> float:
     if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GEA16.value, EGPA.GEB16.value,]:
         return round(1000 * 0.225 / 1.733 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
     elif galibo_GPA in [EGPA.GA.value, EGPA.GB.value,EGPA.GC.value,]:
-        return round(1000 * 0.225 / 1.5 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
+        return round(1000 * 0.225 / 1.500 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
     elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
         return round(1000 * 0.225 / 1.055 * max(0, I - 1/15 ) * max(0, Y - hco), 1)
     else:
@@ -326,7 +326,7 @@ def calcular_pant_qsi(galibo_GPA: str, Y: float, D: float, hco: float) -> float:
     if galibo_GPA in [EGPA.GHE16.value, EGPA.GEC16.value, EGPA.GEA16.value, EGPA.GEB16.value,]:
         return round(1000 * 0.225 / 1.733 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
     elif galibo_GPA in [EGPA.GA.value, EGPA.GB.value,EGPA.GC.value,]:
-        return round(1000 * 0.225 / 1.5 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
+        return round(1000 * 0.225 / 1.500 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
     elif galibo_GPA in [EGPA.GEE10.value, EGPA.GED10.value, EGPA.PERSONALIZADO.value,]:
         return round(1000 * 0.225 / 1.055 * max(0, D - 1/15 ) * max(0, Y - hco), 1)
     else:
@@ -378,7 +378,7 @@ def calcular_pant_aosc(tipo_via: str, estado_via: str, LN: float, tipo: str) -> 
     else: return 999
         
 def calcular_pant_Sj(Tvia: float, Dbgai: float, Dbcai: float, Dbsusp: float, Dbcarg: float, Dbosc: float) -> float:
-    res = (Tvia**2 + (Dbgai + Dbcai)**2 + (Dbsusp**2 + Dbcarg**2 + Dbosc**2))**0.5
+    res = 1 * (Tvia**2 + (Dbgai + Dbcai)**2 + (Dbsusp**2 + Dbcarg**2 + Dbosc**2))**0.5
     return round(res,1)
 
 def calcular_pant_bobst(nombre: str, bw: float, epo: float, epu: float, S_ai: float, qs_a: float, Sj: float) -> float:
