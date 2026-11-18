@@ -1,11 +1,16 @@
 # -*- mode: python ; coding: utf-8 -*-
+# Compilar con:  pyinstaller main.spec
+# (no usar "pyinstaller --onefile main.py": regenera este fichero y se pierde la configuración)
+import sys
 
+sys.path.insert(0, SPECPATH)
+from configuracion import VERSION
 
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('assets', 'assets')],      # Logo e icono; Flet los busca en <_MEIPASS>/assets
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +27,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name=f'PAGIF_v{VERSION}',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -35,4 +40,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='assets/icon.ico',
 )

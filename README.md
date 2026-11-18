@@ -29,6 +29,6 @@ Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser
 El programa está escrito con la tecnología de FLET (https://flet.dev/). Para editar en vs_code es necesario:
 * Instalar flet en la versión con la que está escrito el programa (0.24.1): _(pip install -r requirements.txt)_. Las versiones posteriores de FLET cambian la API y no son compatibles.
 * Flet utiliza _hot reload_ para ejecutar la aplicación y ver los cambios que se hacen de manera instantánea. Para ejecutar la aplicación y verla como página web es necesario iniciar flet en la terminal con _flet run --web main.py_
-* Para crear los ejecutables a partir del código es necesario intalar pyinstaller _(pip install pyinstaller)_. Una vez instalado para hacer el ejecutable se debe ejecutar en la terminal la orden _pyinstaller --onefile --windowed main.py_
+* Para crear los ejecutables a partir del código es necesario intalar pyinstaller _(pip install pyinstaller)_. Una vez instalado para hacer el ejecutable se debe ejecutar en la terminal la orden _pyinstaller main.spec_ (no usar `pyinstaller --onefile main.py`, que regenera main.spec y pierde la configuración: inclusión de la carpeta assets, icono y nombre del ejecutable con la versión)
 
 
