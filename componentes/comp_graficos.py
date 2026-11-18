@@ -1,6 +1,23 @@
+from math import sin, cos, radians
+
 import flet as ft
-#from estilos.estilos import Colores
+
 from configuracion import ESCALA_GRAFICO
+
+# Series del gráfico: clave -> (color vía 1, color vía 2, grosor vía 1, grosor vía 2, discontinua)
+SERIES = {
+    "GPA": (ft.colors.CYAN, ft.colors.CYAN_300, 3, 2, True),
+    "GPB": (ft.colors.BLUE, ft.colors.BLUE_300, 3, 2, True),
+    "Pant_ref": (ft.colors.BLUE, ft.colors.BLUE_300, 2, 1, True),
+    "Pant_mec": (ft.colors.GREEN, ft.colors.GREEN_300, 2, 1, False),
+    "Pant_elec": (ft.colors.YELLOW, ft.colors.YELLOW_300, 2, 1, False),
+    "GPA_lim": (ft.colors.ORANGE, ft.colors.ORANGE_300, 3, 2, False),
+    "GPA_nom": (ft.colors.RED, ft.colors.RED_300, 3, 2, False),
+}
+
+TITULO = "DETERMINACION DE GÁLIBOS SEGÚN LA INSTRUCCIÓN FERROVIARIA (Orden FOM/1630/2015)"
+MAX_X, MIN_X, MAX_Y, MIN_Y = 2000, -2000, 2500, -250
+
 
 class Datos_Grafico(ft.LineChartData):
     def __init__(self, color, grosor, dash_pattern = [1, 0]):
@@ -12,134 +29,65 @@ class Datos_Grafico(ft.LineChartData):
         self.stroke_cap_round = True
         self.dash_pattern = dash_pattern
 
-datos_grafico_1_GPA = Datos_Grafico(ft.colors.CYAN, 3, dash_pattern = [10, 5])
-datos_grafico_2_GPA = Datos_Grafico(ft.colors.CYAN_300, 2, dash_pattern = [10, 5])
-datos_grafico_1_GPB = Datos_Grafico(ft.colors.BLUE, 3, dash_pattern = [10, 5])
-datos_grafico_2_GPB = Datos_Grafico(ft.colors.BLUE_300, 2, dash_pattern = [10, 5])
-datos_grafico_1_Pant_ref = Datos_Grafico(ft.colors.BLUE, 2, dash_pattern = [10, 5])
-datos_grafico_2_Pant_ref = Datos_Grafico(ft.colors.BLUE_300, 1, dash_pattern = [10, 5])
-datos_grafico_1_Pant_mec = Datos_Grafico(ft.colors.GREEN, 2)
-datos_grafico_2_Pant_mec = Datos_Grafico(ft.colors.GREEN_300, 1)
-datos_grafico_1_Pant_elec = Datos_Grafico(ft.colors.YELLOW, 2)
-datos_grafico_2_Pant_elec = Datos_Grafico(ft.colors.YELLOW_300, 1)
-datos_grafico_1_GPA_lim = Datos_Grafico(ft.colors.ORANGE, 3)
-datos_grafico_2_GPA_lim = Datos_Grafico(ft.colors.ORANGE_300, 2)
-datos_grafico_1_GPA_nom = Datos_Grafico(ft.colors.RED, 3)
-datos_grafico_2_GPA_nom = Datos_Grafico(ft.colors.RED_300, 2)
 
-datos_grafico = [
-    datos_grafico_1_GPA,
-    datos_grafico_2_GPA,
-    datos_grafico_1_GPB,
-    datos_grafico_2_GPB,
-    datos_grafico_1_Pant_ref,
-    datos_grafico_2_Pant_ref,
-    datos_grafico_1_Pant_mec,
-    datos_grafico_2_Pant_mec,
-    datos_grafico_1_Pant_elec,
-    datos_grafico_2_Pant_elec,
-    datos_grafico_1_GPA_lim,
-    datos_grafico_2_GPA_lim,
-    datos_grafico_1_GPA_nom,
-    datos_grafico_2_GPA_nom,
-]
+def transformar(x: float, y: float, inclinacion: float, dx: float = 0, dy: float = 0) -> tuple:
+    """Pasa de coordenadas de la vía (mm) a coordenadas del gráfico, girando según el peralte."""
+    c, s = cos(radians(inclinacion)), sin(radians(inclinacion))
+    x, y = x / ESCALA_GRAFICO, y / ESCALA_GRAFICO
+    return c * x + s * y + dx, -s * x + c * y + dy
 
-ft_grafico = ft.LineChart(
-    data_series=datos_grafico,
-    border=ft.border.all(3, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE)),
-    horizontal_grid_lines=ft.ChartGridLines(
-        interval=100, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1, dash_pattern=[1, 2]
-    ),
-    vertical_grid_lines=ft.ChartGridLines(
-        interval=100, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1, dash_pattern=[1, 2]
-    ),
-    top_axis=ft.ChartAxis(
-        show_labels = False,
-        labels=[],
-        labels_size=40,
-        title = ft.Container(
-                    ft.Text(
-                        "               DETERMINACION DE GÁLIBOS SEGÚN LA INSTRUCCIÓN FERROVIARIA (Orden FOM/1630/2015)",
-                        size=12,
-                        weight=ft.FontWeight.BOLD,
-                        color=ft.colors.WHITE,
-                    ),
-                    #margin=ft.margin.only(top=10),
-                ),
-        title_size = 20
-    ),
-    left_axis=ft.ChartAxis(
-        show_labels = True,
-        labels=[
-                ft.ChartAxisLabel(value=-2000, label=ft.Text(f"{(-2 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-1500, label=ft.Text(f"{(-1.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-1000, label=ft.Text(f"{(-1 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-500, label=ft.Text(f"{(-0.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=0, label=ft.Text(f"{(0 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=500, label=ft.Text(f"{(0.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=1000, label=ft.Text(f"{(1 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=1500, label=ft.Text(f"{(1.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=2000, label=ft.Text(f"{(2 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=2500, label=ft.Text(f"{(2.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=3000, label=ft.Text(f"{(3 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=3500, label=ft.Text(f"{(3.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=4000, label=ft.Text(f"{(4 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=4500, label=ft.Text(f"{(4.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=5000, label=ft.Text(f"{(5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=5500, label=ft.Text(f"{(5.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-        ],
-        labels_size=40,
-        title = ft.Container(
-                    ft.Text(
-                        "Y",
-                        size=15,
-                        weight=ft.FontWeight.BOLD,
-                        color=ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE),
-                    ),
-                    #margin=ft.margin.only(top=10),
-                ),
-        title_size = 20
-    ),
-    bottom_axis=ft.ChartAxis(
-        show_labels = True,
-        labels=[
-                ft.ChartAxisLabel(value=-2000, label=ft.Text(f"{(-2 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-1500, label=ft.Text(f"{(-1.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-1000, label=ft.Text(f"{(-1 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=-500, label=ft.Text(f"{(-0.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=0, label=ft.Text(f"{(0 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=500, label=ft.Text(f"{(0.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=1000, label=ft.Text(f"{(1 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=1500, label=ft.Text(f"{(1.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=2000, label=ft.Text(f"{(2 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=2500, label=ft.Text(f"{(2.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=3000, label=ft.Text(f"{(3 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=3500, label=ft.Text(f"{(3.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=4000, label=ft.Text(f"{(4 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=4500, label=ft.Text(f"{(4.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=5000, label=ft.Text(f"{(5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ft.ChartAxisLabel(value=5500, label=ft.Text(f"{(5.5 * ESCALA_GRAFICO):.1f}"+"m", size=10,),),
-                ],
-        labels_size=20,
-        title = ft.Container(
-                    ft.Text(
-                        "X",
-                        size=15,
-                        weight=ft.FontWeight.BOLD,
-                        color=ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE),
-                    ),
-                    #margin=ft.margin.only(top=10),
-                ),
-        title_size = 20,
-    ),
-    tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
-    tooltip_fit_inside_horizontally = True,
-    min_y=-250,
-    max_y=2500,
-    min_x=-2000,
-    max_x=2000,
-    animate = 0,
-    #expand=True,
-    height=425,
-    width=650,
-)
+
+def _etiquetas() -> list:
+    return [ft.ChartAxisLabel(value=v, label=ft.Text(f"{v / 1000 * ESCALA_GRAFICO:.1f}m", size=10))
+            for v in range(-2000, 5501, 500)]
+
+
+def _titulo_eje(texto: str, **kwargs) -> ft.Container:
+    return ft.Container(ft.Text(texto, weight=ft.FontWeight.BOLD, **kwargs))
+
+
+class Grafico(ft.LineChart):
+    def __init__(self):
+        super().__init__()
+        self.series = {}
+        for via in (1, 2):
+            for clave, (color1, color2, grosor1, grosor2, discontinua) in SERIES.items():
+                color, grosor = (color1, grosor1) if via == 1 else (color2, grosor2)
+                self.series[(via, clave)] = Datos_Grafico(color, grosor, [10, 5] if discontinua else [1, 0])
+        self.data_series = list(self.series.values())
+
+        cuadricula = dict(interval=100, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1, dash_pattern=[1, 2])
+        color_eje = ft.colors.with_opacity(0.5, ft.colors.ON_SURFACE)
+        self.border = ft.border.all(3, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE))
+        self.horizontal_grid_lines = ft.ChartGridLines(**cuadricula)
+        self.vertical_grid_lines = ft.ChartGridLines(**cuadricula)
+        self.top_axis = ft.ChartAxis(show_labels=False, labels=[], labels_size=40, title_size=20,
+                                     title=_titulo_eje(TITULO, size=12, color=ft.colors.WHITE))
+        self.left_axis = ft.ChartAxis(labels=_etiquetas(), labels_size=40, title_size=20,
+                                      title=_titulo_eje("Y", size=15, color=color_eje))
+        self.bottom_axis = ft.ChartAxis(labels=_etiquetas(), labels_size=20, title_size=20,
+                                        title=_titulo_eje("X", size=15, color=color_eje))
+        self.tooltip_bgcolor = ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY)
+        self.tooltip_fit_inside_horizontally = True
+        self.min_x, self.max_x, self.min_y, self.max_y = MIN_X, MAX_X, MIN_Y, MAX_Y
+        self.animate = 0
+        self.height = 425
+        self.width = 650
+
+    def fijar_serie(self, via: int, clave: str, puntos: list, visible: bool = True) -> None:
+        """Actualiza una serie con [(x, y, tooltip)]. Reutiliza los puntos existentes si es posible."""
+        serie = self.series[(via, clave)]
+        serie.visible = visible
+        if len(serie.data_points) != len(puntos):
+            serie.data_points = [ft.LineChartDataPoint(x, y, tooltip=t) for x, y, t in puntos]
+            return
+        for punto, (x, y, t) in zip(serie.data_points, puntos):
+            punto.x, punto.y, punto.tooltip = x, y, t
+
+    def ocultar_via(self, via: int) -> None:
+        for clave in SERIES:
+            self.series[(via, clave)].visible = False
+
+    def ajustar_limites(self, separacion_h: float = 0, separacion_v: float = 0) -> None:
+        self.max_x = MAX_X + max(0, separacion_h)
+        self.max_y = MAX_Y + max(0, separacion_v)

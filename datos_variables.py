@@ -166,7 +166,20 @@ class PuntoP:
     bobst_i_hmax_elec: float = 0
 
 class Via():
+    """Datos de entrada y variables generales de una vía.
+
+    Los valores por defecto de los datos de entrada son también los valores iniciales
+    de los controles de la interfaz.
+    """
     def __init__(self):
+        #Datos de entrada que no se muestran directamente en las tablas
+        self.R_entrada = 100        #Radio en planta introducido (m). R vale RECTA si es_recta
+        self.es_recta = False       #Alineación recta en planta
+        self.Rv_entrada = 100       #Radio del acuerdo vertical introducido (m)
+        self.es_recta_V = False     #Alineación recta en alzado
+        self.girado = False         #Girar el gráfico según el peralte
+        self.lado_inclinacion = "A derechas"
+
         #3.1
         self.GPA = "GA"          # galibo_partes_altas (GHE16|GEA16|GEB16|GEC16|GA|GB|GC|GEE10|GED10|PERSONALIZADO)
         self.GPB = "GEI2"        # galibo_partes_bajas (GEI1|GEI2|GEI3|GI1|GI2|GI3)
@@ -180,29 +193,29 @@ class Via():
 
         #3.2.2.1
         self.R = 100               #Radio de curvatura en planta
-        self.Inclinac = "A derechas"#Inclinación de la curva
+        self.Inclinac = 0.0      #Inclinación del gráfico (º)
         self.LN = 0              #Ancho de vía nominal
-        self.DL = 0              #Sobreancho máximo
+        self.DL = 0.03           #Sobreancho máximo
         self.LND = 0             #Ancho de vía
 
         #3.2.2.2
-        self.D = 0               #Peralte de la vía
+        self.D = 0.11            #Peralte de la vía
         self.D0 = 0              #Peralte por convenio de la vía
         self.heq = 0             #Peralte de equilibrio
-        self.I = 0               #Insuficiencia de peralte
+        self.I = 0.07            #Insuficiencia de peralte
         self.I0 = 0              #Insuficiencia de peralte por convenio
         self.L = 0               #Distancia entre circulos de rodadura
         self.hco = 0.50          #Altura  del  centro  de  balanceo  del  vehículo, por convenio
 
         #3.2.2.3
-        self.tipo_via = ""       #Tipo de vía (BALASTO|PLACA)
+        self.tipo_via = "Balasto"   #Tipo de vía (Balasto|Vía en placa)
         self.TVIA = 0            #Desplazaiento lateral de la vía
         self.TD = 0              #Diferencia entre peralte real y teórico
-        self.vmax = 0            #Velocidad máxima de la vía
-        self.asusp = 0           #Tolerancias en el reglaje de la suspensión
-        self.acarga = 0          #Reparto desigual de cargas
+        self.vmax = 100          #Velocidad máxima de la vía
+        self.asusp = 0.23        #Tolerancias en el reglaje de la suspensión
+        self.acarga = 0.77       #Reparto desigual de cargas
         self.eta0 = 0              #Giro total
-        self.estado_via = ""     #Estado de la vía (BUEN ESTADO|MAL ESTADO)
+        self.estado_via = "Buen estado"     #Estado de la vía (Buen estado|Mal estado)
         self.aosc_i_s0_04b = 0    #Giro debido a oscilaciones aleatorias causadas por irregularidades de la vía. Cálculo incrementos HORIZONTALES
         self.aosc_i_s0_03b = 0
         self.aosc_a_s0_04b = 0
@@ -231,9 +244,9 @@ class Via():
 
         #Pantógrafo
         self.tipo_pant = "Ancho 1600 (ibérico e internacional)"          #Tipo de pantógrafo
-        self.tipo_cat = ""           #Tipo de catenaria
-        self.tipo_lin = ""          #Tipo de línea
-        self.ten_cat = ""           #Tensión en la catenaria
+        self.tipo_cat = "EAC-350"   #Tipo de catenaria
+        self.tipo_lin = "Nuevas o acondicionadas"   #Tipo de línea
+        self.ten_cat = "25 kV, c.a."    #Tensión en la catenaria
         self.hf = 5.00              #Altura del hilo de contacto (m)
         self.bp = 1.7               #Anchura del pantógrafo (m)
         self.bw = 0.85              #Semiancho de la mesilla del pantógrafo (m)
@@ -254,6 +267,3 @@ class Via():
         self.heffelecvmin = 0       #Altura del gálibo eléctrico, vmin (m)
         self.heff = 0               #Altura máxima del gálibo mecánico (m)
         self.heffelec = 0           #Altura máxima del gálibo eléctrico (m)
-
-via1 = Via()
-via2 = Via()

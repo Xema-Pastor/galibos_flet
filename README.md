@@ -7,6 +7,14 @@ Nombre del proyecto IDI: DI0835
 Todos las cotas, distancias y demás están en mm
 Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser convertidos a _int_ o _float_ cuanto antes. Los valores que se guardanen var.* son todos del tipo número (salvo los que, evidentemente, son del tipo texto).
 
+## ESTRUCTURA
+* _main.py_: interfaz. Todos los controles y datos se crean dentro de `galibos(page)`, de modo que cada sesión web es independiente.
+* _calculos/calculo_via.py_: cálculo completo de una vía (sin dependencias de FLET). Trabaja sobre copias de los contornos de _datos_galibos.py_.
+* _calculos/calculos.py_: fórmulas de la Orden FOM/1630/2015.
+* _componentes/comp_entradas.py_: controles de entrada de datos de una vía.
+* _componentes/comp_tablas.py_: tablas de resultados. Las columnas se definen en listas; para añadir una variable basta con añadir una línea.
+* _componentes/comp_graficos.py_: gráfico de secciones.
+
 ## TAREAS A HACER
 * Que los gráficos sean listos y que detecten la parte interior de la curva y la exterior. Ahora mismo únicamente muestran los datos de LIM y NOM interiores. Hay que añadir los exteriores
 * ~~Unificar los objetos ftt y fttabla, pues en esencia son lo mismo. No se ha podido unificar, pero se han agrupado la creación de las entidades~~
@@ -19,7 +27,7 @@ Los datos que se leen de los formularios de FLET son del tipo _str_, y deben ser
 
 ## EDICIÓN CON VS_CODE
 El programa está escrito con la tecnología de FLET (https://flet.dev/). Para editar en vs_code es necesario:
-* Instalar flet: _(pip install 'flet[all]')_
+* Instalar flet en la versión con la que está escrito el programa (0.24.1): _(pip install -r requirements.txt)_. Las versiones posteriores de FLET cambian la API y no son compatibles.
 * Flet utiliza _hot reload_ para ejecutar la aplicación y ver los cambios que se hacen de manera instantánea. Para ejecutar la aplicación y verla como página web es necesario iniciar flet en la terminal con _flet run --web main.py_
 * Para crear los ejecutables a partir del código es necesario intalar pyinstaller _(pip install pyinstaller)_. Una vez instalado para hacer el ejecutable se debe ejecutar en la terminal la orden _pyinstaller --onefile --windowed main.py_
 
